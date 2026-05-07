@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Garren Dullas - Software Engineer & IT Specialist. Portfolio showcasing software projects, cloud solutions, and software development.">
+    <meta name="keywords" content="Software Engineering, Cloud Computing, Full-Stack Developer, Python, JavaScript, React, Azure, AWS">
+    <meta name="author" content="Garren Dullas">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Garren Dullas - IT Student">
+    <meta property="og:description" content="Portfolio showcasing software engineering projects and cloud computing solutions">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://acteus.github.io">
+    
+    <title>Garren Dullas - IT Student</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#0a0a0b',
+                        surface: '#141416',
+                        'surface-hover': '#1c1c1f',
+                        border: '#27272a',
+                        'border-hover': '#3f3f46',
+                        'text-primary': '#f5f5f4',
+                        'text-secondary': '#a1a1aa',
+                        'text-muted': '#71717a',
+                        accent: '#06b6d4',
+                        'accent-hover': '#22d3ee',
+                    },
+                    fontFamily: {
+                        'serif': ['Instrument Serif', 'Georgia', 'serif'],
+                        'sans': ['DM Sans', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-bg text-text-primary font-sans antialiased">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-bg/80 backdrop-blur-sm border-b border-border z-50">
+        <div class="max-w-5xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#home" class="text-xl font-serif italic text-text-primary hover:text-accent transition-colors">
+                    Garren Dullas
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-text-secondary hover:text-text-primary transition-colors">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3 border-t border-border pt-4">
+                <a href="#home" class="block nav-link">Home</a>
+                <a href="#about" class="block nav-link">About</a>
+                <a href="#skills" class="block nav-link">Skills</a>
+                <a href="#projects" class="block nav-link">Projects</a>
+                <a href="#contact" class="block nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20">
+        <div class="max-w-5xl mx-auto px-6 py-20">
+            <div class="max-w-3xl">
+                <p class="text-text-muted font-mono text-sm mb-4 tracking-wide" data-aos="fade-up">
+                    Software Engineering & Cloud Computing
+                </p>
+                
+                <h1 class="text-5xl md:text-7xl font-serif mb-6 leading-tight" data-aos="fade-up" data-aos-delay="50">
+                    Garren Dullas
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-text-secondary mb-8 leading-relaxed max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+                    IT student building robust software applications and cloud-native solutions.
+                </p>
+                
+                <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="150">
+                    <a href="#projects" class="btn-primary">
+                        View Projects
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        Get in Touch
+                    </a>
+                    <a href="https://github.com/Acteus" target="_blank" class="btn-ghost">
+                        <i class="fab fa-github mr-2"></i>GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-24 border-t border-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="section-title" data-aos="fade-up">About</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div data-aos="fade-up" data-aos-delay="50">
+                    <p class="text-text-secondary text-lg leading-relaxed mb-6">
+                        IT student at Jose Rizal University with a focus on software engineering, cloud computing, 
+                        and systems administration. I combine theoretical knowledge with hands-on experience 
+                        to create impactful solutions.
+                    </p>
+                    <p class="text-text-secondary text-lg leading-relaxed">
+                        Currently exploring advanced software architectures and modern web technologies.
+                    </p>
+                </div>
+                
+                <div class="space-y-8" data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <h3 class="text-sm font-mono text-text-muted uppercase tracking-wider mb-3">Education</h3>
+                        <p class="text-text-primary font-medium">B.S. Information Technology</p>
+                        <p class="text-text-secondary">Jose Rizal University, Mandaluyong</p>
+                        <p class="text-text-muted text-sm">Expected 2027</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-mono text-text-muted uppercase tracking-wider mb-3">Certifications</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="badge">CompTIA ITF+</span>
+                            <span class="badge">IT Specialist - Java</span>
+                            <span class="badge">IT Specialist - Databases</span>
+                            <span class="badge">Wadhwani - Job Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-mono text-text-muted uppercase tracking-wider mb-3">Location</h3>
+                        <p class="text-text-secondary">Pasig City, Philippines</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 border-t border-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="section-title" data-aos="fade-up">Skills</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- ML/AI Skills -->
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-text-primary font-medium mb-4">Machine Learning & AI</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">Keras</span>
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">Scikit-learn</span>
+                        <span class="tech-tag">Time Series</span>
+                        <span class="tech-tag">Causal Inference</span>
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">spaCy</span>
+                    </div>
+                </div>
+                
+                <!-- Programming Languages -->
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-text-primary font-medium mb-4">Languages</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Dart</span>
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">Shell</span>
+                    </div>
+                </div>
+                
+                <!-- Cloud & DevOps -->
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="150">
+                    <h3 class="text-text-primary font-medium mb-4">Cloud & DevOps</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Azure</span>
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">Google Cloud</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Terraform</span>
+                        <span class="tech-tag">GitHub Actions</span>
+                    </div>
+                </div>
+                
+                <!-- Frameworks & Libraries -->
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-text-primary font-medium mb-4">Frameworks</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Laravel</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">Streamlit</span>
+                    </div>
+                </div>
+                
+                <!-- Databases -->
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="250">
+                    <h3 class="text-text-primary font-medium mb-4">Databases</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Firestore</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                </div>
+                
+                <!-- Tools & Systems -->
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-text-primary font-medium mb-4">Tools & Systems</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Git</span>
+                        <span class="tech-tag">Linux</span>
+                        <span class="tech-tag">Windows Server</span>
+                        <span class="tech-tag">VMware</span>
+                        <span class="tech-tag">REST APIs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 border-t border-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="section-title" data-aos="fade-up">Projects</h2>
+            
+            <!-- Filter Buttons -->
+            <div class="mb-10 flex flex-wrap gap-3" data-aos="fade-up" data-aos-delay="50">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="ml">Machine Learning</button>
+                <button class="filter-btn" data-filter="cloud">Cloud & DevOps</button>
+                <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+            </div>
+            
+            <!-- Projects Grid -->
+            <div class="grid md:grid-cols-2 gap-6" id="projects-grid">
+                
+                <!-- TransPort-PH - Featured -->
+                <div class="project-card md:col-span-2" data-category="ml" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                            <span class="text-accent font-mono text-xs uppercase tracking-wider">Featured</span>
+                            <h3 class="text-xl font-medium text-text-primary mt-1">TransPort-PH: Traffic Policy Analyzer</h3>
+                        </div>
+                        <a href="https://github.com/Acteus/TransPort-PH" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github text-lg"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary mb-4">
+                        ML framework analyzing transportation policy impacts on urban congestion in the Philippines using 
+                        Temporal Fusion Transformer and causal inference. Combines time series forecasting with policy evaluation.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">TFT</span>
+                        <span class="tech-tag">DoWhy</span>
+                        <span class="tech-tag">Streamlit</span>
+                        <span class="tech-tag">Causal ML</span>
+                    </div>
+                </div>
+                
+                <!-- Estate-Prices-NN -->
+                <div class="project-card" data-category="ml" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h3 class="text-lg font-medium text-text-primary">Estate Price Predictor</h3>
+                        <a href="https://github.com/Acteus/Estate-Prices-NN" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Deep learning neural network for Philippine property price prediction with geographic 
+                        intelligence and multi-layer architecture.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">Keras</span>
+                    </div>
+                </div>
+                
+                <!-- Simple-Epidemic -->
+                <div class="project-card" data-category="ml" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h3 class="text-lg font-medium text-text-primary">SEIRD Epidemic Simulator</h3>
+                        <a href="https://github.com/Acteus/Simple-Epidemic" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Interactive agent-based epidemic spread modeling with configurable parameters and real-time visualization.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Streamlit</span>
+                    </div>
+                </div>
+                
+                <!-- Mindmate -->
+                <div class="project-card" data-category="ml fullstack" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h3 class="text-lg font-medium text-text-primary">MindMate AI</h3>
+                        <a href="https://github.com/Acteus/Mindmate" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Empathetic AI companion for mental wellness support with conversational interface.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">OpenAI</span>
+                    </div>
+                </div>
+                
+                <!-- JobBoard-DevOps -->
+                <div class="project-card" data-category="cloud fullstack" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h3 class="text-lg font-medium text-text-primary">Cloud Job Board</h3>
+                        <a href="https://github.com/Acteus/JobBoard-DevOps-Project" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Serverless job platform with AWS to Azure migration and complete CI/CD pipeline.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Azure</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
+                </div>
+                
+                <!-- Project-ISO -->
+                <div class="project-card" data-category="ml cloud fullstack" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h3 class="text-lg font-medium text-text-primary">ISO Compliance Validator</h3>
+                        <a href="https://github.com/Acteus" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        8 ML models for ISO 21001 compliance prediction and risk assessment.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Laravel</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
+                </div>
+                
+                <!-- Lifeline -->
+                <div class="project-card" data-category="cloud fullstack" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h3 class="text-lg font-medium text-text-primary">Lifeline Emergency App</h3>
+                        <a href="https://github.com/Acteus" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Cross-platform emergency response with real-time voice translation and location tracking.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">AWS</span>
+                    </div>
+                </div>
+                
+                <!-- IoT-Sensor-Dashboard -->
+                <div class="project-card" data-category="fullstack" data-aos="fade-up">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h3 class="text-lg font-medium text-text-primary">IoT Sensor Monitor</h3>
+                        <a href="https://github.com/Acteus/IoT-Sensor-Dashboard" target="_blank" class="text-text-muted hover:text-accent transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Real-time environmental sensor dashboard with MQTT streaming and live data visualization.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MQTT</span>
+                        <span class="tech-tag">MongoDB</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 border-t border-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="section-title" data-aos="fade-up">Contact</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div data-aos="fade-up" data-aos-delay="50">
+                    <p class="text-text-secondary text-lg mb-8 leading-relaxed">
+                        Open to discussing new projects, research collaborations, or opportunities in software engineering and cloud computing.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <a href="mailto:garrendullas@gmail.com" class="flex items-center gap-3 text-text-secondary hover:text-accent transition-colors group">
+                            <i class="fas fa-envelope text-text-muted group-hover:text-accent transition-colors"></i>
+                            <span>garrendullas@gmail.com</span>
+                        </a>
+                        <a href="https://github.com/Acteus" target="_blank" class="flex items-center gap-3 text-text-secondary hover:text-accent transition-colors group">
+                            <i class="fab fa-github text-text-muted group-hover:text-accent transition-colors"></i>
+                            <span>@Acteus</span>
+                        </a>
+                        <a href="tel:+639474974843" class="flex items-center gap-3 text-text-secondary hover:text-accent transition-colors group">
+                            <i class="fas fa-phone text-text-muted group-hover:text-accent transition-colors"></i>
+                            <span>0947 497 4843</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <form id="contact-form" class="space-y-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="name" class="block text-sm text-text-muted mb-2">Name</label>
+                                <input type="text" id="name" name="name" required
+                                    class="form-input">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm text-text-muted mb-2">Email</label>
+                                <input type="email" id="email" name="email" required
+                                    class="form-input">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm text-text-muted mb-2">Subject</label>
+                            <input type="text" id="subject" name="subject" required
+                                class="form-input">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm text-text-muted mb-2">Message</label>
+                            <textarea id="message" name="message" rows="4" required
+                                class="form-input resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">
+                            Send Message
+                        </button>
+                    </form>
+                    <p id="form-message" class="mt-4 text-center text-sm hidden"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-8 border-t border-border">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-text-muted text-sm">
+                    © 2026 Garren Dullas
+                </p>
+                <div class="flex items-center gap-6">
+                    <a href="https://github.com/Acteus" target="_blank" class="text-text-muted hover:text-text-primary transition-colors">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:garrendullas@gmail.com" class="text-text-muted hover:text-text-primary transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="#home" class="text-text-muted hover:text-text-primary transition-colors">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    
+</body>
+</html>
