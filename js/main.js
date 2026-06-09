@@ -130,6 +130,8 @@ function animateOrbs() {
    LIQUID GLASS — Card hover shimmer with
    dynamic gradient origin tracking
 ───────────────────────────────────────── */
+const isHoverDevice = window.matchMedia('(hover: hover)').matches;
+
 document.querySelectorAll('.glass').forEach(card => {
     card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
@@ -144,9 +146,25 @@ document.querySelectorAll('.glass').forEach(card => {
             var(--clr-shimmer) 0%,
             var(--clr-glass-bg) 70%
         )`;
+
+        if (isHoverDevice) {
+            // Calculate 3D tilt angle (max 8 degrees)
+            const xVal = (e.clientX - rect.left) / rect.width;
+            const yVal = (e.clientY - rect.top)  / rect.height;
+            const maxTilt = 8;
+            const rotateY = ((xVal - 0.5) * maxTilt).toFixed(2);
+            const rotateX = ((0.5 - yVal) * maxTilt).toFixed(2);
+
+            // Faster transition on hover for direct tracking responsiveness
+            card.style.transition = 'transform 0.08s ease-out, border-color 0.3s ease, background 0.1s ease';
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02) translateY(-4px)`;
+        }
     });
 
     card.addEventListener('mouseleave', () => {
+        // Slow transition back to center for organic spring feel
+        card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, background 0.3s ease';
+        card.style.transform = '';
         card.style.background = '';
     });
 });
@@ -157,6 +175,11 @@ document.querySelectorAll('.glass').forEach(card => {
 const filterBtns   = document.querySelectorAll('.filter-btn');
 const projectCards = document.querySelectorAll('.project-card');
 
+// Assign unique view transition names to all project cards
+projectCards.forEach((card, index) => {
+    card.style.setProperty('view-transition-name', `project-card-${index}`);
+});
+
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         // Update button state
@@ -165,24 +188,46 @@ filterBtns.forEach(btn => {
 
         const filter = btn.dataset.filter;
 
-        projectCards.forEach(card => {
-            const categories = card.dataset.category.split(' ');
-            const show = filter === 'all' || categories.includes(filter);
+        const updateFilter = () => {
+            projectCards.forEach(card => {
+                const categories = card.dataset.category.split(' ');
+                const show = filter === 'all' || categories.includes(filter);
 
-            if (show) {
-                card.style.display = '';
-                // Trigger reflow to restart transition
-                void card.offsetHeight;
-                card.style.opacity  = '1';
-                card.style.transform = '';
-            } else {
-                card.style.opacity  = '0';
-                card.style.transform = 'scale(0.96)';
-                setTimeout(() => {
-                    if (card.style.opacity === '0') card.style.display = 'none';
-                }, 280);
-            }
-        });
+                if (show) {
+                    card.style.display = '';
+                    card.style.opacity  = '1';
+                    card.style.transform = '';
+                } else {
+                    card.style.display = 'none';
+                    card.style.opacity  = '0';
+                }
+            });
+        };
+
+        if (document.startViewTransition) {
+            document.startViewTransition(() => {
+                updateFilter();
+            });
+        } else {
+            // Fallback for older browsers (standard cross-fade with delay)
+            projectCards.forEach(card => {
+                const categories = card.dataset.category.split(' ');
+                const show = filter === 'all' || categories.includes(filter);
+
+                if (show) {
+                    card.style.display = '';
+                    void card.offsetHeight;
+                    card.style.opacity  = '1';
+                    card.style.transform = '';
+                } else {
+                    card.style.opacity  = '0';
+                    card.style.transform = 'scale(0.96)';
+                    setTimeout(() => {
+                        if (card.style.opacity === '0') card.style.display = 'none';
+                    }, 280);
+                }
+            });
+        }
     });
 });
 
