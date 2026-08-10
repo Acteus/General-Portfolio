@@ -3,9 +3,11 @@
    Kube.io Aesthetic + Liquid Glass interactions
    ============================================================= */
 
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 /* ── AOS Init ── */
 AOS.init({
-    duration: 700,
+    duration: reducedMotion.matches ? 0 : 700,
     easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     once: true,
     offset: 60,
@@ -19,7 +21,8 @@ const themeToggle  = document.getElementById('theme-toggle');
 const themeIcon    = document.getElementById('theme-icon');
 
 // Restore saved theme
-const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+const savedTheme = localStorage.getItem('portfolio-theme') ||
+    (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
 html.setAttribute('data-theme', savedTheme);
 updateThemeIcon(savedTheme);
 
@@ -48,6 +51,7 @@ if (mobileMenuBtn && mobileMenu) {
         const icon   = mobileMenuBtn.querySelector('i');
         icon.className = isOpen ? 'fas fa-times' : 'fas fa-bars';
         mobileMenuBtn.setAttribute('aria-expanded', isOpen);
+        mobileMenu.setAttribute('aria-hidden', String(!isOpen));
     });
 
     // Close mobile menu on link click
@@ -57,7 +61,17 @@ if (mobileMenuBtn && mobileMenu) {
             const icon = mobileMenuBtn.querySelector('i');
             icon.className = 'fas fa-bars';
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            mobileMenu.setAttribute('aria-hidden', 'true');
         });
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape' || !mobileMenu.classList.contains('open')) return;
+        mobileMenu.classList.remove('open');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        mobileMenuBtn.focus();
+        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
     });
 }
 
@@ -72,7 +86,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const offset = 80;
         window.scrollTo({
             top: target.offsetTop - offset,
-            behavior: 'smooth',
+            behavior: reducedMotion.matches ? 'auto' : 'smooth',
         });
     });
 });
@@ -91,7 +105,10 @@ function updateActiveNav() {
         }
     });
     navLinks.forEach(link => {
-        link.classList.toggle('active', link.dataset.section === current);
+        const isActive = link.dataset.section === current;
+        link.classList.toggle('active', isActive);
+        if (isActive) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
     });
 }
 
@@ -108,6 +125,7 @@ let orbX   = 0, orbY   = 0;
 let rafOrb = null;
 
 document.addEventListener('mousemove', e => {
+    if (reducedMotion.matches || !isHoverDevice) return;
     mouseX = (e.clientX / window.innerWidth  - 0.5) * 60;
     mouseY = (e.clientY / window.innerHeight - 0.5) * 40;
     if (!rafOrb) rafOrb = requestAnimationFrame(animateOrbs);
@@ -147,17 +165,17 @@ document.querySelectorAll('.glass').forEach(card => {
             var(--clr-glass-bg) 70%
         )`;
 
-        if (isHoverDevice) {
-            // Calculate 3D tilt angle (max 8 degrees)
+        if (isHoverDevice && !reducedMotion.matches) {
+            // Keep the physical cue subtle; content remains the focus.
             const xVal = (e.clientX - rect.left) / rect.width;
             const yVal = (e.clientY - rect.top)  / rect.height;
-            const maxTilt = 8;
+            const maxTilt = 2.5;
             const rotateY = ((xVal - 0.5) * maxTilt).toFixed(2);
             const rotateX = ((0.5 - yVal) * maxTilt).toFixed(2);
 
             // Faster transition on hover for direct tracking responsiveness
             card.style.transition = 'transform 0.08s ease-out, border-color 0.3s ease, background 0.1s ease';
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02) translateY(-4px)`;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01) translateY(-2px)`;
         }
     });
 
@@ -181,10 +199,16 @@ projectCards.forEach((card, index) => {
 });
 
 filterBtns.forEach(btn => {
+    btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
+
     btn.addEventListener('click', () => {
         // Update button state
-        filterBtns.forEach(b => b.classList.remove('active'));
+        filterBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
 
         const filter = btn.dataset.filter;
 
@@ -238,28 +262,19 @@ const contactForm = document.getElementById('contact-form');
 const formMsg     = document.getElementById('form-message');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', async e => {
+    contactForm.addEventListener('submit', e => {
         e.preventDefault();
 
-        const submitBtn   = contactForm.querySelector('[type="submit"]');
-        const originalHTML = submitBtn.innerHTML;
+        if (!contactForm.reportValidity()) return;
 
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+        const formData = new FormData(contactForm);
+        const subject = encodeURIComponent(formData.get('subject'));
+        const body = encodeURIComponent(
+            `Name: ${formData.get('name')}\nEmail: ${formData.get('email')}\n\n${formData.get('message')}`
+        );
 
-        try {
-            // Simulate async submission (replace with real endpoint)
-            await new Promise(resolve => setTimeout(resolve, 1200));
-
-            showFormMessage('Message sent successfully! I\'ll get back to you soon.', 'success');
-            contactForm.reset();
-
-        } catch {
-            showFormMessage('Something went wrong. Please try again or email me directly.', 'error');
-        } finally {
-            submitBtn.disabled  = false;
-            submitBtn.innerHTML = originalHTML;
-        }
+        window.location.href = `mailto:garrendullas@gmail.com?subject=${subject}&body=${body}`;
+        showFormMessage('Your email app is opening with the message ready to send.', 'success');
     });
 }
 

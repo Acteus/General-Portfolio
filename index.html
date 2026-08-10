@@ -72,14 +72,14 @@
                 </button>
 
                 <!-- Mobile menu button -->
-                <button class="nav-mobile-btn" id="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false">
+                <button class="nav-mobile-btn" id="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div class="nav-mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+        <div class="nav-mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
             <a href="#home"    class="nav-mobile-link">Home</a>
             <a href="#about"   class="nav-mobile-link">About</a>
             <a href="#skills"  class="nav-mobile-link">Skills</a>
@@ -88,6 +88,9 @@
         </div>
     </nav>
 
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <main id="main-content">
     <!-- ── Hero Section ── -->
     <section id="home" class="hero-section">
         <!-- Ambient Orbs -->
@@ -526,6 +529,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- ── Footer ── -->
     <footer class="site-footer">
