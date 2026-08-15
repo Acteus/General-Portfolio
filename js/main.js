@@ -116,6 +116,134 @@ window.addEventListener('scroll', updateActiveNav, { passive: true });
 updateActiveNav();
 
 /* ─────────────────────────────────────────
+   HERO PARTICLES — Ambient field, not cursor toy
+───────────────────────────────────────── */
+const particleCanvas = document.getElementById('hero-particles');
+const heroSection = document.getElementById('home');
+const hoverCapable = window.matchMedia('(hover: hover)').matches;
+const MAX_FIELD_DRIFT = 10;
+
+if (particleCanvas && heroSection && !reducedMotion.matches) {
+    const context = particleCanvas.getContext('2d');
+    const particles = [];
+    const connectionDistance = 104;
+    let width = 0;
+    let height = 0;
+    let pixelRatio = 1;
+    let frameId = null;
+    let fieldX = 0;
+    let fieldY = 0;
+    let targetFieldX = 0;
+    let targetFieldY = 0;
+    let running = true;
+
+    function makeParticle() {
+        return {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.12,
+            vy: (Math.random() - 0.5) * 0.12,
+            radius: Math.random() * 0.8 + 0.45,
+        };
+    }
+
+    function resizeParticles() {
+        const bounds = heroSection.getBoundingClientRect();
+        width = Math.max(1, bounds.width);
+        height = Math.max(1, bounds.height);
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+        particleCanvas.width = Math.round(width * pixelRatio);
+        particleCanvas.height = Math.round(height * pixelRatio);
+
+        const count = width < 768 ? 28 : 58;
+        particles.length = 0;
+        for (let index = 0; index < count; index += 1) particles.push(makeParticle());
+    }
+
+    function updateParticle(particle) {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        if (particle.x < -8) particle.x = width + 8;
+        if (particle.x > width + 8) particle.x = -8;
+        if (particle.y < -8) particle.y = height + 8;
+        if (particle.y > height + 8) particle.y = -8;
+    }
+
+    function drawParticles() {
+        if (!running) {
+            frameId = null;
+            return;
+        }
+
+        fieldX += (targetFieldX - fieldX) * 0.035;
+        fieldY += (targetFieldY - fieldY) * 0.035;
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        context.clearRect(0, 0, width, height);
+        context.save();
+        context.translate(fieldX, fieldY);
+
+        const isLightTheme = document.documentElement.dataset.theme === 'light';
+        const color = isLightTheme ? '8,145,178' : '103,232,249';
+
+        particles.forEach(updateParticle);
+        for (let from = 0; from < particles.length; from += 1) {
+            for (let to = from + 1; to < particles.length; to += 1) {
+                const deltaX = particles[from].x - particles[to].x;
+                const deltaY = particles[from].y - particles[to].y;
+                const distance = Math.hypot(deltaX, deltaY);
+                if (distance > connectionDistance) continue;
+
+                context.beginPath();
+                context.moveTo(particles[from].x, particles[from].y);
+                context.lineTo(particles[to].x, particles[to].y);
+                context.strokeStyle = `rgba(${color}, ${(1 - distance / connectionDistance) * 0.11})`;
+                context.lineWidth = 0.5;
+                context.stroke();
+            }
+        }
+
+        particles.forEach(particle => {
+            context.beginPath();
+            context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            context.fillStyle = `rgba(${color}, 0.48)`;
+            context.fill();
+        });
+
+        context.restore();
+        frameId = requestAnimationFrame(drawParticles);
+    }
+
+    function setFieldTarget(event) {
+        if (!hoverCapable) return;
+        const bounds = heroSection.getBoundingClientRect();
+        targetFieldX = ((event.clientX - bounds.left) / bounds.width - 0.5) * MAX_FIELD_DRIFT * 2;
+        targetFieldY = ((event.clientY - bounds.top) / bounds.height - 0.5) * MAX_FIELD_DRIFT * 2;
+    }
+
+    function resetFieldTarget() {
+        targetFieldX = 0;
+        targetFieldY = 0;
+    }
+
+    function syncParticleMotion() {
+        running = !reducedMotion.matches && !document.hidden;
+        if (!running && frameId) {
+            cancelAnimationFrame(frameId);
+            frameId = null;
+        }
+        if (running && !frameId) frameId = requestAnimationFrame(drawParticles);
+    }
+
+    resizeParticles();
+    heroSection.addEventListener('pointermove', setFieldTarget, { passive: true });
+    heroSection.addEventListener('pointerleave', resetFieldTarget, { passive: true });
+    window.addEventListener('resize', resizeParticles, { passive: true });
+    document.addEventListener('visibilitychange', syncParticleMotion);
+    reducedMotion.addEventListener('change', syncParticleMotion);
+    frameId = requestAnimationFrame(drawParticles);
+}
+
+/* ─────────────────────────────────────────
    PROJECT FILTER
 ───────────────────────────────────────── */
 const filterBtns   = document.querySelectorAll('.filter-btn');

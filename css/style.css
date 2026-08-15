@@ -420,20 +420,6 @@ body::before {
 }
 
 /* ═══════════════════════════════════════════
-   AMBIENT ORBS
-═══════════════════════════════════════════ */
-
-.orbs-container {
-    display: none;
-}
-
-.orb { display: none; }
-
-@keyframes orb-drift {
-    0%, 100% { transform: translate(0, 0); }
-}
-
-/* ═══════════════════════════════════════════
    HERO SECTION
 ═══════════════════════════════════════════ */
 
@@ -443,6 +429,17 @@ body::before {
     display: flex;
     align-items: center;
     padding-top: 90px;
+    overflow: hidden;
+}
+
+.hero-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.72;
 }
 
 .hero-content {
@@ -515,6 +512,7 @@ body::before {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     animation: scroll-bounce 2s ease-in-out infinite;
+    z-index: 1;
 }
 
 .scroll-indicator svg {
@@ -1303,6 +1301,7 @@ body::before {
         opacity: 1;
         transform: none;
     }
+    .hero-particles { display: none; }
 }
 
 @media (prefers-reduced-transparency: reduce) {

@@ -20,3 +20,11 @@ test('keeps accessibility preference queries', () => {
   assert.match(css, /@media \(prefers-reduced-transparency: reduce\)/);
   assert.match(css, /@media \(prefers-contrast: more\)/);
 });
+
+test('uses a restrained canvas particle field in the hero', () => {
+  assert.match(html, /<canvas class="hero-particles" id="hero-particles" aria-hidden="true"><\/canvas>/);
+  assert.match(css, /\.hero-particles\s*\{[\s\S]*?pointer-events:\s*none/);
+  assert.match(js, /const MAX_FIELD_DRIFT = 10/);
+  assert.match(js, /prefers-reduced-motion/);
+  assert.doesNotMatch(html, /hero-atmosphere|hero-topology/);
+});
