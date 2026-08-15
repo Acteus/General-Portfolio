@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Garren Dullas — Cloud & DevOps-focused IT student working with containerized services, deployment automation, and backend systems.">
-    <meta name="keywords" content="Cloud Computing, DevOps, Azure, DigitalOcean, Oracle Cloud, Docker, Podman, FastAPI, Python, Deployment Automation">
+    <meta name="description" content="Garren Dullas — Cloud and platform engineering student building and operating containerized backend systems.">
+    <meta name="keywords" content="Cloud Engineering, Platform Engineering, DevOps, Azure, DigitalOcean, Oracle Cloud, Docker, Podman, FastAPI, Laravel, Python">
     <meta name="author" content="Garren Dullas">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Garren Dullas — Cloud & DevOps-focused IT Student">
-    <meta property="og:description" content="Cloud deployments, containerized services, and backend systems across Azure, DigitalOcean, and Oracle Cloud.">
+    <meta property="og:title" content="Garren Dullas — Cloud & Platform Engineering">
+    <meta property="og:description" content="Building and operating containerized backend systems across Azure, DigitalOcean, and Oracle Cloud.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://acteus.github.io">
 
-    <title>Garren Dullas — Cloud &amp; DevOps</title>
+    <title>Garren Dullas — Cloud &amp; Platform Engineering</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,31 +29,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- Hidden SVG defs for Liquid Glass displacement filter -->
-    <svg id="lg-svg-defs" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
-        <defs>
-            <!-- Radial displacement map: generates a circular lens warp -->
-            <filter id="lg-filter" color-interpolation-filters="sRGB" x="-20%" y="-20%" width="140%" height="140%">
-                <!-- Step 1: slight blur of the source for glass smoothing -->
-                <feGaussianBlur in="SourceGraphic" stdDeviation="0.5" result="blurred"/>
-                <!-- Step 2: generate a radial gradient displacement texture inline -->
-                <feImage id="lg-displacement-image" href="" x="0" y="0" width="100%" height="100%" result="dispMap" preserveAspectRatio="xMidYMid slice"/>
-                <!-- Step 3: displace pixels -->
-                <feDisplacementMap in="blurred" in2="dispMap" scale="30" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
-                <!-- Step 4: saturate to simulate glass colour boost -->
-                <feColorMatrix in="displaced" type="saturate" values="1.8" result="saturated"/>
-                <!-- Step 5: composite result -->
-                <feBlend in="saturated" in2="displaced" mode="normal"/>
-            </filter>
-        </defs>
-    </svg>
 </head>
 
 <body>
 
     <!-- ── Navigation ── -->
     <nav class="site-nav" id="site-nav" aria-label="Main navigation">
-        <div class="nav-inner">
+        <div class="nav-inner glass">
             <a href="#home" class="nav-logo" aria-label="Home">Garren Dullas</a>
 
             <!-- Desktop links -->
@@ -63,6 +45,7 @@
                 <li><a href="#skills"  class="nav-link" data-section="skills">Skills</a></li>
                 <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
                 <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                <li><a href="output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf" class="nav-link" target="_blank" rel="noopener noreferrer">Resume</a></li>
             </ul>
 
             <div style="display:flex;align-items:center;gap:8px;">
@@ -79,12 +62,13 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div class="nav-mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+        <div class="nav-mobile-menu glass" id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
             <a href="#home"    class="nav-mobile-link">Home</a>
             <a href="#about"   class="nav-mobile-link">About</a>
             <a href="#skills"  class="nav-mobile-link">Skills</a>
             <a href="#projects" class="nav-mobile-link">Projects</a>
             <a href="#contact" class="nav-mobile-link">Contact</a>
+            <a href="output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf" class="nav-mobile-link" target="_blank" rel="noopener noreferrer">Resume</a>
         </div>
     </nav>
 
@@ -103,7 +87,7 @@
         <div class="hero-content">
             <div class="reveal-wrapper">
                 <p class="hero-eyebrow reveal-item" style="--delay: 0.1s">
-                    Cloud Infrastructure &amp; Platform Operations
+                    Cloud &amp; Platform Engineering
                 </p>
             </div>
 
@@ -118,7 +102,7 @@
 
             <div class="reveal-wrapper">
                 <p class="hero-subtitle reveal-item" style="--delay: 0.5s">
-                    Cloud-focused IT student working with containerized services, deployment automation, and backend systems across Azure, DigitalOcean, and Oracle Cloud.
+                    I build and operate cloud-hosted backend systems: packaging services, automating deployments, and making the operational details visible across Azure, DigitalOcean, and Oracle Cloud.
                 </p>
             </div>
 
@@ -129,6 +113,10 @@
                 </a>
                 <a href="#contact" class="btn btn-secondary" id="hero-get-in-touch">
                     Get in Touch
+                </a>
+                <a href="output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" id="hero-resume">
+                    <i class="fas fa-file-arrow-down" aria-hidden="true"></i>
+                    Download Resume
                 </a>
                 <a href="https://github.com/Acteus" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" id="hero-github">
                     <i class="fab fa-github"></i>
@@ -165,8 +153,8 @@
                     </p>
                     <p>
                         My projects span Azure Container Apps, DigitalOcean App Platform, and Oracle Cloud. I also write
-                        application code, but the cloud layer—how services are packaged, connected, monitored, and recovered—is
-                        where I want my work to be recognized.
+                        application code, but my main focus is the cloud layer: how services are packaged, connected,
+                        secured, monitored, and recovered.
                     </p>
                 </div>
 
@@ -203,94 +191,59 @@
     <section id="skills" class="section">
         <div class="section-inner">
             <header class="section-header" data-aos="fade-up">
-                <p class="section-label">Cloud-first toolkit</p>
+                <p class="section-label">Focused toolkit</p>
                 <h2 class="section-title">Skills</h2>
             </header>
 
             <div class="skills-grid">
-                <!-- ML/AI -->
-                <div class="skill-card glass cloud-priority" data-aos="fade-up" data-aos-delay="50">
-                    <h3>Cloud Platforms &amp; Operations</h3>
+                <div class="skill-card panel cloud-priority" data-aos="fade-up" data-aos-delay="50">
+                    <p class="skill-tier">Core focus</p>
+                    <h3>Cloud &amp; Platform Operations</h3>
+                    <p class="skill-description">The work I want to be hired to do: deploy, connect, secure, monitor, and recover services.</p>
                     <div class="tech-tags">
                         <span class="tech-tag">Azure Container Apps</span>
                         <span class="tech-tag">Azure Container Registry</span>
-                        <span class="tech-tag">DigitalOcean App Platform</span>
-                        <span class="tech-tag">Oracle Cloud</span>
                         <span class="tech-tag">Docker</span>
                         <span class="tech-tag">Podman</span>
-                        <span class="tech-tag">Quadlet</span>
-                        <span class="tech-tag">Caddy</span>
                         <span class="tech-tag">GitHub Actions</span>
-                        <span class="tech-tag">Log Analytics</span>
+                        <span class="tech-tag">Linux</span>
                         <span class="tech-tag">Managed Identity</span>
-                        <span class="tech-tag">Cloudflare R2</span>
+                        <span class="tech-tag">Log Analytics</span>
+                        <span class="tech-tag">HTTP / TLS</span>
                     </div>
                 </div>
 
-                <!-- ML/AI -->
-                <div class="skill-card glass" data-aos="fade-up" data-aos-delay="100">
-                    <h3>Machine Learning &amp; AI</h3>
-                    <div class="tech-tags">
-                        <span class="tech-tag">TensorFlow</span>
-                        <span class="tech-tag">Keras</span>
-                        <span class="tech-tag">PyTorch</span>
-                        <span class="tech-tag">Scikit-learn</span>
-                        <span class="tech-tag">Time Series</span>
-                        <span class="tech-tag">Causal Inference</span>
-                        <span class="tech-tag">NLP</span>
-                        <span class="tech-tag">spaCy</span>
-                    </div>
-                </div>
-
-                <!-- Languages -->
-                <div class="skill-card glass" data-aos="fade-up" data-aos-delay="150">
-                    <h3>Languages</h3>
+                <div class="skill-card panel" data-aos="fade-up" data-aos-delay="100">
+                    <p class="skill-tier">Working knowledge</p>
+                    <h3>Backend &amp; Systems</h3>
+                    <p class="skill-description">Application and server-side tools used to build the systems around the platform.</p>
                     <div class="tech-tags">
                         <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">TypeScript</span>
-                        <span class="tech-tag">Dart</span>
+                        <span class="tech-tag">FastAPI</span>
                         <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">Laravel</span>
                         <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Caddy</span>
+                        <span class="tech-tag">Quadlet</span>
                         <span class="tech-tag">Shell</span>
                     </div>
                 </div>
 
-                <!-- Frameworks -->
-                <div class="skill-card glass" data-aos="fade-up" data-aos-delay="200">
-                    <h3>Frameworks</h3>
+                <div class="skill-card panel" data-aos="fade-up" data-aos-delay="150">
+                    <p class="skill-tier">Project experience</p>
+                    <h3>Application &amp; Data</h3>
+                    <p class="skill-description">Additional tools demonstrated through application, ML, and data projects.</p>
                     <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">TypeScript</span>
                         <span class="tech-tag">React</span>
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">Express</span>
                         <span class="tech-tag">Flutter</span>
-                        <span class="tech-tag">Laravel</span>
-                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Causal Inference</span>
+                        <span class="tech-tag">Firebase</span>
                         <span class="tech-tag">Streamlit</span>
-                    </div>
-                </div>
-
-                <!-- Databases -->
-                <div class="skill-card glass" data-aos="fade-up" data-aos-delay="250">
-                    <h3>Databases</h3>
-                    <div class="tech-tags">
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">Firestore</span>
-                        <span class="tech-tag">Redis</span>
-                        <span class="tech-tag">MongoDB</span>
-                    </div>
-                </div>
-
-                <!-- Tools -->
-                <div class="skill-card glass" data-aos="fade-up" data-aos-delay="300">
-                    <h3>Tools &amp; Systems</h3>
-                    <div class="tech-tags">
-                        <span class="tech-tag">Git</span>
-                        <span class="tech-tag">Linux</span>
-                        <span class="tech-tag">Windows Server</span>
-                        <span class="tech-tag">VMware</span>
-                        <span class="tech-tag">REST APIs</span>
                     </div>
                 </div>
             </div>
@@ -303,7 +256,7 @@
     <section id="projects" class="section">
         <div class="section-inner">
             <header class="section-header" data-aos="fade-up">
-                <p class="section-label">Where it runs</p>
+                <p class="section-label">Systems I build and operate</p>
                 <h2 class="section-title">Selected work</h2>
             </header>
 
@@ -316,18 +269,50 @@
             </div>
 
             <div class="projects-subsection-heading" data-aos="fade-up" data-aos-delay="70">
-                <p class="section-label">Cloud systems</p>
-                <p class="projects-subsection-note">Services I’ve deployed and keep running.</p>
+                <p class="section-label">Flagship systems</p>
+                <p class="projects-subsection-note">The projects that best show my cloud, backend, and operational depth.</p>
             </div>
 
             <!-- Cloud systems -->
             <div class="projects-grid current-work-grid" id="current-work-grid">
 
-                <!-- JRU Atlas -->
-                <div class="project-card glass current-project" data-category="ml cloud fullstack" data-aos="fade-up" data-aos-delay="90">
+                <!-- JobBoard-DevOps -->
+                <div class="project-card panel current-project featured" data-category="cloud fullstack" data-aos="fade-up" data-aos-delay="80">
                     <div class="project-card-header">
                         <div>
-                            <span class="project-featured-label">DigitalOcean · thesis project</span>
+                            <span class="project-featured-label">Flagship · public repository</span>
+                            <h3>JobBoard-DevOps</h3>
+                        </div>
+                        <a href="https://github.com/Acteus/JobBoard-DevOps-Project" target="_blank" rel="noopener noreferrer" class="project-visibility project-visibility-public" aria-label="View JobBoard DevOps project on GitHub">
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                            GitHub
+                        </a>
+                    </div>
+                    <p>
+                        <span class="project-role">Cloud / DevOps Developer · 2025</span>
+                        A full-stack job platform with an AWS-to-Azure deployment study. I worked across the application,
+                        containerization, cloud architecture, and delivery pipeline using Azure Static Web Apps, Container Apps,
+                        MySQL, Docker, GitHub Actions, and ARM templates.
+                    </p>
+                    <div class="project-proof-list" aria-label="JobBoard evidence">
+                        <span><i class="fas fa-code-branch" aria-hidden="true"></i> Frontend / backend separation</span>
+                        <span><i class="fas fa-gears" aria-hidden="true"></i> Automated container delivery</span>
+                        <span><i class="fas fa-cloud" aria-hidden="true"></i> AWS-to-Azure migration work</span>
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Azure</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">GitHub Actions</span>
+                        <span class="tech-tag">ARM Templates</span>
+                        <span class="tech-tag">MySQL</span>
+                    </div>
+                </div>
+
+                <!-- JRU Atlas -->
+                <div class="project-card panel current-project" data-category="ml cloud fullstack" data-aos="fade-up" data-aos-delay="90">
+                    <div class="project-card-header">
+                        <div>
+                            <span class="project-featured-label">DigitalOcean · private thesis project</span>
                             <h3>JRU Atlas</h3>
                         </div>
                         <span class="project-visibility" aria-label="Private repository">
@@ -342,7 +327,7 @@
                     </p>
                     <div class="project-evidence-placeholder" aria-label="Sanitized interface screenshots will be added later">
                         <i class="fas fa-image" aria-hidden="true"></i>
-                        <span>Sanitized screenshots coming soon</span>
+                        <span>Private project · sanitized case study planned</span>
                     </div>
                     <div class="tech-tags">
                         <span class="tech-tag">DigitalOcean</span>
@@ -353,10 +338,10 @@
                 </div>
 
                 <!-- LaborWise -->
-                <div class="project-card glass current-project" data-category="ml cloud fullstack" data-aos="fade-up" data-aos-delay="120">
+                <div class="project-card panel current-project" data-category="ml cloud fullstack" data-aos="fade-up" data-aos-delay="120">
                     <div class="project-card-header">
                         <div>
-                            <span class="project-featured-label">Azure · LaborWise service</span>
+                            <span class="project-featured-label">Azure · private service</span>
                             <h3>LaborWise</h3>
                         </div>
                         <span class="project-visibility" aria-label="Private repository">
@@ -371,7 +356,7 @@
                     </p>
                     <div class="project-evidence-placeholder" aria-label="Sanitized interface screenshots will be added later">
                         <i class="fas fa-image" aria-hidden="true"></i>
-                        <span>Sanitized screenshots coming soon</span>
+                        <span>Private project · sanitized case study planned</span>
                     </div>
                     <div class="tech-tags">
                         <span class="tech-tag">Container Apps</span>
@@ -382,7 +367,7 @@
                 </div>
 
                 <!-- GitHub Discord Bot -->
-                <div class="project-card glass current-project" data-category="cloud fullstack" data-aos="fade-up" data-aos-delay="150">
+                <div class="project-card panel current-project" data-category="cloud fullstack" data-aos="fade-up" data-aos-delay="150">
                     <div class="project-card-header">
                         <div>
                             <span class="project-featured-label">Oracle Cloud · live service</span>
@@ -400,7 +385,7 @@
                     </p>
                     <div class="project-evidence-placeholder project-evidence-placeholder--neutral" aria-label="Deployment evidence can be added later">
                         <i class="fab fa-github" aria-hidden="true"></i>
-                        <span>Deployment walkthrough coming soon</span>
+                        <span>Public repository · deployment details being documented</span>
                     </div>
                     <div class="tech-tags">
                         <span class="tech-tag">Oracle Cloud</span>
@@ -420,15 +405,15 @@
             <div class="projects-grid application-work-grid" id="application-work-grid">
 
                 <!-- Sumwork -->
-                <div class="project-card glass current-project" data-category="fullstack" data-aos="fade-up" data-aos-delay="90">
+                <div class="project-card panel current-project" data-category="fullstack" data-aos="fade-up" data-aos-delay="90">
                     <div class="project-card-header">
                         <div>
                             <span class="project-featured-label">In development</span>
                             <h3>Sumwork</h3>
                         </div>
-                        <span class="project-visibility project-visibility-public" aria-label="GitHub repository link pending">
+                        <span class="project-visibility" aria-label="Repository link pending">
                             <i class="fab fa-github" aria-hidden="true"></i>
-                            GitHub
+                            Link pending
                         </span>
                     </div>
                     <p>
@@ -437,7 +422,7 @@
                     </p>
                     <div class="project-evidence-placeholder project-evidence-placeholder--neutral" aria-label="GitHub repository link will be added later">
                         <i class="fab fa-github" aria-hidden="true"></i>
-                        <span>GitHub link coming soon</span>
+                        <span>Private development · repository link pending</span>
                     </div>
                     <div class="tech-tags">
                         <span class="tech-tag">Next.js</span>
@@ -450,15 +435,15 @@
             </div>
 
             <div class="projects-subsection-heading projects-archive-heading" data-aos="fade-up">
-                <p class="section-label">Earlier work</p>
-                <p class="projects-subsection-note">Previous projects, experiments, and coursework.</p>
+                <p class="section-label">Supporting work</p>
+                <p class="projects-subsection-note">Earlier application, ML, and coursework projects that add context to the platform focus.</p>
             </div>
 
             <!-- Projects grid -->
             <div class="projects-grid" id="projects-grid">
 
                 <!-- TransPort-PH — Featured -->
-                <div class="project-card glass featured" data-category="ml" data-aos="fade-up">
+                <div class="project-card panel featured" data-category="ml" data-aos="fade-up">
                     <div class="project-card-header">
                         <div>
                             <span class="project-featured-label">Featured</span>
@@ -481,7 +466,7 @@
                 </div>
 
                 <!-- Estate-Prices-NN -->
-                <div class="project-card glass" data-category="ml" data-aos="fade-up" data-aos-delay="50">
+                <div class="project-card panel" data-category="ml" data-aos="fade-up" data-aos-delay="50">
                     <div class="project-card-header">
                         <h3>Estate Price Predictor</h3>
                         <a href="https://github.com/Acteus/Estate-Prices-NN" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Estate Price Predictor on GitHub">
@@ -499,7 +484,7 @@
                 </div>
 
                 <!-- Simple-Epidemic -->
-                <div class="project-card glass" data-category="ml" data-aos="fade-up" data-aos-delay="100">
+                <div class="project-card panel" data-category="ml" data-aos="fade-up" data-aos-delay="100">
                     <div class="project-card-header">
                         <h3>SEIRD Epidemic Simulator</h3>
                         <a href="https://github.com/Acteus/Simple-Epidemic" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View SEIRD Epidemic Simulator on GitHub">
@@ -516,7 +501,7 @@
                 </div>
 
                 <!-- Mindmate -->
-                <div class="project-card glass" data-category="ml fullstack" data-aos="fade-up" data-aos-delay="150">
+                <div class="project-card panel" data-category="ml fullstack" data-aos="fade-up" data-aos-delay="150">
                     <div class="project-card-header">
                         <h3>MindMate AI</h3>
                         <a href="https://github.com/Acteus/Mindmate" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View MindMate on GitHub">
@@ -532,31 +517,14 @@
                     </div>
                 </div>
 
-                <!-- JobBoard-DevOps -->
-                <div class="project-card glass" data-category="cloud fullstack" data-aos="fade-up" data-aos-delay="200">
-                    <div class="project-card-header">
-                        <h3>Cloud Job Board</h3>
-                        <a href="https://github.com/Acteus/JobBoard-DevOps-Project" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Cloud Job Board on GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    </div>
-                    <p>
-                        Job platform with a cloud deployment pipeline spanning AWS and Azure.
-                    </p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">Azure</span>
-                        <span class="tech-tag">Docker</span>
-                    </div>
-                </div>
-
                 <!-- Project-ISO -->
-                <div class="project-card glass" data-category="ml cloud fullstack" data-aos="fade-up" data-aos-delay="250">
+                <div class="project-card panel" data-category="ml cloud fullstack" data-aos="fade-up" data-aos-delay="250">
                     <div class="project-card-header">
                         <h3>ISO Compliance Validator</h3>
-                        <a href="https://github.com/Acteus" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View ISO Compliance Validator on GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
+                        <span class="project-visibility" aria-label="Repository link pending">
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                            Link pending
+                        </span>
                     </div>
                     <p>
                         Checks ISO 21001 readiness and highlights possible compliance risks.
@@ -569,12 +537,13 @@
                 </div>
 
                 <!-- Lifeline -->
-                <div class="project-card glass" data-category="cloud fullstack" data-aos="fade-up" data-aos-delay="300">
+                <div class="project-card panel" data-category="cloud fullstack" data-aos="fade-up" data-aos-delay="300">
                     <div class="project-card-header">
                         <h3>Lifeline Emergency App</h3>
-                        <a href="https://github.com/Acteus" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Lifeline on GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
+                        <span class="project-visibility" aria-label="Repository link pending">
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                            Link pending
+                        </span>
                     </div>
                     <p>
                         Emergency app combining location sharing with real-time voice translation.
@@ -588,7 +557,7 @@
                 </div>
 
                 <!-- IoT-Sensor-Dashboard -->
-                <div class="project-card glass" data-category="fullstack" data-aos="fade-up" data-aos-delay="350">
+                <div class="project-card panel" data-category="fullstack" data-aos="fade-up" data-aos-delay="350">
                     <div class="project-card-header">
                         <h3>IoT Sensor Monitor</h3>
                         <a href="https://github.com/Acteus/IoT-Sensor-Dashboard" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View IoT Sensor Monitor on GitHub">
@@ -624,7 +593,7 @@
                 <div class="contact-info" data-aos="fade-up" data-aos-delay="60">
                     <p>
                         Open to discussing cloud deployments, platform operations, backend systems,
-                        and practical infrastructure work.
+                        and practical infrastructure work. Email is the best way to reach me.
                     </p>
                     <div class="contact-links">
                         <a href="mailto:garrendullas@gmail.com" class="contact-link" id="contact-email">
@@ -635,14 +604,10 @@
                             <i class="fab fa-github"></i>
                             <span>@Acteus</span>
                         </a>
-                        <a href="tel:+639474974843" class="contact-link" id="contact-phone">
-                            <i class="fas fa-phone"></i>
-                            <span>0947 497 4843</span>
-                        </a>
                     </div>
                 </div>
 
-                <div class="contact-form-panel glass" data-aos="fade-up" data-aos-delay="120">
+                <div class="contact-form-panel panel" data-aos="fade-up" data-aos-delay="120">
                     <form id="contact-form" novalidate>
                         <div class="form-row">
                             <div>
@@ -664,7 +629,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary form-submit" id="contact-submit">
                             <i class="fas fa-paper-plane"></i>
-                            Send Message
+                            Open Email App
                         </button>
                     </form>
                     <p id="form-message" class="form-msg" role="alert" aria-live="polite"></p>
