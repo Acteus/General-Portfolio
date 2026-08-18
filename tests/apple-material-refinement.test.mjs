@@ -57,3 +57,31 @@ test('synchronizes themed content without duplicating shared controls', () => {
   assert.equal((html.match(/id="contact-form"/g) || []).length, 1);
   assert.equal((html.match(/id="current-work-grid"/g) || []).length, 1);
 });
+
+test('authors a native light-mode project notebook with both perspectives', () => {
+  assert.match(html, /data-content-theme="light" hidden[\s\S]*?class="project-notebook"/);
+  assert.equal((html.match(/class="project-entry"/g) || []).length, 3);
+  assert.match(html, /<details class="project-entry"[^>]*name="portfolio-project"[^>]*open/);
+  assert.equal((html.match(/<strong>The story<\/strong>/g) || []).length, 3);
+  assert.equal((html.match(/<strong>Under the hood<\/strong>/g) || []).length, 3);
+  assert.match(html, /Moving a system, not just its files/);
+  assert.match(html, /Showing private work responsibly/);
+  assert.match(html, /Keeping a small service alive/);
+});
+
+test('keeps the desk reference visual-only and preserves dark projects', () => {
+  assert.doesNotMatch(html, /overhead-desk-project-notebook\.png/);
+  assert.doesNotMatch(css, /overhead-desk-project-notebook\.png/);
+  assert.match(html, /data-content-theme="dark"[\s\S]*?class="filter-bar"/);
+  assert.match(html, /id="current-work-grid"/);
+  assert.match(html, /id="filter-cloud"/);
+});
+
+test('defines accessible light notebook materials and optional enhancement', () => {
+  assert.match(css, /--desk-wood:\s*#d8b98f/i);
+  assert.match(css, /--paper:\s*#fff9ed/i);
+  assert.match(css, /\.project-entry__cover:focus-visible/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.project-entry__cover/);
+  assert.match(js, /function enhanceProjectNotebook\(root\)/);
+  assert.doesNotMatch(html, /<summary[^>]*role="button"/);
+});
