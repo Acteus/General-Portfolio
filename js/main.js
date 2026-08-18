@@ -19,17 +19,28 @@ AOS.init({
 const html         = document.documentElement;
 const themeToggle  = document.getElementById('theme-toggle');
 const themeIcon    = document.getElementById('theme-icon');
+const themeContent = document.querySelectorAll('[data-content-theme]');
+
+function syncThemeContent(theme) {
+    const normalizedTheme = theme === 'light' ? 'light' : 'dark';
+    themeContent.forEach(fragment => {
+        fragment.hidden = fragment.dataset.contentTheme !== normalizedTheme;
+    });
+}
 
 // Restore saved theme
 const savedTheme = localStorage.getItem('portfolio-theme') ||
     (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-html.setAttribute('data-theme', savedTheme);
-updateThemeIcon(savedTheme);
+const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+html.setAttribute('data-theme', initialTheme);
+syncThemeContent(initialTheme);
+updateThemeIcon(initialTheme);
 
 themeToggle.addEventListener('click', () => {
     const current = html.getAttribute('data-theme');
     const next    = current === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
+    syncThemeContent(next);
     localStorage.setItem('portfolio-theme', next);
     updateThemeIcon(next);
 });

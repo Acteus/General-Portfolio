@@ -83,6 +83,8 @@
     padding: 0;
 }
 
+[hidden] { display: none !important; }
+
 html {
     scroll-behavior: smooth;
     font-size: 16px;
@@ -476,6 +478,55 @@ body::before {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 24px 80px;
+}
+
+.hero-theme-content { width: 100%; }
+
+.now-grid,
+.field-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.now-card,
+.field-note {
+    padding: 26px;
+}
+
+.now-card h3,
+.field-note h3 {
+    margin-bottom: 12px;
+    color: var(--clr-text);
+    font-size: 1rem;
+    line-height: 1.35;
+}
+
+.now-card > p:not(.skill-tier),
+.field-note > p:not(.field-note-index) {
+    margin-bottom: 18px;
+    color: var(--clr-text-2);
+    font-size: 0.875rem;
+    line-height: 1.65;
+}
+
+.field-note-index {
+    margin-bottom: 10px;
+    color: var(--clr-accent);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.projects-behind-notes { margin-top: 48px; }
+
+@media (max-width: 768px) {
+    .now-grid,
+    .field-notes-grid { grid-template-columns: 1fr; }
+
+    .nav-link [data-content-theme],
+    .nav-mobile-link [data-content-theme] { white-space: nowrap; }
 }
 
 .hero-eyebrow {
@@ -1105,6 +1156,15 @@ body::before {
 }
 
 .project-link i { font-size: 0.9rem; }
+
+[data-theme="light"] #projects .project-card {
+    box-shadow: 0 4px 20px rgba(91, 58, 39, 0.08);
+}
+
+[data-theme="light"] #projects .project-proof-list,
+[data-theme="light"] #projects .project-evidence-placeholder {
+    background: rgba(var(--clr-accent-rgb), 0.035);
+}
 
 @media (max-width: 640px) {
     .projects-subsection-heading {
