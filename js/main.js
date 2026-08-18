@@ -182,8 +182,9 @@ if (particleCanvas && heroSection && !reducedMotion.matches) {
         context.save();
         context.translate(fieldX, fieldY);
 
-        const isLightTheme = document.documentElement.dataset.theme === 'light';
-        const color = isLightTheme ? '8,145,178' : '103,232,249';
+        const color = getComputedStyle(document.documentElement)
+            .getPropertyValue('--particle-rgb')
+            .trim();
 
         particles.forEach(updateParticle);
         for (let from = 0; from < particles.length; from += 1) {

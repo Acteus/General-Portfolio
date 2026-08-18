@@ -34,7 +34,7 @@ test('defines a warm café light theme without changing the theme contract', () 
   assert.match(css, /\[data-theme="light"\][\s\S]*?--clr-accent:\s*#748b67/);
   assert.match(css, /\.hero-section\.cafe-workspace::before/);
   assert.match(css, /@media \(max-width: 768px\)[\s\S]*?\.hero-section\.cafe-workspace::before/);
-  assert.match(js, /getComputedStyle\(document\.documentElement\)\.getPropertyValue\('--particle-rgb'\)/);
+  assert.match(js, /getComputedStyle\(document\.documentElement\)[\s\S]*?\.getPropertyValue\('--particle-rgb'\)/);
   assert.match(html, /<section id="home" class="hero-section cafe-workspace">/);
   assert.doesNotMatch(js, /isLightTheme\s*=|8,145,178/);
 });
