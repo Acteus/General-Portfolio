@@ -1279,7 +1279,11 @@ body::before {
 }
 
 .project-notebook__link {
+    display: inline-flex;
     width: fit-content;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
     color: var(--clr-accent-2);
     font-weight: 700;
     text-underline-offset: 0.2em;
