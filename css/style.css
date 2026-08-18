@@ -1214,6 +1214,10 @@ body::before {
     transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease, border-color 180ms ease;
 }
 
+.project-entry__cover strong {
+    font-family: var(--font-serif);
+}
+
 .project-entry[open] > .project-entry__cover {
     border-color: var(--desk-sage);
     transform: translateY(-0.25rem) rotate(0);
