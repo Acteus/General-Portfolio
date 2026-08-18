@@ -36,6 +36,7 @@ build/
 # Temporary files
 *.tmp
 .temp/
+.superpowers/
 
 # Personal files (keep resume private if needed)
 # Resume.pdf

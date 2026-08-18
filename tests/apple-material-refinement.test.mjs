@@ -28,3 +28,13 @@ test('uses a restrained canvas particle field in the hero', () => {
   assert.match(js, /prefers-reduced-motion/);
   assert.doesNotMatch(html, /hero-atmosphere|hero-topology/);
 });
+
+test('defines a warm café light theme without changing the theme contract', () => {
+  assert.match(css, /\[data-theme="light"\][\s\S]*?--clr-bg:\s*#f5ead8/);
+  assert.match(css, /\[data-theme="light"\][\s\S]*?--clr-accent:\s*#748b67/);
+  assert.match(css, /\.hero-section\.cafe-workspace::before/);
+  assert.match(css, /@media \(max-width: 768px\)[\s\S]*?\.hero-section\.cafe-workspace::before/);
+  assert.match(js, /getComputedStyle\(document\.documentElement\)\.getPropertyValue\('--particle-rgb'\)/);
+  assert.match(html, /<section id="home" class="hero-section cafe-workspace">/);
+  assert.doesNotMatch(js, /isLightTheme\s*=|8,145,178/);
+});
