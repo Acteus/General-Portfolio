@@ -328,34 +328,120 @@
             </div>
 
             <div data-content-theme="light" hidden>
-                <header class="section-header">
-                    <p class="section-label">Lessons worth keeping</p>
-                    <h2 class="section-title">Field notes</h2>
-                </header>
-                <div class="field-notes-grid">
-                    <article class="field-note panel">
-                        <p class="field-note-index">Note 01 · JobBoard-DevOps</p>
-                        <h3>Moving a system, not just its files</h3>
-                        <p>The AWS-to-Azure study reinforced that migration is also about separating application concerns from delivery and infrastructure decisions.</p>
-                    </article>
-                    <article class="field-note panel">
-                        <p class="field-note-index">Note 02 · JRU Atlas &amp; LaborWise</p>
-                        <h3>Showing private work responsibly</h3>
-                        <p>The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.</p>
-                    </article>
-                    <article class="field-note panel">
-                        <p class="field-note-index">Note 03 · GitHub → Discord Bot</p>
-                        <h3>Keeping a small service alive</h3>
-                        <p>Running a small service on Oracle Cloud has made Podman, Quadlet, Caddy, HTTPS, and recovery part of the project—not background details.</p>
-                    </article>
-                </div>
-                <div class="projects-subsection-heading projects-behind-notes">
-                    <p class="section-label">Projects behind the notes</p>
-                    <p class="projects-subsection-note">The same real systems, statuses, links, and tools—kept close to the lessons they produced.</p>
-                </div>
+                <section class="project-notebook" aria-labelledby="project-notebook-title">
+                    <header class="section-header project-notebook__intro">
+                        <p class="section-label">Lessons worth keeping</p>
+                        <h2 class="section-title" id="project-notebook-title">Field notes</h2>
+                    </header>
+
+                    <ol class="project-notebook__index">
+                        <li>
+                            <details class="project-entry" id="note-jobboard" name="portfolio-project" open>
+                                <summary class="project-entry__cover">
+                                    <span class="project-entry__number">Field Note 01</span>
+                                    <strong>Moving a system, not just its files</strong>
+                                    <span>JobBoard-DevOps</span>
+                                </summary>
+                                <div class="project-entry__spread">
+                                    <details class="project-page project-page--story" open>
+                                        <summary><strong>The story</strong></summary>
+                                        <div class="project-page__content">
+                                            <p>The AWS-to-Azure study reinforced that migration is also about separating application concerns from delivery and infrastructure decisions.</p>
+                                            <p class="project-page__takeaway"><strong>What stayed with me:</strong> moving a system means understanding the boundaries that make it deployable.</p>
+                                        </div>
+                                    </details>
+                                    <details class="project-page project-page--technical" open>
+                                        <summary><strong>Under the hood</strong></summary>
+                                        <div class="project-page__content">
+                                            <p class="project-role">Cloud / DevOps Developer · 2025</p>
+                                            <ul class="project-architecture-list">
+                                                <li>Frontend and backend separated for independent delivery.</li>
+                                                <li>Containerized API deployed through GitHub Actions.</li>
+                                                <li>Azure Static Web Apps, Container Apps, and MySQL.</li>
+                                            </ul>
+                                            <div class="tech-tags">
+                                                <span class="tech-tag">Azure</span>
+                                                <span class="tech-tag">Docker</span>
+                                                <span class="tech-tag">GitHub Actions</span>
+                                                <span class="tech-tag">ARM Templates</span>
+                                            </div>
+                                            <a href="https://github.com/Acteus/JobBoard-DevOps-Project" target="_blank" rel="noopener noreferrer" class="project-notebook__link">View public repository</a>
+                                        </div>
+                                    </details>
+                                </div>
+                            </details>
+                        </li>
+
+                        <li>
+                            <details class="project-entry" id="note-private-work" name="portfolio-project">
+                                <summary class="project-entry__cover">
+                                    <span class="project-entry__number">Field Note 02</span>
+                                    <strong>Showing private work responsibly</strong>
+                                    <span>JRU Atlas &amp; LaborWise</span>
+                                </summary>
+                                <div class="project-entry__spread">
+                                    <details class="project-page project-page--story" open>
+                                        <summary><strong>The story</strong></summary>
+                                        <div class="project-page__content">
+                                            <p>The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.</p>
+                                            <p class="project-page__takeaway"><strong>What stayed with me:</strong> responsible documentation can make private work understandable without making it exposed.</p>
+                                        </div>
+                                    </details>
+                                    <details class="project-page project-page--technical" open>
+                                        <summary><strong>Under the hood</strong></summary>
+                                        <div class="project-page__content project-page__content--split">
+                                            <section>
+                                                <h3>JRU Atlas</h3>
+                                                <p class="project-role">Cloud / Full-Stack Developer · 2026–Present</p>
+                                                <p>Private DigitalOcean thesis project using Laravel, two background workers, and a private FastAPI NLP service.</p>
+                                            </section>
+                                            <section>
+                                                <h3>LaborWise</h3>
+                                                <p class="project-role">Cloud / Backend Developer · 2026–Present</p>
+                                                <p>Private Azure service using Container Apps, ACR, managed identity, and Log Analytics.</p>
+                                            </section>
+                                        </div>
+                                    </details>
+                                </div>
+                            </details>
+                        </li>
+
+                        <li>
+                            <details class="project-entry" id="note-discord-bot" name="portfolio-project">
+                                <summary class="project-entry__cover">
+                                    <span class="project-entry__number">Field Note 03</span>
+                                    <strong>Keeping a small service alive</strong>
+                                    <span>GitHub → Discord Bot</span>
+                                </summary>
+                                <div class="project-entry__spread">
+                                    <details class="project-page project-page--story" open>
+                                        <summary><strong>The story</strong></summary>
+                                        <div class="project-page__content">
+                                            <p>Running a small service on Oracle Cloud made HTTPS, service supervision, recovery, and deployment part of the project itself.</p>
+                                            <p class="project-page__takeaway"><strong>What stayed with me:</strong> a small service still deserves an operational plan.</p>
+                                        </div>
+                                    </details>
+                                    <details class="project-page project-page--technical" open>
+                                        <summary><strong>Under the hood</strong></summary>
+                                        <div class="project-page__content">
+                                            <p class="project-role">Cloud / Backend Developer · 2026–Present</p>
+                                            <ul class="project-architecture-list">
+                                                <li>Hosted on Oracle Cloud.</li>
+                                                <li>Containerized with Podman and supervised through Quadlet.</li>
+                                                <li>Exposed through a secure HTTPS gateway using Caddy.</li>
+                                            </ul>
+                                            <a href="https://github.com/Acteus/github-discord-bot" target="_blank" rel="noopener noreferrer" class="project-notebook__link">View public repository</a>
+                                        </div>
+                                    </details>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </section>
             </div>
 
-            <div class="projects-subsection-heading" data-content-theme="dark" data-aos="fade-up" data-aos-delay="70">
+            <div data-content-theme="dark">
+            <div class="projects-subsection-heading" data-aos="fade-up" data-aos-delay="70">
                 <p class="section-label">Flagship systems</p>
                 <p class="projects-subsection-note">The projects that best show my cloud, backend, and operational depth.</p>
             </div>
@@ -484,7 +570,7 @@
 
             </div>
 
-            <div class="projects-subsection-heading projects-archive-heading" data-content-theme="dark" data-aos="fade-up">
+            <div class="projects-subsection-heading projects-archive-heading" data-aos="fade-up">
                 <p class="section-label">Application work</p>
                 <p class="projects-subsection-note">Apps I’m developing alongside the infrastructure.</p>
             </div>
@@ -521,7 +607,7 @@
 
             </div>
 
-            <div class="projects-subsection-heading projects-archive-heading" data-content-theme="dark" data-aos="fade-up">
+            <div class="projects-subsection-heading projects-archive-heading" data-aos="fade-up">
                 <p class="section-label">Supporting work</p>
                 <p class="projects-subsection-note">Earlier application, ML, and coursework projects that add context to the platform focus.</p>
             </div>
@@ -662,6 +748,7 @@
                     </div>
                 </div>
 
+            </div>
             </div>
         </div>
     </section>
