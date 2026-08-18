@@ -105,3 +105,9 @@ test('lays out the light notebook as an accessible responsive desk spread', () =
   assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.project-entry__spread/);
   assert.match(css, /@media \(prefers-contrast: more\)[\s\S]*?\.project-entry__spread/);
 });
+
+test('uses a sunlit paper wall behind the light workspace hero', () => {
+  assert.match(css, /\[data-theme="light"\]\s*\.hero-section\.cafe-workspace\s*\{[\s\S]*?--hero-paper:\s*#fff8ea[\s\S]*?radial-gradient\(ellipse at 84% 12%[\s\S]*?repeating-linear-gradient\(/);
+  assert.match(css, /\[data-theme="light"\]\s*\.hero-particles\s*\{\s*opacity:\s*0\.28/);
+  assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.hero-section\.cafe-workspace\s*\{\s*background:\s*var\(--hero-paper\)/);
+});

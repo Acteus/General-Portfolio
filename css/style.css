@@ -449,6 +449,18 @@ body::before {
     overflow: hidden;
 }
 
+/* Light mode begins on a quiet, sun-warmed sheet of paper rather than the desk
+   surface used by the project notes below. The texture stays deliberately
+   low-contrast so the display type remains the visual anchor. */
+[data-theme="light"] .hero-section.cafe-workspace {
+    --hero-paper: #fff8ea;
+    background:
+        radial-gradient(ellipse at 84% 12%, rgba(255, 239, 199, 0.82) 0 10%, transparent 46%),
+        radial-gradient(ellipse at 12% 92%, rgba(248, 220, 177, 0.34) 0 11%, transparent 48%),
+        repeating-linear-gradient(116deg, rgba(123, 91, 61, 0.025) 0 1px, transparent 1px 18px),
+        linear-gradient(135deg, var(--hero-paper) 0%, #fff3df 52%, #f9e8cf 100%);
+}
+
 .hero-section.cafe-workspace::before {
     content: '';
     position: absolute;
@@ -478,6 +490,8 @@ body::before {
     pointer-events: none;
     opacity: 0.72;
 }
+
+[data-theme="light"] .hero-particles { opacity: 0.28; }
 
 .hero-content {
     position: relative;
@@ -1610,6 +1624,10 @@ body::before {
 
     .project-entry__cover,
     .project-entry__spread { background: var(--paper); }
+
+    [data-theme="light"] .hero-section.cafe-workspace {
+        background: var(--hero-paper);
+    }
 }
 
 @media (prefers-contrast: more) {
