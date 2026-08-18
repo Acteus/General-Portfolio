@@ -85,3 +85,16 @@ test('defines accessible light notebook materials and optional enhancement', () 
   assert.match(js, /function enhanceProjectNotebook\(root\)/);
   assert.doesNotMatch(html, /<summary[^>]*role="button"/);
 });
+
+test('lays out the light notebook as an accessible responsive desk spread', () => {
+  assert.match(css, /Instrument\+Serif/);
+  assert.match(css, /\[data-theme="light"\]\s*#projects\s*\{[\s\S]*?linear-gradient\(135deg, var\(--desk-wood\), var\(--desk-wood-deep\)\)/);
+  assert.match(css, /\.project-entry:not\(\[open\]\) \.project-entry__spread\s*\{\s*display:\s*none/);
+  assert.match(css, /\.project-entry__spread\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(css, /\[data-theme="light"\]\s*#projects::before/);
+  assert.match(css, /\[data-theme="light"\]\s*#projects::after/);
+  assert.match(css, /@media \(max-width: 56\.24rem\)[\s\S]*?\.project-entry__spread\s*\{[\s\S]*?position:\s*static/);
+  assert.match(css, /@media \(max-width: 40rem\)[\s\S]*?\.project-entry__spread\s*\{\s*grid-template-columns:\s*1fr/);
+  assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.project-entry__spread/);
+  assert.match(css, /@media \(prefers-contrast: more\)[\s\S]*?\.project-entry__spread/);
+});
