@@ -41,10 +41,10 @@
             <!-- Desktop links -->
             <ul class="nav-links" role="list">
                 <li><a href="#home"    class="nav-link" data-section="home">Home</a></li>
-                <li><a href="#about"   class="nav-link" data-section="about">About</a></li>
-                <li><a href="#skills"  class="nav-link" data-section="skills">Skills</a></li>
-                <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
-                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                <li><a href="#about"   class="nav-link" data-section="about"><span data-content-theme="dark">About</span><span data-content-theme="light" hidden>Story</span></a></li>
+                <li><a href="#skills"  class="nav-link" data-section="skills"><span data-content-theme="dark">Skills</span><span data-content-theme="light" hidden>Now</span></a></li>
+                <li><a href="#projects" class="nav-link" data-section="projects"><span data-content-theme="dark">Projects</span><span data-content-theme="light" hidden>Notes</span></a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact"><span data-content-theme="dark">Contact</span><span data-content-theme="light" hidden>Say hello</span></a></li>
                 <li><a href="output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf" class="nav-link" target="_blank" rel="noopener noreferrer">Resume</a></li>
             </ul>
 
@@ -64,10 +64,10 @@
         <!-- Mobile Menu -->
         <div class="nav-mobile-menu glass" id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
             <a href="#home"    class="nav-mobile-link">Home</a>
-            <a href="#about"   class="nav-mobile-link">About</a>
-            <a href="#skills"  class="nav-mobile-link">Skills</a>
-            <a href="#projects" class="nav-mobile-link">Projects</a>
-            <a href="#contact" class="nav-mobile-link">Contact</a>
+            <a href="#about"   class="nav-mobile-link"><span data-content-theme="dark">About</span><span data-content-theme="light" hidden>Story</span></a>
+            <a href="#skills"  class="nav-mobile-link"><span data-content-theme="dark">Skills</span><span data-content-theme="light" hidden>Now</span></a>
+            <a href="#projects" class="nav-mobile-link"><span data-content-theme="dark">Projects</span><span data-content-theme="light" hidden>Notes</span></a>
+            <a href="#contact" class="nav-mobile-link"><span data-content-theme="dark">Contact</span><span data-content-theme="light" hidden>Say hello</span></a>
             <a href="output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf" class="nav-mobile-link" target="_blank" rel="noopener noreferrer">Resume</a>
         </div>
     </nav>
@@ -80,6 +80,7 @@
         <canvas class="hero-particles" id="hero-particles" aria-hidden="true"></canvas>
 
         <div class="hero-content">
+            <div class="hero-theme-content" data-content-theme="dark">
             <div class="reveal-wrapper">
                 <p class="hero-eyebrow reveal-item" style="--delay: 0.1s">
                     Cloud &amp; Platform Engineering
@@ -118,6 +119,26 @@
                     GitHub
                 </a>
             </div>
+            </div>
+
+            <div class="hero-theme-content" data-content-theme="light" hidden>
+                <div class="reveal-wrapper">
+                    <p class="hero-eyebrow reveal-item">Personal workspace · learning in public</p>
+                </div>
+                <h1 class="hero-title">
+                    <span class="reveal-wrapper"><span class="reveal-item">Garren</span></span>
+                    <span class="reveal-wrapper"><span class="reveal-item">Dullas</span></span>
+                </h1>
+                <div class="reveal-wrapper">
+                    <p class="hero-subtitle reveal-item">A quiet corner for the systems I’m building, the lessons I’m keeping, and the questions I’m still exploring—usually with coffee nearby.</p>
+                </div>
+                <div class="hero-actions reveal-fade-in">
+                    <a href="#projects" class="btn btn-primary"><i class="fas fa-book-open" aria-hidden="true"></i>Read my notes</a>
+                    <a href="#skills" class="btn btn-secondary">What I’m working on</a>
+                    <a href="output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"><i class="fas fa-file-arrow-down" aria-hidden="true"></i>Resume</a>
+                    <a href="https://github.com/Acteus" target="_blank" rel="noopener noreferrer" class="btn btn-ghost"><i class="fab fa-github" aria-hidden="true"></i>GitHub</a>
+                </div>
+            </div>
         </div>
 
         <!-- Scroll indicator -->
@@ -135,12 +156,18 @@
     <section id="about" class="section">
         <div class="section-inner">
             <header class="section-header" data-aos="fade-up">
-                <p class="section-label">Who I am</p>
-                <h2 class="section-title">About</h2>
+                <div data-content-theme="dark">
+                    <p class="section-label">Who I am</p>
+                    <h2 class="section-title">About</h2>
+                </div>
+                <div data-content-theme="light" hidden>
+                    <p class="section-label">The person behind the terminal</p>
+                    <h2 class="section-title">My story</h2>
+                </div>
             </header>
 
             <div class="about-grid">
-                <div class="about-text" data-aos="fade-up" data-aos-delay="60">
+                <div class="about-text" data-content-theme="dark" data-aos="fade-up" data-aos-delay="60">
                     <p>
                         IT student at Jose Rizal University focused on cloud infrastructure, deployment, and platform
                         operations. I work with backend services, containers, workers, managed identities, registries,
@@ -151,6 +178,11 @@
                         application code, but my main focus is the cloud layer: how services are packaged, connected,
                         secured, monitored, and recovered.
                     </p>
+                </div>
+
+                <div class="about-text" data-content-theme="light" hidden>
+                    <p>I’m an IT student who became interested not only in writing applications, but in the quieter work that keeps them reachable: packaging, deployment, service connections, logs, and recovery.</p>
+                    <p>This space is a record of learning through real systems across Azure, DigitalOcean, and Oracle Cloud—what worked, what needed another attempt, and what I want to understand better next.</p>
                 </div>
 
                 <div class="about-meta" data-aos="fade-up" data-aos-delay="120">
@@ -185,6 +217,7 @@
     <!-- ── Skills Section ── -->
     <section id="skills" class="section">
         <div class="section-inner">
+            <div data-content-theme="dark">
             <header class="section-header" data-aos="fade-up">
                 <p class="section-label">Focused toolkit</p>
                 <h2 class="section-title">Skills</h2>
@@ -242,6 +275,35 @@
                     </div>
                 </div>
             </div>
+
+            </div>
+
+            <div data-content-theme="light" hidden>
+                <header class="section-header">
+                    <p class="section-label">What has my attention</p>
+                    <h2 class="section-title">Now</h2>
+                </header>
+                <div class="now-grid">
+                    <article class="now-card panel">
+                        <p class="skill-tier">Building</p>
+                        <h3>JRU Atlas &amp; LaborWise</h3>
+                        <p>Two private systems in active development: an accreditation workspace on DigitalOcean and an employment-rights service on Azure.</p>
+                        <div class="tech-tags"><span class="tech-tag">DigitalOcean</span><span class="tech-tag">Azure</span><span class="tech-tag">Private projects</span></div>
+                    </article>
+                    <article class="now-card panel">
+                        <p class="skill-tier">Learning</p>
+                        <h3>Making operations visible</h3>
+                        <p>I’m paying closer attention to observability, reliable container delivery, and documentation that explains what happens after deployment.</p>
+                        <div class="tech-tags"><span class="tech-tag">Observability</span><span class="tech-tag">Containers</span><span class="tech-tag">Documentation</span></div>
+                    </article>
+                    <article class="now-card panel">
+                        <p class="skill-tier">Improving</p>
+                        <h3>Sharing the work responsibly</h3>
+                        <p>I’m turning deployment work into concise, sanitized case studies that show decisions and lessons without exposing private code or data.</p>
+                        <div class="tech-tags"><span class="tech-tag">Case studies</span><span class="tech-tag">Architecture</span><span class="tech-tag">Clear writing</span></div>
+                    </article>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -250,6 +312,7 @@
     <!-- ── Projects Section ── -->
     <section id="projects" class="section">
         <div class="section-inner">
+            <div data-content-theme="dark">
             <header class="section-header" data-aos="fade-up">
                 <p class="section-label">Systems I build and operate</p>
                 <h2 class="section-title">Selected work</h2>
@@ -262,8 +325,37 @@
                 <button class="filter-btn" data-filter="cloud" id="filter-cloud">Cloud &amp; DevOps</button>
                 <button class="filter-btn" data-filter="fullstack" id="filter-fullstack">Full‑Stack</button>
             </div>
+            </div>
 
-            <div class="projects-subsection-heading" data-aos="fade-up" data-aos-delay="70">
+            <div data-content-theme="light" hidden>
+                <header class="section-header">
+                    <p class="section-label">Lessons worth keeping</p>
+                    <h2 class="section-title">Field notes</h2>
+                </header>
+                <div class="field-notes-grid">
+                    <article class="field-note panel">
+                        <p class="field-note-index">Note 01 · JobBoard-DevOps</p>
+                        <h3>Moving a system, not just its files</h3>
+                        <p>The AWS-to-Azure study reinforced that migration is also about separating application concerns from delivery and infrastructure decisions.</p>
+                    </article>
+                    <article class="field-note panel">
+                        <p class="field-note-index">Note 02 · JRU Atlas &amp; LaborWise</p>
+                        <h3>Showing private work responsibly</h3>
+                        <p>The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.</p>
+                    </article>
+                    <article class="field-note panel">
+                        <p class="field-note-index">Note 03 · GitHub → Discord Bot</p>
+                        <h3>Keeping a small service alive</h3>
+                        <p>Running a small service on Oracle Cloud has made Podman, Quadlet, Caddy, HTTPS, and recovery part of the project—not background details.</p>
+                    </article>
+                </div>
+                <div class="projects-subsection-heading projects-behind-notes">
+                    <p class="section-label">Projects behind the notes</p>
+                    <p class="projects-subsection-note">The same real systems, statuses, links, and tools—kept close to the lessons they produced.</p>
+                </div>
+            </div>
+
+            <div class="projects-subsection-heading" data-content-theme="dark" data-aos="fade-up" data-aos-delay="70">
                 <p class="section-label">Flagship systems</p>
                 <p class="projects-subsection-note">The projects that best show my cloud, backend, and operational depth.</p>
             </div>
@@ -392,7 +484,7 @@
 
             </div>
 
-            <div class="projects-subsection-heading projects-archive-heading" data-aos="fade-up">
+            <div class="projects-subsection-heading projects-archive-heading" data-content-theme="dark" data-aos="fade-up">
                 <p class="section-label">Application work</p>
                 <p class="projects-subsection-note">Apps I’m developing alongside the infrastructure.</p>
             </div>
@@ -429,7 +521,7 @@
 
             </div>
 
-            <div class="projects-subsection-heading projects-archive-heading" data-aos="fade-up">
+            <div class="projects-subsection-heading projects-archive-heading" data-content-theme="dark" data-aos="fade-up">
                 <p class="section-label">Supporting work</p>
                 <p class="projects-subsection-note">Earlier application, ML, and coursework projects that add context to the platform focus.</p>
             </div>
@@ -580,16 +672,23 @@
     <section id="contact" class="section">
         <div class="section-inner">
             <header class="section-header" data-aos="fade-up">
-                <p class="section-label">Get in touch</p>
-                <h2 class="section-title">Contact</h2>
+                <div data-content-theme="dark">
+                    <p class="section-label">Get in touch</p>
+                    <h2 class="section-title">Contact</h2>
+                </div>
+                <div data-content-theme="light" hidden>
+                    <p class="section-label">Pull up a chair</p>
+                    <h2 class="section-title">Say hello</h2>
+                </div>
             </header>
 
             <div class="contact-grid">
                 <div class="contact-info" data-aos="fade-up" data-aos-delay="60">
-                    <p>
+                    <p data-content-theme="dark">
                         Open to discussing cloud deployments, platform operations, backend systems,
                         and practical infrastructure work. Email is the best way to reach me.
                     </p>
+                    <p data-content-theme="light" hidden>If you’re building something thoughtful, learning through a difficult system, or looking for someone who cares about the details behind deployment, I’d be glad to hear from you.</p>
                     <div class="contact-links">
                         <a href="mailto:garrendullas@gmail.com" class="contact-link" id="contact-email">
                             <i class="fas fa-envelope"></i>
