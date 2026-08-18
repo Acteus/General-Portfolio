@@ -38,3 +38,22 @@ test('defines a warm café light theme without changing the theme contract', () 
   assert.match(html, /<section id="home" class="hero-section cafe-workspace">/);
   assert.doesNotMatch(js, /isLightTheme\s*=|8,145,178/);
 });
+
+test('ships dark content as fallback and light workspace copy as an alternate view', () => {
+  assert.match(html, /data-content-theme="dark"/);
+  assert.match(html, /data-content-theme="light" hidden/);
+  assert.match(html, /Personal workspace · learning in public/);
+  assert.match(html, /A quiet corner for the systems I’m building/);
+  assert.match(html, /<h2 class="section-title">Now<\/h2>/);
+  assert.match(html, /Moving a system, not just its files/);
+  assert.match(html, /Pull up a chair/);
+});
+
+test('synchronizes themed content without duplicating shared controls', () => {
+  assert.match(js, /function syncThemeContent\(theme\)/);
+  assert.match(js, /const normalizedTheme = theme === 'light' \? 'light' : 'dark'/);
+  assert.match(js, /fragment\.hidden = fragment\.dataset\.contentTheme !== normalizedTheme/);
+  assert.match(css, /\[hidden\]\s*\{\s*display:\s*none\s*!important/);
+  assert.equal((html.match(/id="contact-form"/g) || []).length, 1);
+  assert.equal((html.match(/id="current-work-grid"/g) || []).length, 1);
+});
