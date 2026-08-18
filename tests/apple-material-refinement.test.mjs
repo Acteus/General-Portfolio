@@ -86,6 +86,13 @@ test('defines accessible light notebook materials and optional enhancement', () 
   assert.doesNotMatch(html, /<summary[^>]*role="button"/);
 });
 
+test('deep-links notebook entries without competing with generic hash scrolling', () => {
+  assert.match(js, /entry\.addEventListener\('toggle', \(\) => \{[\s\S]*?history\.replaceState\(null, '', `#\$\{entry\.id\}`\);/);
+  assert.match(js, /if \(!location\.hash\.startsWith\('#note-'\)\) return;/);
+  assert.match(js, /linkedEntry instanceof HTMLDetailsElement/);
+  assert.match(js, /const hash = this\.getAttribute\('href'\);\s*if \(hash\.startsWith\('#note-'\)\) return;/);
+});
+
 test('lays out the light notebook as an accessible responsive desk spread', () => {
   assert.match(css, /Instrument\+Serif/);
   assert.match(css, /\[data-theme="light"\]\s*#projects\s*\{[\s\S]*?linear-gradient\(135deg, var\(--desk-wood\), var\(--desk-wood-deep\)\)/);

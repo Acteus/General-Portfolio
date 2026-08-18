@@ -36,6 +36,26 @@ html.setAttribute('data-theme', initialTheme);
 syncThemeContent(initialTheme);
 updateThemeIcon(initialTheme);
 
+function enhanceProjectNotebook(root) {
+    const entries = root.querySelectorAll('.project-entry');
+
+    entries.forEach(entry => {
+        entry.addEventListener('toggle', () => {
+            if (!entry.open) return;
+            history.replaceState(null, '', `#${entry.id}`);
+        });
+    });
+
+    if (!location.hash.startsWith('#note-')) return;
+    const linkedEntry = document.getElementById(location.hash.slice(1));
+    if (root.contains(linkedEntry) && linkedEntry instanceof HTMLDetailsElement) {
+        linkedEntry.open = true;
+    }
+}
+
+const projectNotebook = document.querySelector('.project-notebook');
+if (projectNotebook) enhanceProjectNotebook(projectNotebook);
+
 themeToggle.addEventListener('click', () => {
     const current = html.getAttribute('data-theme');
     const next    = current === 'dark' ? 'light' : 'dark';
@@ -91,7 +111,9 @@ if (mobileMenuBtn && mobileMenu) {
 ───────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        const target = document.querySelector(this.getAttribute('href'));
+        const hash = this.getAttribute('href');
+        if (hash.startsWith('#note-')) return;
+        const target = document.querySelector(hash);
         if (!target) return;
         e.preventDefault();
         const offset = 80;
