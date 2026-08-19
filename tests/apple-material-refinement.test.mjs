@@ -178,3 +178,20 @@ test('defines explicit journal accessibility preference fallbacks', () => {
   assert.match(mediaBlock(css, 'prefers-contrast: more'), /\.project-journal__leaf-face\s*\{/);
   assert.match(mediaBlock(css, 'max-width: 56.24rem'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
 });
+
+test('does not leak fictional visual-reference facts into shipped source', () => {
+  const shippedSource = `${html}\n${css}\n${js}\n${journalJs}`;
+  const fictionalTerms = [
+    'GreenTrack',
+    'CafeConnect',
+    'ECS Fargate',
+    'MongoDB Atlas',
+    'CloudWatch',
+    'Terraform',
+    'your-username',
+  ];
+
+  fictionalTerms.forEach(term => {
+    assert.equal(shippedSource.includes(term), false, `${term} must remain visual-reference-only`);
+  });
+});
