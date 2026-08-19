@@ -47,3 +47,18 @@
 
 - `node --test tests/*.test.mjs`: passed, 24 tests, 0 failures.
 - `git diff --check`: passed with no whitespace errors.
+
+## Final Journal Flip Review Fixes
+
+### Fixes
+
+- Latest journal selections now win across pending and in-flight turns; selecting the stable current entry cancels transient work, clears the request, and preserves the single committed entry.
+- Journal setup, leaf append, animation, timer, and animation-rejection paths now clean partial state and commit the requested destination immediately.
+- Reduced-transparency styling forces both leaf faces and the animated leaf itself to remain fully opaque.
+- Increased-contrast styling explicitly strengthens the selected cover outline, journal focus rings, secondary journal text, and page separators.
+- Added deterministic controller-level fake-DOM tests covering midpoint/hash timing, pre/post-midpoint interruption, latest-wins current reselection, environment cancellation, deep links, cleanup, setup/animation failures, and exactly-one-open invariants.
+
+### Verification
+
+- `node --test tests/*.test.mjs`: passed, 32 tests, 0 failures.
+- `git diff --check`: passed with no whitespace errors.

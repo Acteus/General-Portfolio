@@ -76,6 +76,8 @@
         const getTheme = options.getTheme || (() => documentRef.documentElement.dataset.theme);
         const requestFrame = options.requestFrame || global.requestAnimationFrame.bind(global);
         const cancelFrame = options.cancelFrame || global.cancelAnimationFrame.bind(global);
+        const setTimeoutRef = options.setTimeout || global.setTimeout.bind(global);
+        const clearTimeoutRef = options.clearTimeout || global.clearTimeout.bind(global);
         const duration = options.duration || TURN_DURATION;
         const listeners = [];
         let activeFlip = null;
@@ -102,7 +104,11 @@
         }
 
         function supportsWAAPI() {
-            return typeof documentRef.createElement('div').animate === 'function';
+            try {
+                return typeof documentRef.createElement('div').animate === 'function';
+            } catch (error) {
+                return false;
+            }
         }
 
         function canAnimateNow() {
@@ -116,11 +122,13 @@
 
         function removeFlipVisual(flip) {
             if (!flip) return;
-            global.clearTimeout(flip.midpointTimer);
-            flip.animation.cancel();
-            flip.leaf.remove();
-            layer.removeAttribute('data-direction');
-            layer.style.removeProperty('height');
+            clearTimeoutRef(flip.midpointTimer);
+            try { flip.animation?.cancel(); } catch (error) { /* best-effort cleanup */ }
+            try {
+                if (flip.leaf) flip.leaf.remove();
+            } catch (error) { /* best-effort cleanup */ }
+            layer?.removeAttribute('data-direction');
+            layer?.style.removeProperty('height');
             root.classList.remove('is-turning');
         }
 
@@ -157,47 +165,93 @@
                 return;
             }
 
-            const spread = fromEntry.querySelector('.project-entry__spread');
-            const leaf = buildLeaf(documentRef, fromEntry, target, direction);
-            layer.dataset.direction = direction;
-            layer.style.height = `${spread.getBoundingClientRect().height}px`;
-            layer.append(leaf);
-            root.classList.add('is-turning');
+            let leaf = null;
+            let animation = null;
+            try {
+                const spread = fromEntry?.querySelector('.project-entry__spread');
+                if (!spread || !layer) throw new Error('journal turn setup unavailable');
+                leaf = buildLeaf(documentRef, fromEntry, target, direction);
+                layer.dataset.direction = direction;
+                layer.style.height = `${spread.getBoundingClientRect().height}px`;
+                layer.append(leaf);
+                root.classList.add('is-turning');
 
-            const animation = leaf.animate(turnKeyframes(direction), {
-                duration,
-                easing: 'cubic-bezier(0.22, 0.76, 0.2, 1)',
-                fill: 'forwards',
-            });
+                animation = leaf.animate(turnKeyframes(direction), {
+                    duration,
+                    easing: 'cubic-bezier(0.22, 0.76, 0.2, 1)',
+                    fill: 'forwards',
+                });
+            } catch (error) {
+                removeFlipVisual({ animation, leaf, midpointTimer: 0 });
+                commitEntry(target);
+                return;
+            }
             const flip = { animation, leaf, target, committed: false, midpointTimer: 0 };
             activeFlip = flip;
 
-            flip.midpointTimer = global.setTimeout(() => {
-                if (activeFlip !== flip) return;
-                commitEntry(target);
-                flip.committed = true;
-            }, duration / 2);
-
-            animation.finished.then(() => {
-                if (activeFlip !== flip) return;
-                if (!flip.committed) commitEntry(target);
+            try {
+                flip.midpointTimer = setTimeoutRef(() => {
+                    if (activeFlip !== flip) return;
+                    commitEntry(target);
+                    flip.committed = true;
+                }, duration / 2);
+            } catch (error) {
                 activeFlip = null;
-                requestedEntry = null;
                 removeFlipVisual(flip);
-            }).catch(() => {});
+                commitEntry(target);
+                return;
+            }
+
+            try {
+                animation.finished.then(() => {
+                    if (activeFlip !== flip) return;
+                    if (!flip.committed) commitEntry(target);
+                    activeFlip = null;
+                    requestedEntry = null;
+                    removeFlipVisual(flip);
+                }).catch(() => {
+                    if (activeFlip !== flip) return;
+                    activeFlip = null;
+                    removeFlipVisual(flip);
+                    commitEntry(target);
+                });
+            } catch (error) {
+                activeFlip = null;
+                removeFlipVisual(flip);
+                commitEntry(target);
+            }
         }
 
         function requestSelection(target) {
+            if (destroyed || !target) return;
             requestedEntry = target;
+            if (target === getActiveEntry()) {
+                if (activeFlip) clearActiveFlip();
+                if (pendingFrame) cancelFrame(pendingFrame);
+                pendingFrame = 0;
+                requestedEntry = null;
+                commitEntry(target);
+                return;
+            }
             if (activeFlip) clearActiveFlip();
             if (pendingFrame) cancelFrame(pendingFrame);
-            pendingFrame = requestFrame(() => startTurn(requestedEntry));
+            try {
+                pendingFrame = requestFrame(() => {
+                    const nextEntry = requestedEntry;
+                    requestedEntry = null;
+                    startTurn(nextEntry);
+                });
+            } catch (error) {
+                pendingFrame = 0;
+                requestedEntry = null;
+                commitEntry(target);
+            }
         }
 
         function onCoverClick(entry, event) {
             if (!canAnimateNow()) return;
             event.preventDefault();
-            if (entry === getActiveEntry()) return;
+            if (entry === getActiveEntry() && !activeFlip && !pendingFrame && !requestedEntry) return;
             requestSelection(entry);
         }
 

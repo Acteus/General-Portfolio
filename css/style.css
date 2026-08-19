@@ -1826,6 +1826,10 @@ body::before {
         background: var(--paper);
     }
 
+    .project-journal__leaf {
+        opacity: 1 !important;
+    }
+
     .project-entry__spread::before { filter: none; }
 
     [data-theme="light"] .hero-section.cafe-workspace {
@@ -1848,6 +1852,26 @@ body::before {
 
     .project-entry__cover,
     .project-entry__spread { border-color: var(--clr-text); }
+
+    .project-entry[open] > .project-entry__cover {
+        border-color: var(--clr-text);
+        box-shadow: 0 0 0 2px var(--clr-text), 0 0.6rem 1.4rem var(--paper-shadow);
+    }
+
+    .project-entry__cover:focus-visible,
+    .project-page > summary:focus-visible,
+    .project-notebook__link:focus-visible {
+        outline-color: var(--clr-text);
+    }
+
+    .project-page__content,
+    .project-role {
+        color: var(--clr-text);
+    }
+
+    .project-page__content--split section + section {
+        border-color: var(--clr-text);
+    }
 
     .project-journal__leaf-face {
         border-color: var(--clr-text);

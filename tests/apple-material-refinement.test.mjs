@@ -178,8 +178,13 @@ test('defines explicit journal accessibility preference fallbacks', () => {
   assert.match(mediaBlock(css, 'prefers-reduced-motion: reduce'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
   const reducedTransparency = mediaBlock(css, 'prefers-reduced-transparency: reduce');
   assert.match(reducedTransparency, /\.project-journal__leaf-face\s*\{[\s\S]*?opacity:\s*1\s*!important[\s\S]*?background:\s*var\(--paper\)/);
+  assert.match(reducedTransparency, /\.project-journal__leaf\s*\{[\s\S]*?opacity:\s*1\s*!important/);
   assert.match(reducedTransparency, /\.project-entry__spread::before\s*\{[\s\S]*?filter:\s*none/);
-  assert.match(mediaBlock(css, 'prefers-contrast: more'), /\.project-journal__leaf-face\s*\{/);
+  const increasedContrast = mediaBlock(css, 'prefers-contrast: more');
+  assert.match(increasedContrast, /\.project-entry\[open\]\s*>\s*\.project-entry__cover\s*\{[\s\S]*?box-shadow:[\s\S]*?var\(--clr-text\)/);
+  assert.match(increasedContrast, /\.project-entry__cover:focus-visible[\s\S]*?\.project-page\s*>\s*summary:focus-visible[\s\S]*?outline-color:\s*var\(--clr-text\)/);
+  assert.match(increasedContrast, /\.project-page__content[\s\S]*?\.project-role\s*\{[\s\S]*?color:\s*var\(--clr-text\)/);
+  assert.match(increasedContrast, /\.project-journal__leaf-face\s*\{/);
   assert.match(mediaBlock(css, 'max-width: 56.24rem'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
 });
 
