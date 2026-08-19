@@ -32,8 +32,8 @@ test('uses a restrained canvas particle field in the hero', () => {
 test('defines a warm café light theme without changing the theme contract', () => {
   assert.match(css, /\[data-theme="light"\][\s\S]*?--clr-bg:\s*#f5ead8/);
   assert.match(css, /\[data-theme="light"\][\s\S]*?--clr-accent:\s*#748b67/);
-  assert.match(css, /\.hero-section\.cafe-workspace::before/);
-  assert.match(css, /@media \(max-width: 768px\)[\s\S]*?\.hero-section\.cafe-workspace::before/);
+  assert.match(css, /\.hero-field-note\s*\{/);
+  assert.match(css, /@media \(max-width: 768px\)[\s\S]*?\.hero-field-note\s*\{\s*display:\s*none/);
   assert.match(js, /getComputedStyle\(document\.documentElement\)[\s\S]*?\.getPropertyValue\('--particle-rgb'\)/);
   assert.match(html, /<section id="home" class="hero-section cafe-workspace">/);
   assert.doesNotMatch(js, /isLightTheme\s*=|8,145,178/);
@@ -110,4 +110,11 @@ test('uses a sunlit paper wall behind the light workspace hero', () => {
   assert.match(css, /\[data-theme="light"\]\s*\.hero-section\.cafe-workspace\s*\{[\s\S]*?--hero-paper:\s*#fff8ea[\s\S]*?radial-gradient\(ellipse at 84% 12%[\s\S]*?repeating-linear-gradient\(/);
   assert.match(css, /\[data-theme="light"\]\s*\.hero-particles\s*\{\s*opacity:\s*0\.28/);
   assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.hero-section\.cafe-workspace\s*\{\s*background:\s*var\(--hero-paper\)/);
+});
+
+test('replaces the light hero illustration with a current-focus field note', () => {
+  assert.match(html, /data-content-theme="light" hidden[\s\S]*?<aside class="hero-field-note"[\s\S]*?Currently building[\s\S]*?Cloud \/ platform systems[\s\S]*?Azure[\s\S]*?Containers[\s\S]*?DevOps/);
+  assert.match(css, /\.hero-field-note\s*\{[\s\S]*?background:\s*var\(--paper\)/);
+  assert.match(css, /@media \(max-width: 768px\)[\s\S]*?\.hero-field-note\s*\{\s*display:\s*none/);
+  assert.doesNotMatch(css, /linear-gradient\(#c5e0d7/);
 });
