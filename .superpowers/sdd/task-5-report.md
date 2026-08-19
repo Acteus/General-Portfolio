@@ -1,0 +1,49 @@
+# Task 5 Report
+
+## Changes
+
+- Appended the generated-reference fact leak regression test to `tests/apple-material-refinement.test.mjs`.
+- No production HTML, CSS, or JavaScript was changed.
+
+## Verification
+
+- `node --test tests/apple-material-refinement.test.mjs`: passed, 20 tests.
+- `node --test tests/*.test.mjs`: passed, 24 tests, 0 failures.
+- Static server command `python3 -m http.server 4173`: launched successfully and served the portfolio on port 4173; stopped after verification attempt.
+- Browser QA: not performed. The workspace has no installed Playwright/Puppeteer/browser automation runtime, so the requested desktop, responsive, interaction, deep-link, and preference matrix could not be exercised.
+
+## Review
+
+- The new test checks all seven specified fictional terms across the shipped HTML, CSS, main JavaScript, and journal controller source.
+- Working-tree inspection showed only the intended test modification before commit.
+
+## Task 5 Mobile Gutter Seam Fix
+
+### Fix
+
+- Commit: `ae3dd5894306fcff042ce7ab8a56f3a6536971d5` (`Fix mobile journal gutter seam`).
+- Added `.project-entry__spread::before { display: none; }` inside the existing `@media (max-width: 40rem)` block so stacked mobile pages do not retain the desktop center gutter seam.
+- Preserved the mobile page divider and all desktop/tablet spread behavior.
+- Added a focused static assertion in `tests/apple-material-refinement.test.mjs` that the narrow media block hides the spread gutter pseudo-element.
+
+### Verification
+
+- `node --test tests/*.test.mjs`: passed, 24 tests, 0 failures.
+- `git diff --check`: passed with no whitespace errors.
+
+### Concerns
+
+- No remaining concerns identified for this scoped CSS change. Browser QA was not rerun because the workspace has no installed Playwright/Puppeteer/browser automation runtime, as noted above.
+
+## Task 5 Journal Cover Stacking Fix
+
+### Fix
+
+- Added `.project-entry > .project-entry__cover { position: relative; z-index: 2; }` inside the existing `@media (max-width: 56.24rem)` block so mobile cover labels paint above the static spread.
+- Added a static assertion that the narrow media block contains the cover stacking rule.
+- Preserved desktop behavior, the mobile gutter hide, and native details markup.
+
+### Verification
+
+- `node --test tests/*.test.mjs`: passed, 24 tests, 0 failures.
+- `git diff --check`: passed with no whitespace errors.

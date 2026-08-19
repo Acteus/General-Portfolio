@@ -1547,6 +1547,7 @@ body::before {
 @media (max-width: 56.24rem) {
     .project-notebook__workspace { min-height: 0; }
     .project-entry { margin-bottom: 1.25rem; }
+    .project-entry > .project-entry__cover { position: relative; z-index: 2; }
     .project-entry__cover { width: 100%; }
     .project-entry__spread {
         position: static;
