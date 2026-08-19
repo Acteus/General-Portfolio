@@ -7,6 +7,20 @@ const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const js = readFileSync(new URL('../js/main.js', import.meta.url), 'utf8');
 const journalJs = readFileSync(new URL('../js/journal-flip.js', import.meta.url), 'utf8');
 
+function mediaBlock(source, query) {
+  const marker = `@media (${query})`;
+  const start = source.indexOf(marker);
+  assert.notEqual(start, -1, `missing ${marker}`);
+  const open = source.indexOf('{', start);
+  let depth = 0;
+  for (let index = open; index < source.length; index += 1) {
+    if (source[index] === '{') depth += 1;
+    if (source[index] === '}') depth -= 1;
+    if (depth === 0) return source.slice(open + 1, index);
+  }
+  assert.fail(`unterminated ${marker}`);
+}
+
 test('uses panels for reading content and no liquid cursor effect', () => {
   assert.match(html, /class="skill-card panel cloud-priority"/);
   assert.match(html, /class="project-card panel/);
@@ -157,8 +171,10 @@ test('cancels journal motion before hiding light content', () => {
 });
 
 test('defines explicit journal accessibility preference fallbacks', () => {
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.project-journal__turn-layer\s*\{\s*display:\s*none/);
-  assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.project-journal__leaf-face/);
-  assert.match(css, /@media \(prefers-contrast: more\)[\s\S]*?\.project-journal__leaf-face/);
-  assert.match(css, /@media \(max-width: 56\.24rem\)[\s\S]*?\.project-journal__turn-layer\s*\{\s*display:\s*none/);
+  assert.match(mediaBlock(css, 'prefers-reduced-motion: reduce'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
+  const reducedTransparency = mediaBlock(css, 'prefers-reduced-transparency: reduce');
+  assert.match(reducedTransparency, /\.project-journal__leaf-face\s*\{[\s\S]*?opacity:\s*1\s*!important[\s\S]*?background:\s*var\(--paper\)/);
+  assert.match(reducedTransparency, /\.project-entry__spread::before\s*\{[\s\S]*?filter:\s*none/);
+  assert.match(mediaBlock(css, 'prefers-contrast: more'), /\.project-journal__leaf-face\s*\{/);
+  assert.match(mediaBlock(css, 'max-width: 56.24rem'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
 });
