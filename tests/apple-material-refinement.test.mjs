@@ -118,3 +118,19 @@ test('replaces the light hero illustration with a current-focus field note', () 
   assert.match(css, /@media \(max-width: 768px\)[\s\S]*?\.hero-field-note\s*\{\s*display:\s*none/);
   assert.doesNotMatch(css, /linear-gradient\(#c5e0d7/);
 });
+
+test('authors one persistent decorative journal turn layer', () => {
+  assert.equal((html.match(/class="project-notebook__workspace"/g) || []).length, 1);
+  assert.equal((html.match(/class="project-journal__turn-layer" aria-hidden="true"/g) || []).length, 1);
+  assert.match(html, /project-notebook__workspace[\s\S]*?project-notebook__index[\s\S]*?project-journal__turn-layer/);
+});
+
+test('styles the open spread as a bound stationary journal', () => {
+  assert.match(css, /--journal-binding:\s*#6d5039/i);
+  assert.match(css, /--journal-gutter:\s*rgba\(74, 48, 31, 0\.22\)/i);
+  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?position:\s*relative[\s\S]*?min-height:\s*42rem/);
+  assert.match(css, /\.project-entry__spread::before\s*\{[\s\S]*?journal-gutter/);
+  assert.match(css, /\.project-entry__spread::after\s*\{[\s\S]*?journal-page-depth/);
+  assert.match(css, /\.project-page--story\s*\{[\s\S]*?linear-gradient/);
+  assert.match(css, /\.project-page--technical\s*\{[\s\S]*?linear-gradient/);
+});
