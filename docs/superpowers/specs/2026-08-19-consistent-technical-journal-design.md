@@ -110,9 +110,15 @@ Project-specific differences belong in authored HTML content and modifier classe
 
 ## Interaction and Motion
 
-The existing project-selection and single-leaf animation contracts remain unchanged. The fixed desktop height removes layout movement before, during, and after a turn. The temporary leaf must inherit the same shared height as the stationary spread.
+The page transition uses a locked-spread physical turn. The fixed `50rem` desktop height is established before a project can be selected and remains unchanged before, during, and after the animation. The stationary pages, gutter, index, and surrounding section do not animate their size or position.
 
-Rapid selection, hash updates, keyboard behavior, reduced motion, reduced transparency, increased contrast, and theme-switch cancellation retain their current behavior.
+Only the inert temporary leaf animates. It inherits the stationary spread height and uses compositor-friendly `transform` motion over `640ms` with `cubic-bezier(0.22, 0.78, 0.18, 1)` easing. The leaf rotates from `0deg` through the physical edge near `90deg` to `180deg`; its shadow changes with the turn to communicate depth, but the leaf remains opaque.
+
+The outgoing project remains authoritative during the first half. At exactly 50%, while the leaf visually covers the spread, the controller commits the destination project and updates the hash. The second half reveals the already-sized destination pages. There is no content crossfade and no animated container-height interpolation.
+
+If the decorative animation cannot start or complete, the controller removes partial turn state and commits the requested project immediately. The existing latest-selection-wins contract remains: rapid selection cancels the obsolete turn without leaving a leaf or changing the journal footprint.
+
+Keyboard behavior, reduced transparency, increased contrast, and theme-switch cancellation retain their current behavior. Reduced-motion mode skips the decorative turn and commits the project immediately.
 
 ## Accessibility
 
@@ -137,11 +143,14 @@ Automated and browser checks must verify:
 1. All three desktop project spreads have the same computed height.
 2. Every desktop page satisfies `scrollHeight <= clientHeight`; no copy, diagram, tag, or source content is clipped.
 3. The turn layer and temporary leaf match the stationary spread height.
-4. The architecture overview and details regions exist for every note and do not introduce facts absent from the authored portfolio.
-5. Project switching does not move the book’s top or bottom edge.
-6. The current rapid-selection, deep-link, keyboard, theme, and preference tests continue to pass.
-7. At `768px` and `375px`, pages use natural height, diagrams remain legible, and there is no horizontal overflow.
-8. Public repository links and the private-status alternative occupy the same source region and remain accessible.
+4. During a desktop turn, the spread’s top and bottom coordinates remain unchanged at the start, midpoint, and finish.
+5. The destination project and hash commit at the 50% midpoint while exactly one inert leaf exists; the leaf is removed at completion.
+6. The leaf uses transform-only geometry, remains opaque, and does not trigger container-height animation or content crossfading.
+7. The architecture overview and details regions exist for every note and do not introduce facts absent from the authored portfolio.
+8. Rapid current→destination→current selection leaves the latest project open, one entry expanded, and no stale leaf or turning class.
+9. Deep-link, keyboard, theme, reduced-motion, reduced-transparency, and increased-contrast tests continue to pass.
+10. At `768px` and `375px`, pages use natural height, diagrams remain legible, and there is no horizontal overflow.
+11. Public repository links and the private-status alternative occupy the same source region and remain accessible.
 
 ## Non-Goals
 
@@ -150,4 +159,5 @@ Automated and browser checks must verify:
 - Adding invented infrastructure, metrics, or private system details.
 - Adding a literal handwriting font or applying mono typography to narrative copy.
 - Creating animated architecture diagrams.
+- Crossfading page content or animating the journal container height.
 - Adding internal page scrolling, pagination, or “read more” controls.
