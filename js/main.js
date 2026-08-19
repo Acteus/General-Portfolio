@@ -37,24 +37,18 @@ syncThemeContent(initialTheme);
 updateThemeIcon(initialTheme);
 
 function enhanceProjectNotebook(root) {
-    const entries = root.querySelectorAll('.project-entry');
-
-    entries.forEach(entry => {
-        entry.addEventListener('toggle', () => {
-            if (!entry.open) return;
-            history.replaceState(null, '', `#${entry.id}`);
-        });
+    return window.PortfolioJournal.createJournalFlipController(root, {
+        motionMedia: reducedMotion,
+        getTheme: () => html.getAttribute('data-theme'),
+        history: window.history,
+        location: window.location,
     });
-
-    if (!location.hash.startsWith('#note-')) return;
-    const linkedEntry = document.getElementById(location.hash.slice(1));
-    if (root.contains(linkedEntry) && linkedEntry instanceof HTMLDetailsElement) {
-        linkedEntry.open = true;
-    }
 }
 
 const projectNotebook = document.querySelector('.project-notebook');
-if (projectNotebook) enhanceProjectNotebook(projectNotebook);
+const projectJournalController = projectNotebook
+    ? enhanceProjectNotebook(projectNotebook)
+    : null;
 
 themeToggle.addEventListener('click', () => {
     const current = html.getAttribute('data-theme');

@@ -1338,6 +1338,90 @@ body::before {
     box-shadow: 0 0.62rem 1rem var(--journal-page-depth);
 }
 
+.project-journal__turn-layer {
+    position: absolute;
+    z-index: 8;
+    top: 0;
+    right: 0;
+    width: 68%;
+    pointer-events: none;
+    perspective: 110rem;
+    transform-style: preserve-3d;
+}
+
+.project-journal__leaf {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+.project-journal__turn-layer[data-direction="forward"] .project-journal__leaf {
+    left: 50%;
+    transform-origin: left center;
+}
+
+.project-journal__turn-layer[data-direction="backward"] .project-journal__leaf {
+    left: 0;
+    transform-origin: right center;
+}
+
+.project-journal__leaf-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.5rem, 3vw, 2.45rem);
+    overflow: hidden;
+    border: 1px solid var(--paper-edge);
+    background: var(--paper);
+    box-shadow: 0.85rem 0.7rem 1.5rem var(--journal-turn-shadow);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.project-journal__leaf-face--front {
+    border-radius: 0 1.05rem 1.25rem 0;
+    background:
+        linear-gradient(90deg, var(--journal-page-depth), transparent 28%),
+        var(--paper);
+}
+
+.project-journal__leaf-face--back {
+    border-radius: 1.05rem 0 0 1.25rem;
+    background:
+        linear-gradient(90deg, var(--journal-page-highlight), transparent 72%, var(--journal-page-depth)),
+        var(--paper);
+    transform: rotateY(180deg);
+}
+
+.project-journal__leaf-heading {
+    color: var(--clr-text);
+    font-family: var(--font-serif);
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.project-journal__leaf-rule {
+    width: 2.5rem;
+    height: 1px;
+    margin: 1rem 0 1.35rem;
+    background: var(--desk-sage);
+}
+
+.project-journal__leaf-line {
+    width: 100%;
+    height: 0.42rem;
+    margin-bottom: 0.75rem;
+    border-radius: 999px;
+    background: var(--paper-line);
+}
+
+.project-journal__leaf-line--short { width: 68%; }
+
 .project-page {
     position: relative;
     min-width: 0;

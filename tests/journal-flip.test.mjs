@@ -40,3 +40,8 @@ test('maps the moving leaf faces to the pages they physically reveal', () => {
     backRole: 'technical',
   });
 });
+
+test('exports the controller factory without requiring a browser DOM', () => {
+  const { createJournalFlipController } = require('../js/journal-flip.js');
+  assert.equal(typeof createJournalFlipController, 'function');
+});

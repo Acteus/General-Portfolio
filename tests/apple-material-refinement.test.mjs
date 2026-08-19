@@ -5,6 +5,7 @@ import test from 'node:test';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const js = readFileSync(new URL('../js/main.js', import.meta.url), 'utf8');
+const journalJs = readFileSync(new URL('../js/journal-flip.js', import.meta.url), 'utf8');
 
 test('uses panels for reading content and no liquid cursor effect', () => {
   assert.match(html, /class="skill-card panel cloud-priority"/);
@@ -87,10 +88,25 @@ test('defines accessible light notebook materials and optional enhancement', () 
 });
 
 test('deep-links notebook entries without competing with generic hash scrolling', () => {
-  assert.match(js, /entry\.addEventListener\('toggle', \(\) => \{[\s\S]*?history\.replaceState\(null, '', `#\$\{entry\.id\}`\);/);
-  assert.match(js, /if \(!location\.hash\.startsWith\('#note-'\)\) return;/);
-  assert.match(js, /linkedEntry instanceof HTMLDetailsElement/);
+  assert.match(journalJs, /entry\.addEventListener\('toggle', toggleHandler\)/);
+  assert.match(journalJs, /locationRef\.hash\?\.startsWith\('#note-'\)/);
+  assert.match(journalJs, /commitEntry\(linkedEntry, \{ updateHash: false \}\)/);
   assert.match(js, /const hash = this\.getAttribute\('href'\);\s*if \(hash\.startsWith\('#note-'\)\) return;/);
+});
+
+test('loads the journal controller before the main initializer', () => {
+  assert.match(html, /<script src="js\/journal-flip\.js"><\/script>\s*<script src="js\/main\.js"><\/script>/);
+  assert.match(js, /PortfolioJournal\.createJournalFlipController/);
+  assert.match(journalJs, /function createJournalFlipController\(root, options = \{\}\)/);
+});
+
+test('creates only an inert temporary leaf and cleans every exit path', () => {
+  assert.match(journalJs, /leaf\.setAttribute\('aria-hidden', 'true'\)/);
+  assert.match(journalJs, /leaf\.animate\(/);
+  assert.match(journalJs, /clearActiveFlip/);
+  assert.match(journalJs, /leaf\.remove\(\)/);
+  assert.doesNotMatch(journalJs, /cloneNode\(true\)/);
+  assert.doesNotMatch(journalJs, /innerHTML\s*=/);
 });
 
 test('lays out the light notebook as an accessible responsive desk spread', () => {
