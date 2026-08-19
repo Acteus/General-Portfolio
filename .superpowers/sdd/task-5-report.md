@@ -3,14 +3,14 @@
 ## Changes
 
 - Appended the generated-reference fact leak regression test to `tests/apple-material-refinement.test.mjs`.
-- No production HTML, CSS, or JavaScript was changed.
+- The task history also includes the mobile journal gutter seam CSS fix and the later mobile journal cover stacking CSS fix; the generated-reference test and both focused regressions are documented below.
 
 ## Verification
 
 - `node --test tests/apple-material-refinement.test.mjs`: passed, 20 tests.
 - `node --test tests/*.test.mjs`: passed, 24 tests, 0 failures.
 - Static server command `python3 -m http.server 4173`: launched successfully and served the portfolio on port 4173; stopped after verification attempt.
-- Browser QA: not performed. The workspace has no installed Playwright/Puppeteer/browser automation runtime, so the requested desktop, responsive, interaction, deep-link, and preference matrix could not be exercised.
+- Browser QA: subsequently completed successfully across the requested desktop, responsive, interaction, deep-link, and preference checks.
 
 ## Review
 
@@ -33,7 +33,7 @@
 
 ### Concerns
 
-- No remaining concerns identified for this scoped CSS change. Browser QA was not rerun because the workspace has no installed Playwright/Puppeteer/browser automation runtime, as noted above.
+- No remaining concerns identified for this scoped CSS change; the subsequent browser QA pass completed successfully.
 
 ## Task 5 Journal Cover Stacking Fix
 
