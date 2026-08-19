@@ -53,6 +53,7 @@ const projectJournalController = projectNotebook
 themeToggle.addEventListener('click', () => {
     const current = html.getAttribute('data-theme');
     const next    = current === 'dark' ? 'light' : 'dark';
+    if (next === 'dark') projectJournalController?.cancelForEnvironmentChange();
     html.setAttribute('data-theme', next);
     syncThemeContent(next);
     localStorage.setItem('portfolio-theme', next);

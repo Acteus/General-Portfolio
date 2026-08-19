@@ -1790,6 +1790,7 @@ body::before {
         transform: none;
     }
     .hero-particles { display: none; }
+    .project-journal__turn-layer { display: none; }
     .project-entry__cover,
     .project-entry[open] > .project-entry__cover,
     .project-entry__cover:active {
@@ -1818,6 +1819,13 @@ body::before {
     .project-entry__cover,
     .project-entry__spread { background: var(--paper); }
 
+    .project-journal__leaf-face {
+        opacity: 1 !important;
+        background: var(--paper);
+    }
+
+    .project-entry__spread::before { filter: none; }
+
     [data-theme="light"] .hero-section.cafe-workspace {
         background: var(--hero-paper);
     }
@@ -1838,6 +1846,13 @@ body::before {
 
     .project-entry__cover,
     .project-entry__spread { border-color: var(--clr-text); }
+
+    .project-journal__leaf-face {
+        border-color: var(--clr-text);
+        box-shadow: 0 0 0 1px var(--clr-text);
+    }
+
+    .project-entry__spread::before { opacity: 1; }
 }
 
 /* ── Text Reveal & View Transition animations ── */

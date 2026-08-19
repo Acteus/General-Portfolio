@@ -150,3 +150,15 @@ test('styles the open spread as a bound stationary journal', () => {
   assert.match(css, /\.project-page--story\s*\{[\s\S]*?linear-gradient/);
   assert.match(css, /\.project-page--technical\s*\{[\s\S]*?linear-gradient/);
 });
+
+test('cancels journal motion before hiding light content', () => {
+  assert.match(js, /if \(next === 'dark'\) projectJournalController\?\.cancelForEnvironmentChange\(\)/);
+  assert.match(js, /cancelForEnvironmentChange\(\);[\s\S]*?html\.setAttribute\('data-theme', next\)/);
+});
+
+test('defines explicit journal accessibility preference fallbacks', () => {
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.project-journal__turn-layer\s*\{\s*display:\s*none/);
+  assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.project-journal__leaf-face/);
+  assert.match(css, /@media \(prefers-contrast: more\)[\s\S]*?\.project-journal__leaf-face/);
+  assert.match(css, /@media \(max-width: 56\.24rem\)[\s\S]*?\.project-journal__turn-layer\s*\{\s*display:\s*none/);
+});
