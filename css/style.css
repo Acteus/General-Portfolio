@@ -1561,6 +1561,7 @@ body::before {
     [data-theme="light"] #projects::after { display: none; }
 
     .project-entry__spread { grid-template-columns: 1fr; }
+    .project-entry__spread::before { display: none; }
     .project-page + .project-page { border-top: 1px solid var(--paper-line); }
     .project-entry__cover,
     .project-page > summary { min-height: 44px; }

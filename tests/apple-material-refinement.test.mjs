@@ -131,7 +131,9 @@ test('lays out the light notebook as an accessible responsive desk spread', () =
   assert.match(css, /\[data-theme="light"\]\s*#projects::before/);
   assert.match(css, /\[data-theme="light"\]\s*#projects::after/);
   assert.match(css, /@media \(max-width: 56\.24rem\)[\s\S]*?\.project-entry__spread\s*\{[\s\S]*?position:\s*static/);
-  assert.match(css, /@media \(max-width: 40rem\)[\s\S]*?\.project-entry__spread\s*\{\s*grid-template-columns:\s*1fr/);
+  const narrowNotebook = mediaBlock(css, 'max-width: 40rem');
+  assert.match(narrowNotebook, /\.project-entry__spread\s*\{\s*grid-template-columns:\s*1fr/);
+  assert.match(narrowNotebook, /\.project-entry__spread::before\s*\{\s*display:\s*none/);
   assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.project-entry__spread/);
   assert.match(css, /@media \(prefers-contrast: more\)[\s\S]*?\.project-entry__spread/);
 });
