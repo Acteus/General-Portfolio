@@ -21,6 +21,16 @@ function mediaBlock(source, query) {
   assert.fail(`unterminated ${marker}`);
 }
 
+function cssRuleBlock(source, selector) {
+  const marker = `${selector} {`;
+  const start = source.indexOf(marker);
+  assert.notEqual(start, -1, `missing ${selector}`);
+  const open = source.indexOf('{', start);
+  const close = source.indexOf('}', open);
+  assert.notEqual(close, -1, `unterminated ${selector}`);
+  return source.slice(open + 1, close);
+}
+
 test('uses panels for reading content and no liquid cursor effect', () => {
   assert.match(html, /class="skill-card panel cloud-priority"/);
   assert.match(html, /class="project-card panel/);
@@ -114,12 +124,13 @@ test('loads the journal controller before the main initializer', () => {
   assert.match(journalJs, /function createJournalFlipController\(root, options = \{\}\)/);
 });
 
-test('creates only an inert temporary leaf and cleans every exit path', () => {
+test('creates an inert temporary leaf from real page content and cleans every exit path', () => {
   assert.match(journalJs, /leaf\.setAttribute\('aria-hidden', 'true'\)/);
+  assert.match(journalJs, /leaf\.setAttribute\('inert', ''\)/);
   assert.match(journalJs, /leaf\.animate\(/);
   assert.match(journalJs, /clearActiveFlip/);
   assert.match(journalJs, /leaf\.remove\(\)/);
-  assert.doesNotMatch(journalJs, /cloneNode\(true\)/);
+  assert.match(journalJs, /sourcePage\.cloneNode\(true\)/);
   assert.doesNotMatch(journalJs, /innerHTML\s*=/);
 });
 
@@ -162,7 +173,7 @@ test('authors one persistent decorative journal turn layer', () => {
 test('styles the open spread as a bound stationary journal', () => {
   assert.match(css, /--journal-binding:\s*#6d5039/i);
   assert.match(css, /--journal-gutter:\s*rgba\(74, 48, 31, 0\.22\)/i);
-  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?position:\s*relative[\s\S]*?min-height:\s*42rem/);
+  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?position:\s*relative[\s\S]*?min-height:\s*calc\(var\(--journal-spread-height\) \+ 7\.5rem\)/);
   assert.match(css, /\.project-entry__spread::before\s*\{[\s\S]*?journal-gutter/);
   assert.match(css, /\.project-entry__spread::after\s*\{[\s\S]*?journal-page-depth/);
   assert.match(css, /\.project-page--story\s*\{[\s\S]*?linear-gradient/);
@@ -179,11 +190,14 @@ test('defines explicit journal accessibility preference fallbacks', () => {
   const reducedTransparency = mediaBlock(css, 'prefers-reduced-transparency: reduce');
   assert.match(reducedTransparency, /\.project-journal__leaf-face\s*\{[\s\S]*?opacity:\s*1\s*!important[\s\S]*?background:\s*var\(--paper\)/);
   assert.match(reducedTransparency, /\.project-journal__leaf\s*\{[\s\S]*?opacity:\s*1\s*!important/);
+  assert.match(reducedTransparency, /\.project-architecture__node[\s\S]*?background:\s*var\(--paper\)/);
   assert.match(reducedTransparency, /\.project-entry__spread::before\s*\{[\s\S]*?filter:\s*none/);
   const increasedContrast = mediaBlock(css, 'prefers-contrast: more');
   assert.match(increasedContrast, /\.project-entry\[open\]\s*>\s*\.project-entry__cover\s*\{[\s\S]*?box-shadow:[\s\S]*?var\(--clr-text\)/);
   assert.match(increasedContrast, /\.project-entry__cover:focus-visible[\s\S]*?\.project-page\s*>\s*summary:focus-visible[\s\S]*?outline-color:\s*var\(--clr-text\)/);
   assert.match(increasedContrast, /\.project-page__content[\s\S]*?\.project-role\s*\{[\s\S]*?color:\s*var\(--clr-text\)/);
+  assert.match(increasedContrast, /\.project-architecture__node[\s\S]*?border-color:\s*var\(--clr-text\)/);
+  assert.match(increasedContrast, /\.project-technical-label[\s\S]*?color:\s*var\(--clr-text\)/);
   assert.match(increasedContrast, /\.project-journal__leaf-face\s*\{/);
   assert.match(mediaBlock(css, 'max-width: 56.24rem'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
 });
@@ -203,4 +217,74 @@ test('does not leak fictional visual-reference facts into shipped source', () =>
   fictionalTerms.forEach(term => {
     assert.equal(shippedSource.includes(term), false, `${term} must remain visual-reference-only`);
   });
+});
+
+test('authors a consistent semantic technical page for every journal note', () => {
+  assert.equal((html.match(/<figure class="project-architecture/g) || []).length, 3);
+  assert.equal((html.match(/<dl class="project-details">/g) || []).length, 3);
+  assert.equal((html.match(/class="project-source(?:\s|\")/g) || []).length, 3);
+  assert.equal((html.match(/class="project-technical-label"/g) || []).length >= 9, true);
+
+  assert.match(html, /GitHub Actions[\s\S]*?Azure Static Web Apps[\s\S]*?Azure Container Apps[\s\S]*?MySQL/);
+  assert.match(html, /JRU Atlas[\s\S]*?Laravel[\s\S]*?2 background workers[\s\S]*?FastAPI NLP/);
+  assert.match(html, /LaborWise[\s\S]*?ACR[\s\S]*?Container Apps[\s\S]*?Log Analytics/);
+  assert.match(html, /GitHub event[\s\S]*?Caddy HTTPS[\s\S]*?Podman bot[\s\S]*?Discord/);
+
+  assert.match(html, /Private case study · architecture sanitized/);
+  assert.equal((html.match(/View public repository/g) || []).length, 2);
+  assert.doesNotMatch(html, /<table[\s>]/);
+});
+
+test('locks every desktop journal spread to one shared height and releases it on narrow screens', () => {
+  assert.match(css, /--journal-spread-height:\s*42rem/);
+  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?min-height:\s*calc\(var\(--journal-spread-height\) \+ 7\.5rem\)/);
+  assert.match(css, /\.project-entry__spread\s*\{[\s\S]*?height:\s*var\(--journal-spread-height\)/);
+  assert.match(css, /\.project-page\s*\{[\s\S]*?height:\s*100%[\s\S]*?grid-template-rows:\s*auto minmax\(0, 1fr\)/);
+  assert.match(css, /\.project-page--story \.project-page__content\s*\{[\s\S]*?grid-template-rows:\s*minmax\(0, 15rem\) auto/);
+  assert.match(css, /\.project-page__content--technical\s*\{[\s\S]*?grid-template-rows:\s*auto auto auto auto minmax\(0, 1fr\)/);
+  assert.match(css, /\.project-source\s*\{[\s\S]*?align-self:\s*end/);
+
+  const narrow = mediaBlock(css, 'max-width: 56.24rem');
+  assert.match(narrow, /\.project-entry__spread\s*\{[\s\S]*?height:\s*auto/);
+  assert.match(narrow, /\.project-page\s*\{[\s\S]*?height:\s*auto/);
+});
+
+test('uses a wide landscape journal with horizontal note selectors', () => {
+  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?min-height:\s*calc\(var\(--journal-spread-height\) \+ 7\.5rem\)/);
+  assert.match(css, /\.project-notebook__index\s*\{[\s\S]*?display:\s*grid[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/);
+  assert.match(css, /\.project-entry__cover\s*\{[\s\S]*?width:\s*100%[\s\S]*?min-height:\s*6\.5rem/);
+  assert.match(css, /\.project-entry__spread\s*\{[\s\S]*?top:\s*7\.5rem[\s\S]*?left:\s*0[\s\S]*?width:\s*100%/);
+  assert.match(css, /\.project-journal__turn-layer\s*\{[\s\S]*?top:\s*7\.5rem[\s\S]*?left:\s*0[\s\S]*?width:\s*100%/);
+
+  const narrow = mediaBlock(css, 'max-width: 56.24rem');
+  assert.match(narrow, /\.project-notebook__index\s*\{\s*display:\s*block/);
+});
+
+test('uses a consistent soft-edged type hierarchy throughout the journal', () => {
+  assert.match(cssRuleBlock(css, '.project-entry__cover'), /font-family:\s*var\(--font-sans\)/);
+  assert.match(cssRuleBlock(css, '.project-entry__cover strong'), /font-family:\s*var\(--font-sans\)/);
+  assert.match(cssRuleBlock(css, '.project-page > summary'), /font-family:\s*var\(--font-sans\)/);
+  assert.match(cssRuleBlock(css, '.project-page__content'), /font-family:\s*var\(--font-sans\)/);
+  assert.match(cssRuleBlock(css, '.project-entry__number'), /font-family:\s*var\(--font-mono\)/);
+  assert.match(cssRuleBlock(css, '.project-technical-label'), /font-family:\s*var\(--font-mono\)/);
+});
+
+test('renders real journal content on the moving paper instead of placeholder bars', () => {
+  assert.match(css, /\.project-journal__leaf-page\s*\{[\s\S]*?height:\s*100%/);
+  assert.doesNotMatch(css, /\.project-journal__leaf-line(?:\s|\{|--)/);
+  assert.doesNotMatch(css, /\.project-journal__leaf-rule\s*\{/);
+});
+
+test('uses a typed technical-journal system for diagrams and metadata', () => {
+  assert.match(css, /\.project-technical-label\s*\{[\s\S]*?font-family:\s*var\(--font-mono\)[\s\S]*?text-transform:\s*uppercase/);
+  assert.match(css, /\.project-architecture\s*\{[\s\S]*?border-top:\s*1px solid var\(--paper-line\)/);
+  assert.match(css, /\.project-architecture__flow\s*\{[\s\S]*?display:\s*flex/);
+  assert.match(css, /\.project-architecture__node\s*\{[\s\S]*?border:\s*1px solid var\(--paper-edge\)/);
+  assert.match(css, /\.project-architecture__boundary\s*\{[\s\S]*?border-style:\s*dashed/);
+  assert.match(css, /\.project-details\s*\{[\s\S]*?grid-template-columns:\s*max-content minmax\(0, 1fr\)/);
+  assert.match(css, /\.project-details dt\s*\{[\s\S]*?font-family:\s*var\(--font-mono\)/);
+
+  const mobile = mediaBlock(css, 'max-width: 40rem');
+  assert.match(mobile, /\.project-architecture__flow\s*\{[\s\S]*?grid-template-columns:\s*1fr/);
+  assert.match(mobile, /\.project-details\s*\{[\s\S]*?grid-template-columns:\s*1fr/);
 });

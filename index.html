@@ -363,20 +363,56 @@
                                     </details>
                                     <details class="project-page project-page--technical" open>
                                         <summary><strong>Under the hood</strong></summary>
-                                        <div class="project-page__content">
+                                        <div class="project-page__content project-page__content--technical">
                                             <p class="project-role">Cloud / DevOps Developer · 2025</p>
-                                            <ul class="project-architecture-list">
-                                                <li>Frontend and backend separated for independent delivery.</li>
-                                                <li>Containerized API deployed through GitHub Actions.</li>
-                                                <li>Azure Static Web Apps, Container Apps, and MySQL.</li>
-                                            </ul>
-                                            <div class="tech-tags">
-                                                <span class="tech-tag">Azure</span>
-                                                <span class="tech-tag">Docker</span>
-                                                <span class="tech-tag">GitHub Actions</span>
-                                                <span class="tech-tag">ARM Templates</span>
-                                            </div>
-                                            <a href="https://github.com/Acteus/JobBoard-DevOps-Project" target="_blank" rel="noopener noreferrer" class="project-notebook__link">View public repository</a>
+
+                                            <figure class="project-architecture project-architecture--jobboard"
+                                                aria-label="Architecture overview: GitHub Actions delivers the frontend to Azure Static Web Apps and the containerized API to Azure Container Apps, which uses MySQL.">
+                                                <figcaption class="project-technical-label">Architecture overview</figcaption>
+                                                <div class="project-architecture__lanes">
+                                                    <section class="project-architecture__lane" aria-label="Frontend delivery">
+                                                        <span class="project-architecture__lane-label">Frontend</span>
+                                                        <ol class="project-architecture__flow">
+                                                            <li class="project-architecture__node"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub Actions</span></li>
+                                                            <li class="project-architecture__node"><i class="fas fa-window-maximize" aria-hidden="true"></i><span>Azure Static Web Apps</span></li>
+                                                        </ol>
+                                                    </section>
+                                                    <section class="project-architecture__lane" aria-label="API runtime">
+                                                        <span class="project-architecture__lane-label">Backend</span>
+                                                        <ol class="project-architecture__flow">
+                                                            <li class="project-architecture__node"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub Actions</span></li>
+                                                            <li class="project-architecture__node project-architecture__boundary"><i class="fas fa-cube" aria-hidden="true"></i><span>Azure Container Apps</span></li>
+                                                            <li class="project-architecture__node"><i class="fas fa-database" aria-hidden="true"></i><span>MySQL</span></li>
+                                                        </ol>
+                                                    </section>
+                                                </div>
+                                            </figure>
+
+                                            <section aria-labelledby="jobboard-details-label">
+                                                <h3 class="project-technical-label" id="jobboard-details-label">Project details</h3>
+                                                <dl class="project-details">
+                                                    <dt>Project type</dt><dd>Full-stack job platform</dd>
+                                                    <dt>Role</dt><dd>Cloud / DevOps Developer</dd>
+                                                    <dt>Timeline</dt><dd>2025</dd>
+                                                    <dt>Deployment</dt><dd>Azure Static Web Apps + Container Apps</dd>
+                                                    <dt>Visibility</dt><dd>Public repository</dd>
+                                                </dl>
+                                            </section>
+
+                                            <section aria-labelledby="jobboard-tech-label">
+                                                <h3 class="project-technical-label" id="jobboard-tech-label">Technologies</h3>
+                                                <div class="tech-tags">
+                                                    <span class="tech-tag">Azure</span>
+                                                    <span class="tech-tag">Docker</span>
+                                                    <span class="tech-tag">GitHub Actions</span>
+                                                    <span class="tech-tag">ARM Templates</span>
+                                                </div>
+                                            </section>
+
+                                            <footer class="project-source">
+                                                <span class="project-technical-label">Source code</span>
+                                                <a href="https://github.com/Acteus/JobBoard-DevOps-Project" target="_blank" rel="noopener noreferrer" class="project-notebook__link">View public repository</a>
+                                            </footer>
                                         </div>
                                     </details>
                                 </div>
@@ -400,17 +436,59 @@
                                     </details>
                                     <details class="project-page project-page--technical" open>
                                         <summary><strong>Under the hood</strong></summary>
-                                        <div class="project-page__content project-page__content--split">
-                                            <section>
-                                                <h3>JRU Atlas</h3>
-                                                <p class="project-role">Cloud / Full-Stack Developer · 2026–Present</p>
-                                                <p>Private DigitalOcean thesis project using Laravel, two background workers, and a private FastAPI NLP service.</p>
+                                        <div class="project-page__content project-page__content--technical">
+                                            <p class="project-role">Cloud / Full-Stack &amp; Backend Developer · 2026–Present</p>
+
+                                            <figure class="project-architecture project-architecture--private"
+                                                aria-label="Sanitized architecture overview: JRU Atlas uses Laravel, background workers, and a private FastAPI NLP service. LaborWise uses ACR, Container Apps with managed identity, and Log Analytics.">
+                                                <figcaption class="project-technical-label">Architecture overview</figcaption>
+                                                <div class="project-architecture__lanes">
+                                                    <section class="project-architecture__lane" aria-label="JRU Atlas architecture">
+                                                        <span class="project-architecture__lane-label">JRU Atlas</span>
+                                                        <ol class="project-architecture__flow">
+                                                            <li class="project-architecture__node"><i class="fab fa-laravel" aria-hidden="true"></i><span>Laravel</span></li>
+                                                            <li class="project-architecture__node"><i class="fas fa-gears" aria-hidden="true"></i><span>2 background workers</span></li>
+                                                            <li class="project-architecture__node project-architecture__boundary"><i class="fas fa-language" aria-hidden="true"></i><span>FastAPI NLP</span></li>
+                                                        </ol>
+                                                    </section>
+                                                    <section class="project-architecture__lane" aria-label="LaborWise architecture">
+                                                        <span class="project-architecture__lane-label">LaborWise</span>
+                                                        <ol class="project-architecture__flow">
+                                                            <li class="project-architecture__node"><i class="fas fa-box" aria-hidden="true"></i><span>ACR</span></li>
+                                                            <li class="project-architecture__node project-architecture__boundary"><i class="fas fa-cubes" aria-hidden="true"></i><span>Container Apps<small>Managed identity</small></span></li>
+                                                            <li class="project-architecture__node"><i class="fas fa-chart-line" aria-hidden="true"></i><span>Log Analytics</span></li>
+                                                        </ol>
+                                                    </section>
+                                                </div>
+                                            </figure>
+
+                                            <section aria-labelledby="private-details-label">
+                                                <h3 class="project-technical-label" id="private-details-label">Project details</h3>
+                                                <dl class="project-details">
+                                                    <dt>Project type</dt><dd>Private systems in active development</dd>
+                                                    <dt>Role</dt><dd>Cloud / Full-Stack &amp; Backend Developer</dd>
+                                                    <dt>Timeline</dt><dd>2026–Present</dd>
+                                                    <dt>Deployment</dt><dd>DigitalOcean + Azure Container Apps</dd>
+                                                    <dt>Visibility</dt><dd>Private · architecture sanitized</dd>
+                                                </dl>
                                             </section>
-                                            <section>
-                                                <h3>LaborWise</h3>
-                                                <p class="project-role">Cloud / Backend Developer · 2026–Present</p>
-                                                <p>Private Azure service using Container Apps, ACR, managed identity, and Log Analytics.</p>
+
+                                            <section aria-labelledby="private-tech-label">
+                                                <h3 class="project-technical-label" id="private-tech-label">Technologies</h3>
+                                                <div class="tech-tags">
+                                                    <span class="tech-tag">Laravel</span>
+                                                    <span class="tech-tag">FastAPI</span>
+                                                    <span class="tech-tag">DigitalOcean</span>
+                                                    <span class="tech-tag">Azure</span>
+                                                    <span class="tech-tag">Container Apps</span>
+                                                    <span class="tech-tag">ACR</span>
+                                                </div>
                                             </section>
+
+                                            <footer class="project-source project-source--private">
+                                                <span class="project-technical-label">Source status</span>
+                                                <p><i class="fas fa-lock" aria-hidden="true"></i> Private case study · architecture sanitized</p>
+                                            </footer>
                                         </div>
                                     </details>
                                 </div>
@@ -434,14 +512,45 @@
                                     </details>
                                     <details class="project-page project-page--technical" open>
                                         <summary><strong>Under the hood</strong></summary>
-                                        <div class="project-page__content">
+                                        <div class="project-page__content project-page__content--technical">
                                             <p class="project-role">Cloud / Backend Developer · 2026–Present</p>
-                                            <ul class="project-architecture-list">
-                                                <li>Hosted on Oracle Cloud.</li>
-                                                <li>Containerized with Podman and supervised through Quadlet.</li>
-                                                <li>Exposed through a secure HTTPS gateway using Caddy.</li>
-                                            </ul>
-                                            <a href="https://github.com/Acteus/github-discord-bot" target="_blank" rel="noopener noreferrer" class="project-notebook__link">View public repository</a>
+
+                                            <figure class="project-architecture project-architecture--discord"
+                                                aria-label="Architecture overview: a GitHub event enters through a Caddy HTTPS gateway, reaches a Podman bot supervised by Quadlet on Oracle Cloud, and posts to Discord.">
+                                                <figcaption class="project-technical-label">Architecture overview</figcaption>
+                                                <ol class="project-architecture__flow">
+                                                    <li class="project-architecture__node"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub event</span></li>
+                                                    <li class="project-architecture__node"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Caddy HTTPS</span></li>
+                                                    <li class="project-architecture__node project-architecture__boundary"><i class="fas fa-box-open" aria-hidden="true"></i><span>Podman bot<small>Oracle Cloud · Quadlet</small></span></li>
+                                                    <li class="project-architecture__node"><i class="fab fa-discord" aria-hidden="true"></i><span>Discord</span></li>
+                                                </ol>
+                                            </figure>
+
+                                            <section aria-labelledby="discord-details-label">
+                                                <h3 class="project-technical-label" id="discord-details-label">Project details</h3>
+                                                <dl class="project-details">
+                                                    <dt>Project type</dt><dd>Discord app</dd>
+                                                    <dt>Role</dt><dd>Cloud / Backend Developer</dd>
+                                                    <dt>Timeline</dt><dd>2026–Present</dd>
+                                                    <dt>Deployment</dt><dd>Oracle Cloud · Podman + Quadlet</dd>
+                                                    <dt>Visibility</dt><dd>Public repository</dd>
+                                                </dl>
+                                            </section>
+
+                                            <section aria-labelledby="discord-tech-label">
+                                                <h3 class="project-technical-label" id="discord-tech-label">Technologies</h3>
+                                                <div class="tech-tags">
+                                                    <span class="tech-tag">Oracle Cloud</span>
+                                                    <span class="tech-tag">Podman</span>
+                                                    <span class="tech-tag">Quadlet</span>
+                                                    <span class="tech-tag">Caddy</span>
+                                                </div>
+                                            </section>
+
+                                            <footer class="project-source">
+                                                <span class="project-technical-label">Source code</span>
+                                                <a href="https://github.com/Acteus/github-discord-bot" target="_blank" rel="noopener noreferrer" class="project-notebook__link">View public repository</a>
+                                            </footer>
                                         </div>
                                     </details>
                                 </div>

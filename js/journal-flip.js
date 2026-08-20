@@ -3,7 +3,7 @@
 
     const DESKTOP_QUERY = '(min-width: 56.25rem)';
     const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-    const TURN_DURATION = 580;
+    const TURN_DURATION = 780;
 
     function getFlipDirection(fromIndex, toIndex) {
         if (toIndex === fromIndex) return 'none';
@@ -25,31 +25,23 @@
             : { frontRole: 'technical', backRole: 'story' };
     }
 
-    function pageLabel(entry, role) {
-        return entry.querySelector(`.project-page--${role} summary strong`)?.textContent.trim()
-            || (role === 'story' ? 'The story' : 'Under the hood');
+    function clonePage(entry, role) {
+        const sourcePage = entry.querySelector(`.project-page--${role}`);
+        if (!sourcePage) throw new Error(`missing ${role} journal page`);
+
+        const page = sourcePage.cloneNode(true);
+        page.classList.add('project-journal__leaf-page');
+        page.open = true;
+        page.setAttribute('open', '');
+        page.removeAttribute('id');
+        page.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+        return page;
     }
 
-    function makeFace(documentRef, className, label) {
+    function makeFace(documentRef, className, page) {
         const face = documentRef.createElement('div');
         face.className = className;
-
-        const heading = documentRef.createElement('span');
-        heading.className = 'project-journal__leaf-heading';
-        heading.textContent = label;
-        face.append(heading);
-
-        const rule = documentRef.createElement('span');
-        rule.className = 'project-journal__leaf-rule';
-        face.append(rule);
-
-        for (let index = 0; index < 6; index += 1) {
-            const line = documentRef.createElement('span');
-            line.className = 'project-journal__leaf-line';
-            if (index === 2 || index === 5) line.classList.add('project-journal__leaf-line--short');
-            face.append(line);
-        }
-
+        face.append(page);
         return face;
     }
 
@@ -58,9 +50,10 @@
         const leaf = documentRef.createElement('div');
         leaf.className = 'project-journal__leaf';
         leaf.setAttribute('aria-hidden', 'true');
+        leaf.setAttribute('inert', '');
         leaf.append(
-            makeFace(documentRef, 'project-journal__leaf-face project-journal__leaf-face--front', pageLabel(fromEntry, frontRole)),
-            makeFace(documentRef, 'project-journal__leaf-face project-journal__leaf-face--back', pageLabel(toEntry, backRole)),
+            makeFace(documentRef, 'project-journal__leaf-face project-journal__leaf-face--front', clonePage(fromEntry, frontRole)),
+            makeFace(documentRef, 'project-journal__leaf-face project-journal__leaf-face--back', clonePage(toEntry, backRole)),
         );
         return leaf;
     }
@@ -141,12 +134,15 @@
         }
 
         function turnKeyframes(direction) {
-            const midpoint = direction === 'forward' ? 'rotateY(-92deg)' : 'rotateY(92deg)';
-            const finish = direction === 'forward' ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+            const sign = direction === 'forward' ? -1 : 1;
             return [
-                { transform: 'rotateY(0deg)', opacity: 1 },
-                { transform: midpoint, opacity: 0.88, offset: 0.5 },
-                { transform: finish, opacity: 1 },
+                { transform: 'rotateY(0deg) translateZ(0)', offset: 0 },
+                { transform: `rotateY(${sign * 14}deg) translateZ(2px) skewY(${sign * 0.25}deg) scaleX(0.998)`, offset: 0.12 },
+                { transform: `rotateY(${sign * 48}deg) translateZ(6px) skewY(${sign * 0.65}deg) scaleX(0.99)`, offset: 0.32 },
+                { transform: `rotateY(${sign * 90}deg) translateZ(10px) skewY(${sign}deg) scaleX(0.98)`, offset: 0.5 },
+                { transform: `rotateY(${sign * 132}deg) translateZ(6px) skewY(${sign * 0.65}deg) scaleX(0.99)`, offset: 0.68 },
+                { transform: `rotateY(${sign * 166}deg) translateZ(2px) skewY(${sign * 0.25}deg) scaleX(0.998)`, offset: 0.88 },
+                { transform: `rotateY(${sign * 180}deg) translateZ(0)`, offset: 1 },
             ];
         }
 
@@ -178,7 +174,7 @@
 
                 animation = leaf.animate(turnKeyframes(direction), {
                     duration,
-                    easing: 'cubic-bezier(0.22, 0.76, 0.2, 1)',
+                    easing: 'cubic-bezier(0.42, 0, 0.16, 1)',
                     fill: 'forwards',
                 });
             } catch (error) {
@@ -249,8 +245,11 @@
         }
 
         function onCoverClick(entry, event) {
-            if (!canAnimateNow()) return;
             event.preventDefault();
+            if (!canAnimateNow()) {
+                requestSelection(entry);
+                return;
+            }
             if (entry === getActiveEntry() && !activeFlip && !pendingFrame && !requestedEntry) return;
             requestSelection(entry);
         }

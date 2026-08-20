@@ -8,6 +8,7 @@ const {
   getFlipDirection,
   getLeafFaces,
   shouldAnimateJournal,
+  TURN_DURATION,
 } = require('../js/journal-flip.js');
 
 class FakeEventTarget {
@@ -26,12 +27,14 @@ class FakeEventTarget {
   }
 
   dispatch(type, event = {}) {
-    this.listeners.get(type)?.forEach(handler => handler({
+    const dispatchedEvent = {
       preventDefault() { this.defaultPrevented = true; },
       ...event,
       type,
       target: this,
-    }));
+    };
+    this.listeners.get(type)?.forEach(handler => handler(dispatchedEvent));
+    return dispatchedEvent;
   }
 }
 
@@ -83,6 +86,16 @@ class FakeNode extends FakeEventTarget {
     this.attributes.delete(name);
   }
 
+  cloneNode(deep = false) {
+    const clone = new FakeNode(this.ownerDocument, this.className);
+    clone.textContent = this.textContent;
+    clone.open = this.open;
+    clone.id = this.id;
+    this.attributes.forEach((value, name) => clone.attributes.set(name, value));
+    if (deep) clone.append(...this.children.map(child => child.cloneNode(true)));
+    return clone;
+  }
+
   getBoundingClientRect() {
     return { height: 320 };
   }
@@ -90,6 +103,8 @@ class FakeNode extends FakeEventTarget {
   querySelector(selector) {
     if (selector === '.project-entry__spread') return this.spread || null;
     if (selector === ':scope > .project-entry__cover') return this.cover || null;
+    const pageSelectorMatch = selector.match(/^\.project-page--(story|technical)$/);
+    if (pageSelectorMatch) return this.pages?.[pageSelectorMatch[1]] || null;
     const pageMatch = selector.match(/^\.project-page--(story|technical) summary strong$/);
     if (pageMatch) return this.labels?.[pageMatch[1]] || null;
     return null;
@@ -114,11 +129,13 @@ function makeFakeJournal({
       createCount += 1;
       if (setupThrows && createCount > 1) throw new Error('leaf setup failed');
       const node = new FakeNode(documentRef);
-      node.animate = () => {
+      node.animate = (keyframes, options) => {
         if (animationThrows) throw new Error('animation failed');
         let resolveFinished;
         const finished = new Promise(resolve => { resolveFinished = resolve; });
         const animation = {
+          keyframes,
+          options,
           cancelCalls: 0,
           cancel() { this.cancelCalls += 1; },
           finished,
@@ -149,6 +166,16 @@ function makeFakeJournal({
     entry.labels = {
       story: Object.assign(new FakeNode(documentRef), { textContent: `Story ${index + 1}` }),
       technical: Object.assign(new FakeNode(documentRef), { textContent: `Technical ${index + 1}` }),
+    };
+    entry.pages = {
+      story: Object.assign(new FakeNode(documentRef, 'project-page project-page--story'), {
+        textContent: `Story content ${index + 1}`,
+        open: true,
+      }),
+      technical: Object.assign(new FakeNode(documentRef, 'project-page project-page--technical'), {
+        textContent: `Technical content ${index + 1}`,
+        open: true,
+      }),
     };
     entry.open = index === initialIndex;
     return entry;
@@ -212,7 +239,9 @@ function makeFakeJournal({
 }
 
 function clickCover(journal, index) {
-  journal.entries[index].cover.dispatch('click');
+  const entry = journal.entries[index];
+  const event = entry.cover.dispatch('click');
+  if (!event.defaultPrevented) entry.open = false;
 }
 
 function openIndex(journal) {
@@ -253,6 +282,24 @@ test('maps the moving leaf faces to the pages they physically reveal', () => {
     frontRole: 'story',
     backRole: 'technical',
   });
+});
+
+test('puts the already-rendered journal text on both sides of the turning leaf', () => {
+  const journal = makeFakeJournal();
+  clickCover(journal, 1);
+  journal.flushFrame();
+
+  const leaf = journal.layer.children[0];
+  const frontPage = leaf.children[0].children[0];
+  const backPage = leaf.children[1].children[0];
+
+  assert.equal(leaf.attributes.has('inert'), true);
+  assert.equal(frontPage.textContent, 'Technical content 1');
+  assert.equal(backPage.textContent, 'Story content 2');
+  assert.equal(frontPage.classList.contains('project-journal__leaf-page'), true);
+  assert.equal(backPage.classList.contains('project-journal__leaf-page'), true);
+  assert.equal(frontPage.open, true);
+  assert.equal(backPage.open, true);
 });
 
 test('exports the controller factory without requiring a browser DOM', () => {
@@ -363,4 +410,41 @@ test('commits immediately and leaves no partial state when setup or animation th
     assert.equal(journal.root.classList.contains('is-turning'), false);
     assertExactlyOneOpen(journal);
   }
+});
+
+test('uses a smooth opaque transform-only turn over the locked spread', () => {
+  const journal = makeFakeJournal();
+  clickCover(journal, 1);
+  journal.flushFrame();
+
+  const leaf = journal.layer.children[0];
+  assert.equal(TURN_DURATION, 780);
+  assert.equal(journal.layer.style.height, '320px');
+  assert.equal(leaf.animation.options.duration, 780);
+  assert.equal(leaf.animation.options.easing, 'cubic-bezier(0.42, 0, 0.16, 1)');
+  assert.equal(leaf.animation.options.fill, 'forwards');
+  assert.equal(leaf.animation.keyframes[0].transform, 'rotateY(0deg) translateZ(0)');
+  assert.equal(leaf.animation.keyframes.at(-1).transform, 'rotateY(-180deg) translateZ(0)');
+  assert.equal(leaf.animation.keyframes.some(frame => /-90deg/.test(frame.transform)), true);
+  assert.equal(leaf.animation.keyframes.some(frame => /skewY\(-1deg\)/.test(frame.transform)), true);
+  assert.equal(leaf.animation.keyframes.some(frame => /scaleX\(0\.98\)/.test(frame.transform)), true);
+  assert.equal(leaf.animation.keyframes.every(frame => !Object.hasOwn(frame, 'opacity')), true);
+  assert.equal(leaf.animation.keyframes.every(frame => Object.keys(frame).every(key => ['transform', 'offset'].includes(key))), true);
+});
+
+test('mirrors the smooth turn for backward navigation', () => {
+  const journal = makeFakeJournal({ initialIndex: 2 });
+  clickCover(journal, 0);
+  journal.flushFrame();
+  const frames = journal.layer.children[0].animation.keyframes;
+  assert.equal(frames.some(frame => /90deg/.test(frame.transform)), true);
+  assert.equal(frames.at(-1).transform, 'rotateY(180deg) translateZ(0)');
+});
+
+test('keeps the current entry open when responsive motion is disabled', () => {
+  const journal = makeFakeJournal();
+  journal.desktopMedia.matches = false;
+  clickCover(journal, 0);
+  assert.equal(openIndex(journal), 0);
+  assertExactlyOneOpen(journal);
 });
