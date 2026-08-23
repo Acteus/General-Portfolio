@@ -30,13 +30,13 @@ ASTRO_TELEMETRY_DISABLED=1 npm run build
 static build succeeded; 1 page generated
 
 ASTRO_TELEMETRY_DISABLED=1 npm run test
-16 Vitest unit tests passed; 42 legacy node tests passed
+17 Vitest unit tests passed; 42 legacy node tests passed
 
 node scripts/audit-project-archive-evidence.mjs
 passed
 
 npm run test:e2e -- parity responsive journal --project=chromium
-13 passed
+17 passed
 
 npm run test:e2e -- journal --project=chromium
 7 passed (including rapid A→B→Back, keyboard focus, theme cancellation, and direct-spread clone regressions)
