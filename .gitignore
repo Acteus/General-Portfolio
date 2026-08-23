@@ -37,6 +37,7 @@ build/
 *.tmp
 .temp/
 .superpowers/
+.worktrees/
 
 # Personal files (keep resume private if needed)
 # Resume.pdf
