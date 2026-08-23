@@ -1,0 +1,42 @@
+{
+  "name": "garren-dullas-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "22.x" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "npm run test:unit && npm run test:legacy",
+    "test:unit": "vitest run",
+    "test:legacy": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "verify": "npm run check && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@astrojs/react": "6.0.4",
+    "@fontsource-variable/fraunces": "latest",
+    "@fontsource/ibm-plex-mono": "latest",
+    "@fontsource/ibm-plex-sans": "latest",
+    "astro": "7.2.4",
+    "motion": "13.1.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@axe-core/playwright": "latest",
+    "@playwright/test": "1.62.1",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/node": "latest",
+    "jsdom": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}

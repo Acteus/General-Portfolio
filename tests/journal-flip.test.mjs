@@ -9,7 +9,7 @@ const {
   getLeafFaces,
   shouldAnimateJournal,
   TURN_DURATION,
-} = require('../js/journal-flip.js');
+} = require('../legacy/js/journal-flip.js');
 
 class FakeEventTarget {
   constructor() {

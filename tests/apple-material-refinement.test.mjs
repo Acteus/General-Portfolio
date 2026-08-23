@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
-const js = readFileSync(new URL('../js/main.js', import.meta.url), 'utf8');
-const journalJs = readFileSync(new URL('../js/journal-flip.js', import.meta.url), 'utf8');
+const html = readFileSync(new URL('../legacy/index.html', import.meta.url), 'utf8');
+const css = readFileSync(new URL('../legacy/css/style.css', import.meta.url), 'utf8');
+const js = readFileSync(new URL('../legacy/js/main.js', import.meta.url), 'utf8');
+const journalJs = readFileSync(new URL('../legacy/js/journal-flip.js', import.meta.url), 'utf8');
 
 function mediaBlock(source, query) {
   const marker = `@media (${query})`;
