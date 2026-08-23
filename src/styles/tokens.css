@@ -37,6 +37,8 @@
   --text-muted: #6A4B37;
   --verified: #53634C;
   --accent: #C57A3A;
+  --accent-text: #6A4B37;
+  --accent-foreground: #15191A;
   --shadow-rgb: 44 28 20;
   --error: #9E453F;
   --info: #46657A;
@@ -51,6 +53,8 @@
   --text-muted: #AFA797;
   --verified: #93A58B;
   --accent: #D18A46;
+  --accent-text: #D18A46;
+  --accent-foreground: #15191A;
   --shadow-rgb: 0 0 0;
   --error: #E79A92;
   --info: #8FB5CC;

@@ -9,6 +9,13 @@ for (const width of [375, 768, 1024, 1440]) {
   });
 }
 
+test('keeps the page within a zoom-equivalent narrow viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.goto('/?mode=journal');
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
+});
+
 test('uses native chapter disclosures on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('/?mode=journal');
