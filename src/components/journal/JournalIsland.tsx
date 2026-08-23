@@ -43,7 +43,6 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
   const animationRef = useRef<AnimationPlaybackControlsWithThen | null>(null);
   const leafRef = useRef<HTMLElement | null>(null);
   const requestRef = useRef(0);
-  const historyGuardRef = useRef(false);
   const keyboardRef = useRef(false);
 
   useEffect(() => {
@@ -101,7 +100,6 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
         url.searchParams.set('chapter', next.chapterId);
         url.searchParams.set('spread', String(next.spread + 1));
         window.history.pushState({}, '', url);
-        historyGuardRef.current = false;
       }
       if (focus) chapterRoot(next.chapterId)?.querySelector<HTMLElement>('h2, h3')?.focus({ preventScroll: true });
     }
@@ -120,12 +118,6 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       stateRef.current = cancelled;
       dispatch({ type: 'cancel', chapterId: committed.chapterId, spread: committed.spread });
       applyCommitted(committed);
-    }
-
-    function reserveCommittedHistory() {
-      if (historyGuardRef.current) return;
-      window.history.pushState({}, '', window.location.href);
-      historyGuardRef.current = true;
     }
 
     function transitionTo(chapterId: string, spread: number, push = true, keyboard = false) {
@@ -148,9 +140,6 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       const requested = journalReducer(current, { type: 'request', ...nextDestination, requestId, direction });
       stateRef.current = requested;
       dispatch({ type: 'request', ...nextDestination, requestId, direction });
-      if (push) {
-        reserveCommittedHistory();
-      }
 
       const desktop = window.matchMedia('(min-width: 48rem)').matches;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

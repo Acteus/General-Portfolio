@@ -39,7 +39,7 @@ npm run test:e2e -- parity responsive journal --project=chromium
 17 passed
 
 npm run test:e2e -- journal --project=chromium
-7 passed (including rapid A→B→Back, keyboard focus, theme cancellation, and direct-spread clone regressions)
+7 passed (including committed Back restoration through two destinations, keyboard focus, theme cancellation/history preservation, and direct-spread clone regressions)
 ```
 
 The local preview server required the approved local-listener escalation because sandbox binding returned `EPERM`; no external deployment or repository mutation occurred.
@@ -53,7 +53,7 @@ Follow-up review fix: `f1083ac` — `fix: close Task 4 journal review findings`
 ## Concerns / follow-up
 
 - Capture evidence remains blocked until the referenced redesign task reports reviewed implementation and green production build.
-- History reserves only a same-URL committed-state guard while a turn is pending; destination entries are pushed after commit. Rapid A→B→Back therefore restores the last committed state without A/B destination entries.
+- History has no pending-turn placeholder entries; `pushState` is called only by `commit` after the destination is applied. Back now walks through two committed destinations, while a canceled turn leaves history unchanged.
 - Requested turning state is assigned to the controller ref immediately; preference changes cancel that request, stop Motion, and remove the leaf before restoring the committed root. Destination headings use `tabindex="-1"` and receive focus only for keyboard navigation.
 - Direct spread turns clone the currently visible committed spread, and operations captions now distinguish indexing/outbox delivery from catalog deletion and owner recovery.
 - The pre-existing modified `docs/design-references/overhead-desk-project-notebook.png` was not touched.
