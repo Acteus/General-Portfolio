@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { projects } = Astro.props;
-const journalProjects = projects.filter((project) => ['project-archive', 'jobboard-devops', 'jru-atlas', 'laborwise', 'github-discord-bot'].includes(project.id));
+const journalProjects = projects.filter((project) => project.data.themeAvailability === 'both');
 ---
 
 <section class="mode-section journal-mode" data-mode="journal" aria-labelledby="journal-heading">

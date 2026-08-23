@@ -16,8 +16,8 @@ describe('project content', () => {
       if (!file.endsWith('.json')) continue;
       const data = JSON.parse(readFileSync(`src/data/projects/${file}`, 'utf8'));
       for (const link of data.links) expect(link.href).not.toContain('example.com');
-      if (['private', 'link-pending'].includes(data.status)) {
-        expect(data.links.filter((link: { kind: string }) => link.kind === 'live')).toHaveLength(0);
+      if (['private', 'in-progress', 'link-pending'].includes(data.status)) {
+        expect(data.links).toHaveLength(0);
       }
     }
   });

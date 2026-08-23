@@ -8,7 +8,7 @@
   "chapterType": "field-note",
   "themeAvailability": "both",
   "recruiterSummary": "An accreditation workspace for university programs, running on DigitalOcean with background workers and a private language-processing service.",
-  "story": ["The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.", "Responsible documentation can make private work understandable without making it exposed."],
+  "story": ["The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.", "What stayed with me: responsible documentation can make private work understandable without making it exposed."],
   "technicalNarrative": ["An accreditation workspace for university programs is running on DigitalOcean with background workers and a private language-processing service."],
   "technologies": ["DigitalOcean", "Laravel", "2 Workers", "FastAPI NLP"],
   "verifiedClaims": ["Private thesis project", "Background workers", "Private language-processing service"],

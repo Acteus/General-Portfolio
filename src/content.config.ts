@@ -53,6 +53,9 @@ const projects = defineCollection({
     if (project.links.some((link) => link.href.includes('example.com'))) {
       ctx.addIssue({ code: 'custom', path: ['links'], message: 'Unverified example links are forbidden.' });
     }
+    if (['private', 'in-progress', 'link-pending'].includes(project.status) && project.links.length > 0) {
+      ctx.addIssue({ code: 'custom', path: ['links'], message: 'Private, in-progress, and link-pending projects cannot publish links.' });
+    }
   }),
 });
 

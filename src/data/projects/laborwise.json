@@ -8,7 +8,7 @@
   "chapterType": "field-note",
   "themeAvailability": "both",
   "recruiterSummary": "A Philippine employment-rights service running on Azure, with a web API and scheduled legal-source updates.",
-  "story": ["The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.", "Responsible documentation can make private work understandable without making it exposed."],
+  "story": ["The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.", "What stayed with me: responsible documentation can make private work understandable without making it exposed."],
   "technicalNarrative": ["A Philippine employment-rights service is running on Azure with a web API and scheduled legal-source updates."],
   "technologies": ["Container Apps", "ACR", "Managed Identity", "Log Analytics"],
   "verifiedClaims": ["Private service", "Web API", "Scheduled legal-source updates"],

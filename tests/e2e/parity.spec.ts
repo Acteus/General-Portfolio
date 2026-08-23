@@ -13,3 +13,10 @@ test('keeps inactive project links truthful', async ({ page }) => {
   await expect(page.getByText('Link pending', { exact: true }).first()).toBeVisible();
   await expect(page.locator('a[href=""], a[href="#"]')).toHaveCount(0);
 });
+
+test('renders the complete collection and collection-driven journal set', async ({ page }) => {
+  await page.goto('/?mode=recruiter');
+  await expect(page.locator('.recruiter-project')).toHaveCount(13);
+  await page.goto('/?mode=journal');
+  await expect(page.locator('details[data-journal-chapter]')).toHaveCount(5);
+});

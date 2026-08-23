@@ -8,7 +8,7 @@
   "chapterType": "field-note",
   "themeAvailability": "both",
   "recruiterSummary": "A Discord app I developed to keep track of updates across my own, group, and friends’ projects, hosted on Oracle Cloud with a secure HTTPS gateway.",
-  "story": ["A small notification service became a practical exercise in keeping project updates visible while operating a hosted application."],
+  "story": ["Running a small service on Oracle Cloud made HTTPS, service supervision, recovery, and deployment part of the project itself.", "What stayed with me: a small service still deserves an operational plan."],
   "technicalNarrative": ["The Discord app is hosted on Oracle Cloud with a secure HTTPS gateway; the public repository documents the application and deployment details are being documented."],
   "technologies": ["Oracle Cloud", "Podman", "Quadlet", "Caddy"],
   "verifiedClaims": ["Hosted on Oracle Cloud", "Secure HTTPS gateway", "Tracks project updates"],
