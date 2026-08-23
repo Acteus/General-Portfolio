@@ -2,9 +2,10 @@
 interface Props {
   children?: any;
   label?: string;
+  status?: string;
 }
 
-const { children, label } = Astro.props;
+const { children, label, status } = Astro.props;
 ---
 
-<span class="status-label" role="status">{label ?? children}</span>
+<span class="status-label" data-status={status} role="status">{label ?? children}</span>

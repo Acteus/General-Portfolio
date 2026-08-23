@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { about, certifications, contact, education, site, skills } from '../../data/site';
+import SectionHeading from '../ui/SectionHeading.astro';
+import StatusLabel from '../ui/StatusLabel.astro';
 import RecruiterProject from './RecruiterProject.astro';
 
 type Project = CollectionEntry<'projects'>;
@@ -11,11 +13,13 @@ interface Props {
 const { projects } = Astro.props;
 ---
 
-<section class="mode-section recruiter-mode" data-mode="recruiter" aria-labelledby="recruiter-heading">
+<section class="mode-section recruiter-mode mode--recruiter" data-mode="recruiter" aria-labelledby="recruiter-heading">
   <header class="hero recruiter-hero" id="home">
     <p class="eyebrow">Cloud &amp; Platform Engineering</p>
     <h1 id="recruiter-heading">{site.name}</h1>
     <p class="hero__lede">I build and operate cloud-hosted backend systems: packaging services, automating deployments, and making the operational details visible across Azure, DigitalOcean, and Oracle Cloud.</p>
+    <div class="recruiter-hero__context"><StatusLabel status="public" label="Open to cloud and platform work" /><span class="recruiter-project__role">Azure · DigitalOcean · Oracle Cloud</span></div>
+    <ul class="recruiter-proof" aria-label="Verified engineering focus"><li>Cloud-hosted backend systems</li><li>Container delivery and deployment automation</li><li>Operational visibility and recovery</li></ul>
     <div class="hero__actions">
       <a class="button button--primary" href="#projects">View Projects</a>
       <a class="button" href={site.email}>Get in Touch</a>
@@ -25,7 +29,7 @@ const { projects } = Astro.props;
   </header>
 
   <section class="content-section" id="about" aria-labelledby="recruiter-about-heading">
-    <header class="section-heading"><p class="eyebrow">Who I am</p><h2 id="recruiter-about-heading">About</h2></header>
+    <SectionHeading eyebrow="Who I am" title="About" id="recruiter-about-heading" />
     <div class="about-layout">
       <div class="prose">{about.recruiter.map((paragraph) => <p>{paragraph}</p>)}</div>
       <dl class="facts">
@@ -37,21 +41,21 @@ const { projects } = Astro.props;
   </section>
 
   <section class="content-section" id="skills" aria-labelledby="recruiter-skills-heading">
-    <header class="section-heading"><p class="eyebrow">Focused toolkit</p><h2 id="recruiter-skills-heading">Skills</h2></header>
+    <SectionHeading eyebrow="Focused toolkit" title="Skills" id="recruiter-skills-heading" />
     <div class="cards-grid skills-grid">
       {skills.recruiter.map((skill) => <article class="info-card"><p class="eyebrow">{skill.tier}</p><h3>{skill.title}</h3><p>{skill.description}</p><ul class="tag-list">{skill.technologies.map((technology) => <li>{technology}</li>)}</ul></article>)}
     </div>
   </section>
 
   <section class="content-section" id="projects" aria-labelledby="recruiter-projects-heading">
-    <header class="section-heading"><p class="eyebrow">Systems I build and operate</p><h2 id="recruiter-projects-heading">Selected work</h2></header>
+    <SectionHeading eyebrow="Systems I build and operate" title="Selected work" id="recruiter-projects-heading" />
     <div class="cards-grid projects-grid">
       {projects.map((project) => <RecruiterProject project={project} />)}
     </div>
   </section>
 
   <section class="content-section contact-section" id="contact" aria-labelledby="recruiter-contact-heading">
-    <header class="section-heading"><p class="eyebrow">Get in touch</p><h2 id="recruiter-contact-heading">Contact</h2></header>
+    <SectionHeading eyebrow="Get in touch" title="Contact" id="recruiter-contact-heading" />
     <div class="contact-layout"><p>{contact.recruiter}</p><div class="hero__actions"><a class="button button--primary" href={site.email}>garrendullas@gmail.com</a><a class="button" href={site.github} target="_blank" rel="noopener noreferrer">@Acteus on GitHub</a><a class="button" href={site.resume} target="_blank" rel="noopener noreferrer">Resume</a></div></div>
   </section>
 </section>

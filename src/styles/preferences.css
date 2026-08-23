@@ -1,0 +1,14 @@
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .journal-turn-layer { display: none !important; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .journal-book, .evidence-artifact, .site-header { background: var(--surface) !important; backdrop-filter: none !important; }
+}
+
+@media (prefers-contrast: more) {
+  :focus-visible { outline: .2rem solid currentColor; outline-offset: .2rem; }
+  .journal-book, .evidence-artifact, .recruiter-project, [aria-current='true'] { border: .15rem solid currentColor; }
+  .status-label { color: var(--text); text-decoration: underline; text-underline-offset: .2em; }
+}
