@@ -9,6 +9,6 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 
 <PortfolioLayout>
   <!-- Garren Dullas portfolio composition -->
-  <RecruiterPortfolio projects={projects} />
   <JournalPortfolio projects={projects} />
+  <RecruiterPortfolio projects={projects} />
 </PortfolioLayout>

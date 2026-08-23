@@ -1,0 +1,42 @@
+---
+import EvidenceArtifact from '../artifacts/EvidenceArtifact.astro';
+import ArchitectureArtifact from '../artifacts/ArchitectureArtifact.astro';
+import OperationsTrail from '../artifacts/OperationsTrail.astro';
+import LiveProjectDoorway from '../artifacts/LiveProjectDoorway.astro';
+
+interface Props {
+  id: string;
+  question: string;
+  narrative: string[];
+  position: number;
+  total: number;
+  sourceCommit: string;
+  artifact: 'record' | 'architecture' | 'citations' | 'operations' | 'doorway';
+}
+
+const { id, question, narrative, position, total, sourceCommit, artifact } = Astro.props;
+const sourcePaths = {
+  record: ['apps/api/src/project_archive/services/chat.py'],
+  architecture: ['apps/api/src/project_archive/services/indexing.py', 'apps/api/src/project_archive/adapters/cosmos/outbox.py'],
+  citations: ['apps/api/src/project_archive/services/chat.py', 'apps/web/src/public/PublicApp.tsx'],
+  operations: ['apps/api/src/project_archive/services/catalog.py', 'apps/web/src/owner/OwnerApp.tsx', 'docs/stability-operations.md'],
+  doorway: ['docs/stability-operations.md', 'docs/superpowers/specs/2026-07-15-project-archive-chat-design.md'],
+} as const;
+---
+
+<section class="case-study-spread journal-spread" id={`spread-${id}`} data-case-study-spread={position - 1} aria-labelledby={`${id}-heading`}>
+  <div class="case-study-spread__header">
+    <p class="eyebrow">Spread {position} of {total}</p>
+    <span class="case-study-spread__commit">source commit {sourceCommit.slice(0, 12)}</span>
+  </div>
+  <h3 id={`${id}-heading`}>{question}</h3>
+  <div class="case-study-spread__narrative">{narrative.map((paragraph) => <p>{paragraph}</p>)}</div>
+  <div class="case-study-spread__artifact">
+    {artifact === 'record' ? <EvidenceArtifact label="Project record" value="A project question is kept beside its source path, so the explanation has a place to be checked." sourcePath={sourcePaths.record[0]} sourceCommit={sourceCommit} /> : null}
+    {artifact === 'architecture' ? <><ArchitectureArtifact label="Repository to evidence" steps={['Repository commit', 'Durable index', 'Cited answer']} sourcePaths={[...sourcePaths.architecture]} /><figure class="source-diagram"><img src="/assets/project-archive/source-to-index.svg" width="1200" height="420" loading="lazy" alt="Repository commit flows through durable indexing into a source receipt." /><figcaption>Source-to-index path, drawn from the audited indexing and outbox boundaries.</figcaption></figure></> : null}
+    {artifact === 'citations' ? <div class="evidence-grid"><EvidenceArtifact label="Question boundary" value="Answers are generated from the selected project's ready evidence packet; unsupported questions are refused." sourcePath={sourcePaths.citations[0]} sourceCommit={sourceCommit} /><EvidenceArtifact label="Citation receipt" value="Each accepted citation carries a source path, line range, and commit-pinned reference." sourcePath={sourcePaths.citations[1]} sourceCommit={sourceCommit} /></div> : null}
+    {artifact === 'operations' ? <OperationsTrail items={[{ label: 'Queue', value: 'Durable indexing handoff', sourcePath: sourcePaths.operations[0] }, { label: 'Recovery', value: 'Retryable owner-safe failure', sourcePath: sourcePaths.operations[1] }, { label: 'Release', value: 'Deployment remains a separate gate', sourcePath: sourcePaths.operations[2] }]} /> : null}
+    {artifact === 'doorway' ? <LiveProjectDoorway href="https://gdullas.kwadrateam.dev" deploymentVerified={false} interfaceReviewed={false} /> : null}
+  </div>
+  <div class="case-study-spread__sources" aria-label="Source paths">{sourcePaths[artifact].map((path) => <code>{path}</code>)}</div>
+</section>

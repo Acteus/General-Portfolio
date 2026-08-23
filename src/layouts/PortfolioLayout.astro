@@ -31,7 +31,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
     <meta name="theme-color" content="#15191A" />
     <title>{title}</title>
     <script is:inline>
-      {`(() => {
+      (() => {
         const url = new URL(window.location.href);
         const requested = url.searchParams.get('mode');
         const stored = window.localStorage.getItem('portfolio-theme');
@@ -40,7 +40,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         document.documentElement.classList.remove('no-js');
         document.documentElement.dataset.theme = theme;
         document.documentElement.style.colorScheme = theme;
-      })();`}
+      })();
     </script>
   </head>
   <body>
@@ -58,7 +58,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
     <main id="main-content"><slot /></main>
     <footer class="site-footer"><p>© 2026 {site.name}</p><p><a href={site.github}>GitHub</a> · <a href={site.email}>Email</a></p></footer>
     <script is:inline>
-      {`(() => {
+      (() => {
         const button = document.querySelector('[data-theme-toggle]');
         if (!button) return;
         const setTheme = (theme) => {
@@ -77,7 +77,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           setTheme(next);
         });
         setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
-      })();`}
+      })();
     </script>
   </body>
 </html>
