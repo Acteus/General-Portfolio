@@ -9,8 +9,9 @@ describe('Project Archive evidence', () => {
     expect(audit.claims).toHaveLength(5);
   });
 
-  it('passes the sibling repository audit', () => {
-    expect(() => execFileSync('node', ['scripts/audit-project-archive-evidence.mjs'], { stdio: 'pipe' })).not.toThrow();
+  it('validates locally and skips the optional sibling repository when unavailable', () => {
+    const output = execFileSync('node', ['scripts/audit-project-archive-evidence.mjs'], { encoding: 'utf8' });
+    expect(output).toMatch(/Project Archive (evidence audit passed|sibling audit skipped)/);
   });
 
   it('maps operations evidence to the indexing, outbox, catalog, and owner sources it describes', () => {

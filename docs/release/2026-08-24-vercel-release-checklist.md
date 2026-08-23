@@ -6,13 +6,13 @@ This checklist records the static release gates for the Astro portfolio. It is i
 
 - [x] Astro output remains `static`; `@astrojs/vercel` and server functions are absent.
 - [x] `@astrojs/sitemap` is configured and `public/robots.txt` is shipped.
-- [x] `npm run audit:content` passes before legacy cleanup.
-- [x] Project Archive evidence audit passes with the reviewed source commit.
+- [x] `npm run audit:content` passes after legacy cleanup.
+- [x] Project Archive evidence record shape audit passes locally; sibling path verification is strict when `PROJECT_ARCHIVE_REPO` points to an available repository and otherwise reports a clear skip.
 - [x] `npm run check` passes.
 - [x] `npm run test:unit` passes.
 - [x] `npm run build` passes and emits `dist/index.html`.
-- [x] Chromium accessibility, no-JavaScript, preference, and responsive suites pass.
-- [ ] Firefox and WebKit browser projects: not run in this sandbox; browser binaries/matrix execution is deferred to CI or a review machine.
+- [x] Chromium, Firefox, and WebKit accessibility, no-JavaScript, preference, responsive, parity, and journal functional suites pass.
+- [x] Firefox and WebKit functional browser projects pass. Visual snapshots are intentionally Chromium-only and skipped for Firefox/WebKit.
 - [ ] Lighthouse thresholds (performance 90, accessibility 100, best practices 95, SEO 95): blocked until a production-equivalent preview is available.
 - [ ] 200% and 400% Chromium zoom at `1280×800`: manual browser check remains deferred; automated narrow-flow overflow coverage passes.
 - [x] Chromium visual baselines generated and inspected for the requested recruiter/journal layouts; the Project Archive image is a portfolio layout capture only, not an external product capture. Firefox/WebKit remain functional-matrix checks; visual baselines are intentionally Chromium-only.
@@ -32,6 +32,8 @@ Configure these values in the Vercel project before preview approval:
 | `SITE_URL` | Set to the verified final production domain |
 
 Local `npx vercel@latest build` and preview deployment were not run because no Vercel project, token, or final domain is authorized in this sandbox. Run them after project access is supplied, then record the preview URL and results here.
+
+The absolute `Sitemap` robots directive is intentionally omitted until Vercel supplies a verified `SITE_URL`; configure the absolute sitemap URL at deployment time.
 
 ## Preview verification (deferred)
 

@@ -25,6 +25,20 @@ test('keyboard focus survives a theme switch and journal navigation', async ({ p
   await expect(page.locator('[data-journal-chapter="project-archive"] h2')).toBeFocused();
 });
 
+test('skip link is the first keyboard destination', async ({ page }) => {
+  await page.goto('/?mode=recruiter');
+  const firstFocusable = await page.evaluate(() => {
+    const candidates = [...document.querySelectorAll<HTMLElement>('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])')];
+    return candidates.find((candidate) => {
+      const style = getComputedStyle(candidate);
+      return !candidate.hasAttribute('disabled') && style.display !== 'none' && style.visibility !== 'hidden';
+    })?.className;
+  });
+  expect(firstFocusable).toBe('skip-link');
+  await page.getByRole('link', { name: 'Skip to content' }).focus();
+  await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
+});
+
 test('turning leaves are hidden from the accessibility tree', async ({ page }) => {
   await page.goto('/?mode=journal&chapter=jobboard-devops');
   await page.getByRole('button', { name: /project archive/i }).click();
