@@ -43,7 +43,7 @@
 .journal-chapter[open] { box-shadow: 0 .75rem 0 rgb(232 216 191 / .72); }
 .journal-chapter__cover { display: grid; gap: var(--space-2xs); padding: var(--space-lg); cursor: pointer; list-style: none; }
 .journal-chapter__cover::-webkit-details-marker { display: none; }
-.journal-chapter__cover strong { font: 500 1.8rem/1.1 var(--font-display); }
+.journal-chapter__cover h2 { margin: 0; font: 500 1.8rem/1.1 var(--font-display); }
 .journal-chapter__cover > span:last-child { color: var(--text-muted); }
 .journal-chapter__body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg); padding: 0 var(--space-lg) var(--space-lg); border-top: 1px solid rgb(106 75 55 / .24); }
 .journal-chapter__meta, .journal-chapter__footer { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-md); grid-column: 1 / -1; padding-top: var(--space-md); color: var(--text-muted); font-size: .9rem; }

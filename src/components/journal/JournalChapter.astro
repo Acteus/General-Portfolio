@@ -18,9 +18,9 @@ const archiveAudit = project.id === 'project-archive' ? (await import('../../dat
 ---
 
 <details class="journal-chapter" id={`chapter-${project.id}`} data-journal-chapter={project.id} open={project.id === 'project-archive'}>
-  <summary class="journal-chapter__cover">
+    <summary class="journal-chapter__cover">
     <span class="chapter-number">Chapter {String(chapterNumber).padStart(2, '0')}</span>
-    <strong>{data.title}</strong>
+    <h2 tabindex="-1">{data.title}</h2>
     <span>{data.chapterType === 'flagship' ? 'When source material becomes a system people can question.' : data.recruiterSummary}</span>
   </summary>
   <div class="journal-chapter__body">

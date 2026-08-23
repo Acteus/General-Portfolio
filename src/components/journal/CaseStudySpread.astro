@@ -19,7 +19,7 @@ const sourcePaths = {
   record: ['apps/api/src/project_archive/services/chat.py'],
   architecture: ['apps/api/src/project_archive/services/indexing.py', 'apps/api/src/project_archive/adapters/cosmos/outbox.py'],
   citations: ['apps/api/src/project_archive/services/chat.py', 'apps/web/src/public/PublicApp.tsx'],
-  operations: ['apps/api/src/project_archive/services/catalog.py', 'apps/web/src/owner/OwnerApp.tsx', 'docs/stability-operations.md'],
+  operations: ['apps/api/src/project_archive/services/indexing.py', 'apps/api/src/project_archive/adapters/cosmos/outbox.py', 'apps/api/src/project_archive/services/catalog.py', 'apps/web/src/owner/OwnerApp.tsx', 'docs/stability-operations.md'],
   doorway: ['docs/stability-operations.md', 'docs/superpowers/specs/2026-07-15-project-archive-chat-design.md'],
 } as const;
 ---
@@ -35,7 +35,7 @@ const sourcePaths = {
     {artifact === 'record' ? <EvidenceArtifact label="Project record" value="A project question is kept beside its source path, so the explanation has a place to be checked." sourcePath={sourcePaths.record[0]} sourceCommit={sourceCommit} /> : null}
     {artifact === 'architecture' ? <><ArchitectureArtifact label="Repository to evidence" steps={['Repository commit', 'Durable index', 'Cited answer']} sourcePaths={[...sourcePaths.architecture]} /><figure class="source-diagram"><img src="/assets/project-archive/source-to-index.svg" width="1200" height="420" loading="lazy" alt="Repository commit flows through durable indexing into a source receipt." /><figcaption>Source-to-index path, drawn from the audited indexing and outbox boundaries.</figcaption></figure></> : null}
     {artifact === 'citations' ? <div class="evidence-grid"><EvidenceArtifact label="Question boundary" value="Answers are generated from the selected project's ready evidence packet; unsupported questions are refused." sourcePath={sourcePaths.citations[0]} sourceCommit={sourceCommit} /><EvidenceArtifact label="Citation receipt" value="Each accepted citation carries a source path, line range, and commit-pinned reference." sourcePath={sourcePaths.citations[1]} sourceCommit={sourceCommit} /></div> : null}
-    {artifact === 'operations' ? <OperationsTrail items={[{ label: 'Queue', value: 'Durable indexing handoff', sourcePath: sourcePaths.operations[0] }, { label: 'Recovery', value: 'Retryable owner-safe failure', sourcePath: sourcePaths.operations[1] }, { label: 'Release', value: 'Deployment remains a separate gate', sourcePath: sourcePaths.operations[2] }]} /> : null}
+    {artifact === 'operations' ? <OperationsTrail items={[{ label: 'Queue', value: 'Durable indexing handoff', sourcePath: sourcePaths.operations[0] }, { label: 'Delivery', value: 'Leased, replayable outbox dispatch', sourcePath: sourcePaths.operations[1] }, { label: 'Deletion', value: 'Safe project purge boundary', sourcePath: sourcePaths.operations[2] }, { label: 'Recovery', value: 'Retryable owner-safe failure', sourcePath: sourcePaths.operations[3] }, { label: 'Release', value: 'Deployment remains a separate gate', sourcePath: sourcePaths.operations[4] }]} /> : null}
     {artifact === 'doorway' ? <LiveProjectDoorway href="https://gdullas.kwadrateam.dev" deploymentVerified={false} interfaceReviewed={false} /> : null}
   </div>
   <div class="case-study-spread__sources" aria-label="Source paths">{sourcePaths[artifact].map((path) => <code>{path}</code>)}</div>

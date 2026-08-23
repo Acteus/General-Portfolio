@@ -39,9 +39,11 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
   } satisfies JournalState;
   const [, dispatch] = useReducer(journalReducer, initialState);
   const stateRef = useRef<JournalState>(initialState);
+  const committedRef = useRef<JournalState>(initialState);
   const animationRef = useRef<AnimationPlaybackControlsWithThen | null>(null);
   const leafRef = useRef<HTMLElement | null>(null);
   const requestRef = useRef(0);
+  const historyGuardRef = useRef(false);
   const keyboardRef = useRef(false);
 
   useEffect(() => {
@@ -92,12 +94,14 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       applyCommitted(next);
       dispatch({ type: 'commit', requestId: next.requestId });
       stateRef.current = next;
+      committedRef.current = next;
       if (push) {
         const url = new URL(window.location.href);
         url.searchParams.set('mode', 'journal');
         url.searchParams.set('chapter', next.chapterId);
         url.searchParams.set('spread', String(next.spread + 1));
-        window.history.replaceState({}, '', url);
+        window.history.pushState({}, '', url);
+        historyGuardRef.current = false;
       }
       if (focus) chapterRoot(next.chapterId)?.querySelector<HTMLElement>('h2, h3')?.focus({ preventScroll: true });
     }
@@ -108,11 +112,31 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       return { chapterId, spread: Math.min(Math.max(spread, 0), chapter.spreadCount - 1) };
     }
 
+    function cancelPending() {
+      requestRef.current += 1;
+      removeLeaf();
+      const committed = committedRef.current;
+      const cancelled = journalReducer(committed, { type: 'cancel', chapterId: committed.chapterId, spread: committed.spread });
+      stateRef.current = cancelled;
+      dispatch({ type: 'cancel', chapterId: committed.chapterId, spread: committed.spread });
+      applyCommitted(committed);
+    }
+
+    function reserveCommittedHistory() {
+      if (historyGuardRef.current) return;
+      window.history.pushState({}, '', window.location.href);
+      historyGuardRef.current = true;
+    }
+
     function transitionTo(chapterId: string, spread: number, push = true, keyboard = false) {
       const nextDestination = destination(chapterId, spread);
       if (!nextDestination) return;
-      const current = stateRef.current;
-      if (current.chapterId === nextDestination.chapterId && current.spread === nextDestination.spread && current.phase === 'idle') {
+      const current = committedRef.current;
+      if (current.chapterId === nextDestination.chapterId && current.spread === nextDestination.spread && stateRef.current.phase === 'turning') {
+        cancelPending();
+        return;
+      }
+      if (current.chapterId === nextDestination.chapterId && current.spread === nextDestination.spread) {
         requestRef.current += 1;
         removeLeaf();
         applyCommitted(current);
@@ -122,19 +146,16 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       const requestId = ++requestRef.current;
       const direction: -1 | 1 = nextDestination.chapterId === current.chapterId && nextDestination.spread < current.spread ? -1 : 1;
       const requested = journalReducer(current, { type: 'request', ...nextDestination, requestId, direction });
+      stateRef.current = requested;
       dispatch({ type: 'request', ...nextDestination, requestId, direction });
       if (push) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('mode', 'journal');
-        url.searchParams.set('chapter', nextDestination.chapterId);
-        url.searchParams.set('spread', String(nextDestination.spread + 1));
-        window.history.pushState({}, '', url);
+        reserveCommittedHistory();
       }
 
       const desktop = window.matchMedia('(min-width: 48rem)').matches;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const lightMode = document.documentElement.dataset.theme !== 'dark';
-      const source = chapterRoot(current.chapterId)?.querySelector<HTMLElement>('.case-study-spread') ?? chapterRoot(current.chapterId)?.querySelector<HTMLElement>('.journal-chapter__body');
+      const source = chapterRoot(current.chapterId)?.querySelector<HTMLElement>('[data-case-study-spread]:not([hidden])') ?? chapterRoot(current.chapterId)?.querySelector<HTMLElement>('.journal-chapter__body');
       if (!desktop || reducedMotion || !lightMode || !source || !host) {
         commit({ ...requested, phase: 'idle', direction: 0 }, push, keyboard);
         return;
@@ -163,10 +184,12 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
     }
 
     const initial = readLocation(manifest, initialChapterId, initialSpread);
-    applyCommitted({ ...stateRef.current, ...initial }, initial.explicit);
+    const resolvedInitial: JournalState = { chapterId: initial.chapterId, spread: initial.spread, phase: 'idle', direction: 0, requestId: 0 };
+    stateRef.current = resolvedInitial;
+    committedRef.current = resolvedInitial;
+    applyCommitted(resolvedInitial, initial.explicit);
     if (initial.chapterId !== initialChapterId || initial.spread !== initialSpread) {
-      stateRef.current = { ...stateRef.current, ...initial };
-      dispatch({ type: 'request', ...initial, requestId: 0, direction: 1 });
+      dispatch({ type: 'request', ...resolvedInitial, requestId: 0, direction: 1 });
       dispatch({ type: 'commit', requestId: 0 });
     }
 
@@ -188,10 +211,7 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
     };
     const environmentHandler = () => {
       if (stateRef.current.phase === 'turning') {
-        const next = stateRef.current;
-        removeLeaf();
-        applyCommitted({ ...next, phase: 'idle', direction: 0 });
-        dispatch({ type: 'cancel', chapterId: next.chapterId, spread: next.spread });
+        cancelPending();
       }
     };
 

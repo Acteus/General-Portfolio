@@ -12,4 +12,13 @@ describe('Project Archive evidence', () => {
   it('passes the sibling repository audit', () => {
     expect(() => execFileSync('node', ['scripts/audit-project-archive-evidence.mjs'], { stdio: 'pipe' })).not.toThrow();
   });
+
+  it('maps operations evidence to the indexing, outbox, catalog, and owner sources it describes', () => {
+    const spread = readFileSync('src/components/journal/CaseStudySpread.astro', 'utf8');
+    expect(spread).toContain("'apps/api/src/project_archive/services/indexing.py'");
+    expect(spread).toContain("'apps/api/src/project_archive/adapters/cosmos/outbox.py'");
+    expect(spread).toContain("'apps/api/src/project_archive/services/catalog.py'");
+    expect(spread).toContain("'apps/web/src/owner/OwnerApp.tsx'");
+    expect(spread).toMatch(/operations:\s*\[[\s\S]*indexing\.py[\s\S]*outbox\.py/);
+  });
 });
