@@ -141,6 +141,14 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       stateRef.current = requested;
       dispatch({ type: 'request', ...nextDestination, requestId, direction });
 
+      // History navigation is a state restoration, not a new user-initiated turn.
+      // Commit immediately so Back/Forward never leaves the semantic chapter
+      // hidden while a browser-specific animation frame is pending.
+      if (!push) {
+        commit({ ...requested, phase: 'idle', direction: 0 }, false, false);
+        return;
+      }
+
       const desktop = window.matchMedia('(min-width: 48rem)').matches;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const lightMode = document.documentElement.dataset.theme !== 'dark';

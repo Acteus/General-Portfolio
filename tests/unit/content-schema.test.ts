@@ -23,6 +23,6 @@ describe('project content', () => {
   });
 
   it('passes Astro content validation', () => {
-    expect(() => execFileSync('npx', ['astro', 'sync'], { stdio: 'pipe' })).not.toThrow();
+    expect(() => execFileSync('npx', ['astro', 'sync'], { stdio: 'pipe', env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1' } })).not.toThrow();
   });
 });
