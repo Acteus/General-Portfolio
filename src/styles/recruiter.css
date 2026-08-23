@@ -1,9 +1,22 @@
 .recruiter-mode {
+  --surface: #15191A;
+  --surface-raised: #222A29;
+  --text: #F0E7D6;
+  --text-muted: #AFA797;
+  --verified: #93A58B;
+  --accent: #D18A46;
+  --accent-text: #D18A46;
+  --accent-foreground: #15191A;
+  --shadow-rgb: 0 0 0;
+  --surface-ink: #F8F1E5;
+  --line: rgb(240 231 214 / 0.18);
   --recruiter-line: rgb(240 231 214 / 0.18);
   --recruiter-muted: #AFA797;
   background: #15191A;
   color: #F0E7D6;
 }
+
+.recruiter-mode :focus-visible { outline-color: var(--accent-text); }
 
 .recruiter-mode .hero,
 .recruiter-mode .content-section { width: min(76rem, calc(100% - 2rem)); }

@@ -28,6 +28,8 @@ describe('Illuminated Notebook design system', () => {
     expect(base).toContain('.status-label, .verified-link--pending');
     expect(base).toContain('overflow-wrap: anywhere');
     expect(recruiter).toContain('@media (max-width: 47.99rem)');
+    expect(recruiter).toContain('--accent-text: #D18A46');
+    expect(recruiter).toContain('--accent-foreground: #15191A');
     expect(recruiter).not.toContain('recruiter-project--flagship { grid-column: 1 / -1; }');
     expect(layout).toContain('<html lang="en" data-theme="light" class="no-js">');
     expect(journalPortfolio).not.toContain("aria-current={index === 0 ? 'true' : undefined}");

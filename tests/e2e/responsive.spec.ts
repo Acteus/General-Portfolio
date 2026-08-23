@@ -22,3 +22,14 @@ test('uses native chapter disclosures on mobile', async ({ page }) => {
   await expect(page.locator('details[data-journal-chapter]').first()).toBeVisible();
   await expect(page.locator('.journal-turn-layer')).toBeHidden();
 });
+
+test('keeps no-JavaScript recruiter dark and journal warm', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto('/?mode=recruiter');
+  await expect(page.locator('.recruiter-mode')).toBeVisible();
+  await expect(page.locator('.journal-mode')).toBeVisible();
+  await expect(page.locator('.recruiter-mode')).toHaveCSS('background-color', 'rgb(21, 25, 26)');
+  await expect(page.locator('.journal-mode')).toHaveCSS('background-color', 'rgb(245, 238, 223)');
+  await context.close();
+});
