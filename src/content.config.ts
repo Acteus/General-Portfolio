@@ -4,7 +4,7 @@ import { z } from 'astro/zod';
 
 const linkSchema = z.object({
   label: z.string().min(1),
-  href: z.string().url(),
+  href: z.url(),
   kind: z.enum(['repository', 'live']),
 });
 
