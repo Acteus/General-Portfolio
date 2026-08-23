@@ -1,0 +1,29 @@
+{
+  "order": 0,
+  "title": "Project Archive",
+  "role": "Portfolio case study",
+  "date": "2026",
+  "status": "in-progress",
+  "statusLabel": "Active development; live link pending verification",
+  "chapterType": "flagship",
+  "themeAvailability": "both",
+  "recruiterSummary": "A source-backed archive that turns project material into records people can question, with the live doorway held until deployment and interface verification are complete.",
+  "story": ["When source material becomes a system people can question."],
+  "technicalNarrative": ["The case study documents a static, source-backed project record and keeps the public doorway unlinked until its deployment is verified."],
+  "technologies": ["Astro", "TypeScript", "Source-backed indexing"],
+  "verifiedClaims": [],
+  "evidence": [
+    { "kind": "path", "label": "Evidence policy", "value": "docs/superpowers/specs/2026-08-24-illuminated-engineers-notebook-redesign-design.md", "sourcePath": "docs/superpowers/specs/2026-08-24-illuminated-engineers-notebook-redesign-design.md" },
+    { "kind": "status", "label": "Current status", "value": "Project Archive is in active development; the public doorway is not being linked yet." }
+  ],
+  "spreads": [
+    { "id": "why-build-an-archive", "question": "Why build an archive?", "narrative": ["Ordinary portfolios describe outcomes but often hide the decisions, source material, and operational lessons behind them."], "artifactIds": ["project-record"] },
+    { "id": "turning-repositories-into-evidence", "question": "Turning repositories into evidence", "narrative": ["Ingestion and indexing are described only when repository and deployment evidence has been verified."], "artifactIds": ["source-paths"] },
+    { "id": "questions-with-receipts", "question": "Questions with receipts", "narrative": ["A visitor should be able to ask a project question, receive a source-grounded answer, and inspect its citation."], "artifactIds": ["citation-record"] },
+    { "id": "operating-the-archive", "question": "Operating the archive", "narrative": ["The operational story covers indexing queues, safe deletion, duplicate-action prevention, failure recovery, owner-safe errors, and deployment when each is supported by evidence."], "artifactIds": ["operations-record"] },
+    { "id": "step-inside", "question": "Step inside", "narrative": ["The live-product invitation remains a truthful status panel until the deployment is available and verified."], "artifactIds": ["live-doorway"] }
+  ],
+  "links": [],
+  "lessons": ["Project Archive is in active development; the public doorway is not being linked yet."],
+  "legacyHashes": []
+}

@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import StatusLabel from '../ui/StatusLabel.astro';
+import VerifiedLink from '../ui/VerifiedLink.astro';
+
+type Project = CollectionEntry<'projects'>;
+interface Props {
+  project: Project;
+  chapterNumber: number;
+}
+
+const { project, chapterNumber } = Astro.props;
+const { data } = project;
+---
+
+<details class="journal-chapter" id={`chapter-${project.id}`} data-journal-chapter open={project.id === 'project-archive'}>
+  <summary class="journal-chapter__cover">
+    <span class="chapter-number">Chapter {String(chapterNumber).padStart(2, '0')}</span>
+    <strong>{data.title}</strong>
+    <span>{data.chapterType === 'flagship' ? 'When source material becomes a system people can question.' : data.recruiterSummary}</span>
+  </summary>
+  <div class="journal-chapter__body">
+    <div class="journal-chapter__meta"><span>{data.role} · {data.date}</span><StatusLabel label={data.statusLabel} /></div>
+    <section class="journal-block" aria-labelledby={`${project.id}-story`}><h3 id={`${project.id}-story`}>The story</h3>{data.story.map((paragraph) => <p>{paragraph}</p>)}</section>
+    <section class="journal-block" aria-labelledby={`${project.id}-technical`}><h3 id={`${project.id}-technical`}>Under the hood</h3>{data.technicalNarrative.map((paragraph) => <p>{paragraph}</p>)}{data.architecture?.length ? <ul class="evidence-list" aria-label={`${data.title} architecture`}>{data.architecture.map((item) => <li>{item}</li>)}</ul> : null}</section>
+    {data.evidence.length ? <section class="journal-block" aria-labelledby={`${project.id}-evidence`}><h3 id={`${project.id}-evidence`}>Evidence</h3><dl class="evidence-list evidence-list--definition">{data.evidence.map((item) => <div><dt>{item.label}</dt><dd>{item.value}</dd>{item.sourcePath ? <dd><code>{item.sourcePath}</code></dd> : null}</div>)}</dl></section> : null}
+    {data.spreads.length ? <section class="journal-block journal-block--spreads" aria-labelledby={`${project.id}-spreads`}><h3 id={`${project.id}-spreads`}>Five spreads</h3>{data.spreads.map((spread, index) => <article class="journal-spread"><p class="eyebrow">Spread {index + 1} of {data.spreads.length}</p><h4>{spread.question}</h4>{spread.narrative.map((paragraph) => <p>{paragraph}</p>)}<ul class="evidence-list">{spread.artifactIds.map((artifact) => <li>{artifact}</li>)}</ul></article>)}</section> : null}
+    <section class="journal-block" aria-labelledby={`${project.id}-technologies`}><h3 id={`${project.id}-technologies`}>Technologies</h3><ul class="tag-list">{data.technologies.map((technology) => <li>{technology}</li>)}</ul></section>
+    <footer class="journal-chapter__footer"><StatusLabel label={data.statusLabel} />{data.links.length ? data.links.map((link) => <VerifiedLink href={link.href} label={link.label} statusLabel={data.statusLabel} />) : <VerifiedLink label={data.statusLabel} statusLabel={data.statusLabel} />}</footer>
+  </div>
+</details>

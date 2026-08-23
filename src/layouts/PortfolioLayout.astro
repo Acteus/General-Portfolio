@@ -1,0 +1,169 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const title = Astro.props.title ?? `${site.name} — ${site.role}`;
+const description = Astro.props.description ?? 'Cloud and platform engineering portfolio of Garren Dullas.';
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#171a1d" />
+    <title>{title}</title>
+    <script is:inline>
+      {`(() => {
+        const url = new URL(window.location.href);
+        const requested = url.searchParams.get('mode');
+        const stored = window.localStorage.getItem('portfolio-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = requested === 'journal' ? 'light' : requested === 'recruiter' ? 'dark' : stored === 'light' || stored === 'dark' ? stored : prefersDark ? 'dark' : 'light';
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();`}
+    </script>
+    <style is:global>
+      :root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color-scheme: dark; background: #171a1d; color: #f5f0e8; font-synthesis: none; }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; min-width: 320px; background: #171a1d; color: #f5f0e8; line-height: 1.6; }
+      a { color: inherit; }
+      button, a { -webkit-tap-highlight-color: transparent; }
+      :focus-visible { outline: 3px solid #e0a84f; outline-offset: 4px; }
+      .skip-link { position: fixed; z-index: 20; top: 0.75rem; left: 0.75rem; padding: 0.65rem 0.9rem; background: #f5f0e8; color: #171a1d; transform: translateY(-160%); }
+      .skip-link:focus { transform: translateY(0); }
+      .site-header { position: sticky; z-index: 10; top: 0; border-bottom: 1px solid #3c4246; background: color-mix(in srgb, #171a1d 94%, transparent); backdrop-filter: blur(12px); }
+      .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: min(76rem, calc(100% - 2rem)); min-height: 4.5rem; margin-inline: auto; }
+      .brand { font-weight: 700; text-decoration: none; letter-spacing: -0.02em; }
+      .site-nav { display: flex; align-items: center; gap: 1rem; }
+      .site-nav a { font-size: 0.88rem; text-decoration: none; color: #c6c1b9; }
+      .site-nav a:hover { color: #fff; }
+      .theme-toggle { min-width: 44px; min-height: 44px; border: 1px solid #687077; border-radius: 999px; background: transparent; color: inherit; cursor: pointer; }
+      main { display: block; }
+      .mode-section { min-height: 100vh; }
+      .hero, .content-section { width: min(76rem, calc(100% - 2rem)); margin-inline: auto; }
+      .hero { padding: clamp(5rem, 12vw, 10rem) 0 clamp(4rem, 9vw, 8rem); }
+      .hero h1 { max-width: 14ch; margin: 0.2rem 0 1.25rem; font-size: clamp(3rem, 8vw, 7.5rem); line-height: 0.98; letter-spacing: -0.075em; }
+      .hero__lede { max-width: 48rem; margin: 0; font-size: clamp(1.1rem, 2vw, 1.5rem); color: #c6c1b9; }
+      .hero__actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 2rem; }
+      .button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 0.65rem 1rem; border: 1px solid #687077; border-radius: 0.25rem; text-decoration: none; color: inherit; }
+      .button:hover, .button:focus-visible { border-color: #e0a84f; }
+      .button--primary { border-color: #e0a84f; background: #e0a84f; color: #171a1d; }
+      .button--quiet { border-color: transparent; }
+      .content-section { padding: 4rem 0; border-top: 1px solid #3c4246; }
+      .section-heading { margin-bottom: 2rem; }
+      .section-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.6rem); letter-spacing: -0.06em; line-height: 1; }
+      .eyebrow, .chapter-number { margin: 0 0 0.6rem; color: #e0a84f; font: 0.75rem/1.3 ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+      .about-layout, .contact-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; }
+      .prose { max-width: 54rem; font-size: 1.08rem; color: #d8d3cb; }
+      .facts { display: grid; gap: 1.25rem; margin: 0; }
+      .facts div { border-left: 2px solid #4f575b; padding-left: 1rem; }
+      .facts dt { margin-bottom: 0.35rem; color: #e0a84f; font: 0.75rem/1.3 ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+      .facts dd { margin: 0; color: #d8d3cb; }
+      .cards-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+      .info-card, .recruiter-project { border: 1px solid #3c4246; padding: 1.25rem; background: #202529; }
+      .info-card h3, .recruiter-project h3 { margin: 0 0 0.75rem; font-size: 1.35rem; line-height: 1.15; }
+      .info-card > p:not(.eyebrow), .project-card__summary { color: #c6c1b9; }
+      .tag-list, .project-card__proof, .evidence-list { display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0; margin: 1rem 0 0; list-style: none; }
+      .tag-list li, .project-card__proof span, .evidence-list li { padding: 0.25rem 0.5rem; border: 1px solid #4f575b; color: #d8d3cb; font-size: 0.82rem; }
+      .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .recruiter-project--flagship { grid-column: 1 / -1; border-color: #b57b2e; }
+      .project-card__header, .project-card__footer, .journal-chapter__meta, .journal-chapter__footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+      .project-card__header h3 { font-size: 1.7rem; }
+      .status-label, .verified-link--pending { display: inline-flex; width: fit-content; padding: 0.3rem 0.5rem; border: 1px solid #66786c; color: #c9e0c7; font: 0.75rem/1.2 ui-monospace, SFMono-Regular, monospace; }
+      .project-card__footer, .journal-chapter__footer { align-items: center; margin-top: 1.25rem; }
+      .verified-link { color: #e0a84f; font-weight: 650; }
+      .project-card__footer .verified-link--pending { color: #c6c1b9; border-color: #687077; }
+      .journal-mode { background: #f3eee5; color: #2b2926; }
+      .journal-mode .site-header { background: color-mix(in srgb, #f3eee5 94%, transparent); border-color: #d1c7b9; }
+      .journal-mode .site-nav a, .journal-mode .hero__lede, .journal-mode .prose, .journal-mode .info-card > p:not(.eyebrow), .journal-mode .project-card__summary { color: #5b554d; }
+      .journal-mode .content-section { border-color: #d1c7b9; }
+      .journal-mode .button { border-color: #94887a; }
+      .journal-mode .button--primary { background: #c67831; border-color: #c67831; color: #fffaf1; }
+      .journal-mode .info-card { background: #ebe4d8; border-color: #d1c7b9; }
+      .journal-mode .theme-toggle { border-color: #94887a; }
+      .journal-mode .tag-list li, .journal-mode .project-card__proof span, .journal-mode .evidence-list li { border-color: #c4b8a8; color: #5b554d; }
+      .journal-list { display: grid; gap: 1rem; }
+      .journal-chapter { border: 1px solid #b9ad9d; background: #ebe4d8; }
+      .journal-chapter[open] { box-shadow: 0 0.75rem 0 #ded4c6; }
+      .journal-chapter__cover { display: grid; gap: 0.25rem; padding: 1.5rem; cursor: pointer; list-style: none; }
+      .journal-chapter__cover::-webkit-details-marker { display: none; }
+      .journal-chapter__cover strong { font: 1.8rem/1.1 Georgia, serif; }
+      .journal-chapter__cover > span:last-child { color: #6a6259; }
+      .journal-chapter__body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding: 0 1.5rem 1.5rem; border-top: 1px solid #c4b8a8; }
+      .journal-chapter__meta, .journal-chapter__footer { grid-column: 1 / -1; padding-top: 1rem; color: #6a6259; font-size: 0.9rem; }
+      .journal-block { padding-top: 1rem; }
+      .journal-block h3 { margin: 0 0 0.5rem; font: 1.35rem/1.1 Georgia, serif; }
+      .journal-block p { color: #5b554d; }
+      .journal-block--spreads { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.75rem; }
+      .journal-block--spreads > h3 { grid-column: 1 / -1; }
+      .journal-spread { padding: 1rem; border: 1px solid #c4b8a8; background: #f3eee5; }
+      .journal-spread h4 { margin: 0; font: 1.05rem/1.2 Georgia, serif; }
+      .journal-spread .evidence-list { display: block; }
+      .journal-spread .evidence-list li { margin-top: 0.4rem; }
+      .evidence-list--definition { display: grid; gap: 0.6rem; }
+      .evidence-list--definition div { display: grid; grid-template-columns: 9rem 1fr; gap: 0.4rem; }
+      .evidence-list--definition dt { font-weight: 700; }
+      .evidence-list--definition dd { margin: 0; color: #5b554d; }
+      .journal-chapter__footer { border-top: 1px solid #c4b8a8; }
+      .site-footer { border-top: 1px solid #3c4246; padding: 2rem 1rem; text-align: center; color: #c6c1b9; }
+      html[data-theme="dark"] .journal-mode, html[data-theme="dark"] .journal-mode ~ * { display: none; }
+      html[data-theme="light"] .recruiter-mode { display: none; }
+      html.no-js .mode-section { display: block !important; }
+      @media (max-width: 48rem) { .site-nav a { display: none; } .cards-grid, .projects-grid, .about-layout, .contact-layout, .journal-chapter__body { grid-template-columns: 1fr; } .journal-block--spreads { grid-template-columns: 1fr; } .journal-block--spreads > h3 { grid-column: auto; } .journal-chapter__meta, .journal-chapter__footer { grid-column: auto; flex-direction: column; align-items: flex-start; } }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="#home">{site.name}</a>
+        <nav class="site-nav" aria-label="Main navigation">
+          {site.navigation.map((item) => <a href={`#${item.id}`}>{item.recruiter}</a>)}
+          <a href={site.resume} target="_blank" rel="noopener noreferrer">Resume</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to journal" title="Switch mode">☼</button>
+        </nav>
+      </div>
+    </header>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <main id="main-content"><slot /></main>
+    <footer class="site-footer"><p>© 2026 {site.name}</p><p><a href={site.github}>GitHub</a> · <a href={site.email}>Email</a></p></footer>
+    <script is:inline>
+      {`(() => {
+        const button = document.querySelector('[data-theme-toggle]');
+        if (!button) return;
+        const setTheme = (theme) => {
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          window.localStorage.setItem('portfolio-theme', theme);
+          const journal = theme === 'dark';
+          button.setAttribute('aria-label', journal ? 'Switch to journal' : 'Switch to recruiter');
+          button.setAttribute('title', journal ? 'Switch to journal' : 'Switch to recruiter');
+        };
+        button.addEventListener('click', () => {
+          const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+          const url = new URL(window.location.href);
+          url.searchParams.set('mode', next === 'dark' ? 'recruiter' : 'journal');
+          window.history.replaceState({}, '', url);
+          setTheme(next);
+        });
+        setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+      })();`}
+    </script>
+  </body>
+</html>

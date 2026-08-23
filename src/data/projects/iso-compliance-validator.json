@@ -1,0 +1,22 @@
+{
+  "order": 10,
+  "title": "ISO Compliance Validator",
+  "role": "Role not specified in legacy page",
+  "date": "Not specified in legacy page",
+  "status": "link-pending",
+  "statusLabel": "Link pending",
+  "chapterType": "field-note",
+  "themeAvailability": "recruiter-only",
+  "recruiterSummary": "Checks ISO 21001 readiness and highlights possible compliance risks.",
+  "story": ["Checks ISO 21001 readiness and highlights possible compliance risks."],
+  "technicalNarrative": ["The validator uses Laravel, Flask, and Docker; its repository link is pending."],
+  "technologies": ["Laravel", "Flask", "Docker"],
+  "verifiedClaims": ["ISO 21001 readiness checks", "Compliance risk highlighting"],
+  "evidence": [],
+  "spreads": [],
+  "links": [],
+  "architecture": [],
+  "operations": [],
+  "lessons": [],
+  "legacyHashes": []
+}

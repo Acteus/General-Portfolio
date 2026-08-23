@@ -13,6 +13,7 @@
     "test:unit": "vitest run",
     "test:legacy": "node --test tests/*.test.mjs",
     "test:e2e": "playwright test",
+    "audit:content": "node scripts/audit-legacy-content.mjs",
     "verify": "npm run check && npm run test && npm run build"
   },
   "dependencies": {

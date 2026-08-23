@@ -1,0 +1,22 @@
+{
+  "order": 4,
+  "title": "GitHub → Discord Bot",
+  "role": "Cloud / Backend Developer",
+  "date": "2026–Present",
+  "status": "deployed",
+  "statusLabel": "Public repository",
+  "chapterType": "field-note",
+  "themeAvailability": "both",
+  "recruiterSummary": "A Discord app I developed to keep track of updates across my own, group, and friends’ projects, hosted on Oracle Cloud with a secure HTTPS gateway.",
+  "story": ["A small notification service became a practical exercise in keeping project updates visible while operating a hosted application."],
+  "technicalNarrative": ["The Discord app is hosted on Oracle Cloud with a secure HTTPS gateway; the public repository documents the application and deployment details are being documented."],
+  "technologies": ["Oracle Cloud", "Podman", "Quadlet", "Caddy"],
+  "verifiedClaims": ["Hosted on Oracle Cloud", "Secure HTTPS gateway", "Tracks project updates"],
+  "evidence": [{ "kind": "status", "label": "Deployment note", "value": "Public repository · deployment details being documented" }],
+  "spreads": [],
+  "links": [{ "label": "View public repository", "href": "https://github.com/Acteus/github-discord-bot", "kind": "repository" }],
+  "architecture": ["Oracle Cloud", "Podman", "Quadlet", "Caddy"],
+  "operations": ["Secure HTTPS gateway"],
+  "lessons": [],
+  "legacyHashes": ["#note-discord-bot"]
+}

@@ -1,0 +1,10 @@
+---
+interface Props {
+  children?: any;
+  label?: string;
+}
+
+const { children, label } = Astro.props;
+---
+
+<span class="status-label" role="status">{label ?? children}</span>

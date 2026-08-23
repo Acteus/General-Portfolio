@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import StatusLabel from '../ui/StatusLabel.astro';
+import VerifiedLink from '../ui/VerifiedLink.astro';
+
+type Project = CollectionEntry<'projects'>;
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+---
+
+<article class:list={['recruiter-project', data.chapterType === 'flagship' && 'recruiter-project--flagship']} id={`recruiter-${project.id}`}>
+  <header class="project-card__header">
+    <div>
+      <p class="eyebrow">{data.role} · {data.date}</p>
+      <h3>{data.title}</h3>
+    </div>
+    <StatusLabel label={data.statusLabel} />
+  </header>
+  <p class="project-card__summary">{data.recruiterSummary}</p>
+  <div class="project-card__proof">
+    {data.verifiedClaims.map((claim) => <span>{claim}</span>)}
+  </div>
+  <ul class="tag-list" aria-label={`${data.title} technologies`}>
+    {data.technologies.map((technology) => <li>{technology}</li>)}
+  </ul>
+  <footer class="project-card__footer">
+    {data.links.length ? data.links.map((link) => <VerifiedLink href={link.href} label={link.label} statusLabel={data.statusLabel} />) : <VerifiedLink label={data.statusLabel} statusLabel={data.statusLabel} />}
+  </footer>
+</article>

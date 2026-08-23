@@ -1,0 +1,22 @@
+{
+  "order": 6,
+  "title": "TransPort-PH: Traffic Policy Analyzer",
+  "role": "Role not specified in legacy page",
+  "date": "Not specified in legacy page",
+  "status": "public",
+  "statusLabel": "Public repository",
+  "chapterType": "field-note",
+  "themeAvailability": "recruiter-only",
+  "recruiterSummary": "Analyzes how transportation policies may affect urban congestion in the Philippines.",
+  "story": ["Analyzes how transportation policies may affect urban congestion in the Philippines."],
+  "technicalNarrative": ["The project uses Python, TFT, DoWhy, Streamlit, and Causal ML."],
+  "technologies": ["Python", "TFT", "DoWhy", "Streamlit", "Causal ML"],
+  "verifiedClaims": ["Transportation policy analysis", "Urban congestion in the Philippines"],
+  "evidence": [],
+  "spreads": [],
+  "links": [{ "label": "View public repository", "href": "https://github.com/Acteus/TransPort-PH", "kind": "repository" }],
+  "architecture": [],
+  "operations": [],
+  "lessons": [],
+  "legacyHashes": []
+}

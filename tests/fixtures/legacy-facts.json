@@ -1,0 +1,6 @@
+{
+  "titles": ["JobBoard-DevOps", "JRU Atlas", "LaborWise", "GitHub → Discord Bot", "Sumwork", "TransPort-PH: Traffic Policy Analyzer", "Estate Price Predictor", "SEIRD Epidemic Simulator", "MindMate AI", "ISO Compliance Validator", "Lifeline Emergency App", "IoT Sensor Monitor"],
+  "links": ["https://github.com/Acteus/JobBoard-DevOps-Project", "https://github.com/Acteus/github-discord-bot", "https://github.com/Acteus/TransPort-PH", "https://github.com/Acteus/Estate-Prices-NN", "https://github.com/Acteus/Simple-Epidemic", "https://github.com/Acteus/Mindmate", "https://github.com/Acteus/IoT-Sensor-Dashboard"],
+  "statuses": ["Private repository", "Link pending", "Public repository", "deployment details being documented", "sanitized case study planned"],
+  "contact": ["mailto:garrendullas@gmail.com", "https://github.com/Acteus", "output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf"]
+}

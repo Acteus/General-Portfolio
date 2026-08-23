@@ -1,19 +1,14 @@
 ---
-const title = 'Garren Dullas — Cloud & Platform Engineer';
+import { getCollection } from 'astro:content';
+import JournalPortfolio from '../components/journal/JournalPortfolio.astro';
+import RecruiterPortfolio from '../components/recruiter/RecruiterPortfolio.astro';
+import PortfolioLayout from '../layouts/PortfolioLayout.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<!doctype html>
-<html lang="en" data-theme="dark" class="no-js">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="Cloud and platform engineering portfolio of Garren Dullas." />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main id="main-content">
-      <h1>Garren Dullas</h1>
-      <p>Cloud &amp; Platform Engineer</p>
-    </main>
-  </body>
-</html>
+<PortfolioLayout>
+  <!-- Garren Dullas portfolio composition -->
+  <RecruiterPortfolio projects={projects} />
+  <JournalPortfolio projects={projects} />
+</PortfolioLayout>
