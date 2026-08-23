@@ -6,7 +6,7 @@ This is not a production-release approval. External Vercel, Lighthouse, manual z
 
 ## Implemented
 
-- Added axe serious/critical checks, keyboard focus checks, first-focus skip-link coverage, inert turning-leaf checks, JavaScript-off coverage separated from hydrated preference coverage, reduced-motion coverage, injected reduced-transparency/contrast computed-style checks, and stable Chromium visual captures in `tests/e2e/`.
+- Added axe serious/critical checks, keyboard focus checks, first-focus skip-link coverage, inert turning-leaf checks, JavaScript-off coverage separated from hydrated preference coverage, reduced-motion and increased-contrast coverage, a production CSS contract for reduced transparency, and stable Chromium visual captures in `tests/e2e/`.
 - Added `public/robots.txt` and `@astrojs/sitemap`; `astro.config.mjs` remains `output: 'static'` with no Vercel adapter.
 - Added `.vercelignore`, updated the Astro/Vercel README, and recorded the release settings and deferred external gates in `docs/release/2026-08-24-vercel-release-checklist.md`.
 - Added robots/sitemap metadata to `PortfolioLayout.astro`.
@@ -23,15 +23,16 @@ This is not a production-release approval. External Vercel, Lighthouse, manual z
 - `npm run audit:content`: passed after legacy cleanup.
 - `node scripts/audit-project-archive-evidence.mjs`: passed local shape validation with a clear sibling-repository skip because `PROJECT_ARCHIVE_REPO` is unavailable.
 - `ASTRO_TELEMETRY_DISABLED=1 npm run check`: passed, 0 errors/warnings/hints.
-- `ASTRO_TELEMETRY_DISABLED=1 npm run test:unit`: passed, 6 files / 17 tests.
+- `ASTRO_TELEMETRY_DISABLED=1 npm run test:unit`: passed, 7 files / 19 tests.
 - `ASTRO_TELEMETRY_DISABLED=1 npm run build`: passed; static output emitted `dist/index.html` and `dist/sitemap-index.xml`.
-- Final Chromium suite: 32 passed.
-- Full browser matrix after the WebKit fix: 89 functional tests passed across Chromium, Firefox, and WebKit; the five visual tests are intentionally skipped in Firefox/WebKit because reviewed baselines are Chromium-only (99 total, 10 skipped). The earlier WebKit history failure was reproduced, fixed, and the targeted `journal --project=webkit` suite passed 7/7.
-- Chromium visual baselines were generated and inspected at recruiter desktop, journal desk, Project Archive spread 3 layout, journal mobile, and recruiter tablet sizes.
+- Final Chromium suite: 32 passed (27 functional checks, four reviewed visual baselines, and one Project Archive no-capture assertion).
+- Full browser matrix after the WebKit fix: 86 tests passed across Chromium, Firefox, and WebKit; the five visual-file tests are intentionally skipped in Firefox/WebKit because reviewed baselines are Chromium-only (96 total, 10 skipped). The Project Archive screenshot gate remains deferred and uses a truthful no-capture assertion. The earlier WebKit history failure was reproduced, fixed, and the targeted `journal --project=webkit` suite passed 7/7.
+- Chromium visual baselines were generated and inspected at recruiter desktop, journal desk, journal mobile, and recruiter tablet sizes; Project Archive has no snapshot until its external UI review is complete.
 
 ## Deferred or blocked gates
 
 - No `npx vercel@latest build` or preview deployment: no authorized Vercel project/token/final production domain is available in this sandbox.
 - Lighthouse thresholds (performance 90, accessibility 100, best practices 95, SEO 95) require a production-equivalent preview and remain deferred.
+- Manual reduced-transparency browser emulation remains deferred because Playwright has no native reduced-transparency setting; the production CSS media block is covered by a static contract test.
 - Manual Chromium 200%/400% zoom at `1280×800` remains deferred; automated narrow viewport overflow and control reachability checks pass.
 - Production deployment and the former `https://acteus.github.io` redirect were not performed. That external source requires explicit authority and a verified final Vercel URL.

@@ -1,11 +1,9 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import { validateEvidence } from './project-archive-evidence-validation.mjs';
 
 const audit = JSON.parse(readFileSync('src/data/project-archive-evidence.json', 'utf8'));
-
-if (!/^[a-f0-9]{40}$/.test(audit.sourceCommit)) {
-  throw new Error('Project Archive evidence requires a full commit SHA.');
-}
+validateEvidence(audit);
 
 const repository = process.env.PROJECT_ARCHIVE_REPO;
 if (!repository) {
@@ -19,9 +17,6 @@ if (!existsSync(repository)) {
 
 execFileSync('git', ['-C', repository, 'cat-file', '-e', `${audit.sourceCommit}^{commit}`]);
 for (const claim of audit.claims) {
-  if (!claim.id || !Array.isArray(claim.paths) || claim.paths.length === 0) {
-    throw new Error('Every Project Archive claim requires an id and source paths.');
-  }
   for (const path of claim.paths) {
     execFileSync('git', ['-C', repository, 'cat-file', '-e', `${audit.sourceCommit}:${path}`]);
   }

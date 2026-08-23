@@ -13,9 +13,10 @@ This checklist records the static release gates for the Astro portfolio. It is i
 - [x] `npm run build` passes and emits `dist/index.html`.
 - [x] Chromium, Firefox, and WebKit accessibility, no-JavaScript, preference, responsive, parity, and journal functional suites pass.
 - [x] Firefox and WebKit functional browser projects pass. Visual snapshots are intentionally Chromium-only and skipped for Firefox/WebKit.
+- [ ] Manual reduced-transparency emulation remains deferred because Playwright has no native setting; the production CSS media block is covered by a static contract test.
 - [ ] Lighthouse thresholds (performance 90, accessibility 100, best practices 95, SEO 95): blocked until a production-equivalent preview is available.
 - [ ] 200% and 400% Chromium zoom at `1280×800`: manual browser check remains deferred; automated narrow-flow overflow coverage passes.
-- [x] Chromium visual baselines generated and inspected for the requested recruiter/journal layouts; the Project Archive image is a portfolio layout capture only, not an external product capture. Firefox/WebKit remain functional-matrix checks; visual baselines are intentionally Chromium-only.
+- [x] Chromium visual baselines generated and inspected for recruiter/journal layouts; the Project Archive screenshot gate remains deferred and uses a truthful no-capture assertion. Firefox/WebKit remain functional-matrix checks; visual baselines are intentionally Chromium-only.
 
 ## Vercel project settings
 
