@@ -43,7 +43,7 @@ The local preview server required the approved local-listener escalation because
 
 ## Commit
 
-`34b99cb` — `feat: add Project Archive journal flagship`
+`c099e22` — `feat: add Project Archive journal flagship`
 
 ## Concerns / follow-up
 
