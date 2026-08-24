@@ -1253,18 +1253,21 @@ body::before {
 .project-notebook__workspace {
     position: relative;
     isolation: isolate;
-    min-height: calc(var(--journal-spread-height) + 7.5rem);
+    min-height: var(--journal-spread-height);
+    padding: clamp(1rem, 2.4vw, 2rem);
+    border-radius: 1.25rem;
+    overflow: hidden;
 }
 
 .project-notebook__desk {
     position: absolute;
     z-index: 0;
-    inset: -2.5rem -3rem -3.5rem;
-    width: calc(100% + 6rem);
-    height: calc(100% + 6rem);
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
-    opacity: 0.62;
+    opacity: 0.94;
     pointer-events: none;
     user-select: none;
 }
@@ -1272,25 +1275,23 @@ body::before {
 .project-notebook__index {
     position: relative;
     z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.8rem;
+    width: min(29%, 17rem);
     list-style: none;
 }
 
 .project-entry {
-    margin-bottom: 0;
+    margin-bottom: 0.9rem;
 }
 
 .project-entry:not([open]) .project-entry__spread { display: none; }
 
 .project-entry__cover {
     width: 100%;
-    min-height: 6.5rem;
+    min-height: 8.25rem;
     display: grid;
     align-content: center;
     gap: 0.22rem;
-    padding: 1rem 1.15rem;
+    padding: 1.15rem 1.2rem;
     border: 1px solid var(--paper-edge);
     border-radius: 0.75rem;
     background: var(--paper);
@@ -1304,10 +1305,11 @@ body::before {
 
 .project-entry__cover strong {
     display: block;
-    font-family: var(--font-sans);
-    font-size: 1.05rem;
-    font-weight: 700;
-    line-height: 1.05;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 2.2vw, 2rem);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
 }
 
 .project-entry__cover span { display: block; }
@@ -1328,9 +1330,10 @@ body::before {
 
 .project-entry__spread {
     position: absolute;
-    top: 7.5rem;
-    left: 0;
-    width: 100%;
+    top: clamp(1rem, 2.4vw, 2rem);
+    /* A <details> spread resolves its abspos box from the note itself. */
+    left: calc(100% + clamp(2rem, 3vw, 3rem));
+    width: calc(260% - clamp(2rem, 3vw, 3rem));
     height: var(--journal-spread-height);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1382,9 +1385,9 @@ body::before {
 .project-journal__turn-layer {
     position: absolute;
     z-index: 8;
-    top: 7.5rem;
-    left: 0;
-    width: 100%;
+    top: clamp(1rem, 2.4vw, 2rem);
+    left: calc(min(29%, 17rem) + clamp(2rem, 4vw, 4rem));
+    width: calc(71% - clamp(2rem, 4vw, 4rem));
     pointer-events: none;
     perspective: 76rem;
     transform-style: preserve-3d;
@@ -1492,11 +1495,11 @@ body::before {
     align-items: center;
     color: var(--clr-text);
     cursor: pointer;
-    font-family: var(--font-sans);
-    font-size: clamp(1.65rem, 3vw, 2.5rem);
-    font-weight: 700;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 2.5vw, 2.6rem);
+    font-weight: 400;
     line-height: 1;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.025em;
 }
 
 .project-page__content {
@@ -1612,6 +1615,18 @@ body::before {
     font-size: 0.5rem;
 }
 
+.project-architecture--project-archive .project-architecture__flow { gap: 0.4rem; }
+
+.project-architecture--project-archive .project-architecture__node {
+    padding: 0.28rem;
+    font-size: 0.56rem;
+}
+
+.project-architecture--project-archive .project-architecture__node:not(:last-child)::after {
+    left: calc(100% + 0.04rem);
+    width: 0.34rem;
+}
+
 .project-architecture__boundary {
     border-style: dashed;
     border-color: var(--desk-sage);
@@ -1712,46 +1727,15 @@ body::before {
 
 .project-entry__cover:active { transform: scale(0.98) rotate(0); }
 
-[data-theme="light"] #projects::before {
-    content: '';
-    position: absolute;
-    top: clamp(5rem, 10vw, 9rem);
-    left: max(1rem, calc(50% - 46rem));
-    z-index: 0;
-    width: clamp(5rem, 9vw, 7rem);
-    aspect-ratio: 1;
-    border: 0.75rem solid rgba(255, 249, 237, 0.82);
-    border-radius: 50%;
-    background: radial-gradient(circle, #4c3024 0 52%, #8b5d42 53% 61%, transparent 62%);
-    box-shadow: 0 0.8rem 1.6rem rgba(79, 53, 36, 0.18);
-    pointer-events: none;
-}
-
-[data-theme="light"] #projects::after {
-    content: '';
-    position: absolute;
-    top: 2rem;
-    right: 0;
-    z-index: 0;
-    width: min(28vw, 22rem);
-    height: 18rem;
-    background:
-        radial-gradient(ellipse at 72% 20%, rgba(77, 98, 65, 0.14) 0 10%, transparent 11%),
-        radial-gradient(ellipse at 88% 42%, rgba(77, 98, 65, 0.12) 0 12%, transparent 13%),
-        radial-gradient(ellipse at 66% 63%, rgba(77, 98, 65, 0.1) 0 11%, transparent 12%);
-    filter: blur(0.35rem);
-    pointer-events: none;
-}
-
 .project-notebook {
     position: relative;
     z-index: 1;
 }
 
 @media (max-width: 56.24rem) {
-    .project-notebook__workspace { min-height: 0; }
+    .project-notebook__workspace { min-height: 0; padding: 0; overflow: visible; }
     .project-notebook__desk { display: none; }
-    .project-notebook__index { display: block; }
+    .project-notebook__index { display: block; width: auto; }
     .project-entry { margin-bottom: 1.25rem; }
     .project-entry > .project-entry__cover { position: relative; z-index: 2; }
     .project-entry__cover { width: 100%; }
@@ -1761,6 +1745,7 @@ body::before {
         height: auto;
         margin-top: 1rem;
     }
+    .project-journal__turn-layer { display: none; }
     .project-page { height: auto; }
     .project-page__content--technical { grid-template-rows: none; }
     .project-page--story .project-page__content { grid-template-rows: none; }
