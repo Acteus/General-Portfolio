@@ -56,6 +56,9 @@ const projects = defineCollection({
     if (['private', 'in-progress', 'link-pending'].includes(project.status) && project.links.length > 0) {
       ctx.addIssue({ code: 'custom', path: ['links'], message: 'Private, in-progress, and link-pending projects cannot publish links.' });
     }
+    if (new Set(project.legacyHashes).size !== project.legacyHashes.length) {
+      ctx.addIssue({ code: 'custom', path: ['legacyHashes'], message: 'Legacy hashes must be unique.' });
+    }
   }),
 });
 

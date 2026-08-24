@@ -34,7 +34,7 @@
 .journal-index ol { display: grid; gap: var(--space-2xs); margin: 0; padding: 0; list-style: none; }
 .journal-index a, .journal-index__button { display: flex; width: 100%; min-height: 2.75rem; align-items: center; padding: var(--space-xs); border: 0; background: transparent; color: var(--text-muted); font: inherit; font-family: var(--font-display); text-align: left; text-decoration: none; cursor: pointer; }
 .journal-index a:hover, .journal-index a[aria-current='true'], .journal-index__button:hover, .journal-index__button[aria-current='true'] { background: var(--surface-raised); color: var(--text); }
-.journal-legacy-alias { display: block; margin-bottom: var(--space-xs); color: var(--text-muted); font: .75rem/1.3 var(--font-evidence); }
+.journal-legacy-alias { display: flex; min-height: 2.75rem; align-items: center; margin-bottom: var(--space-xs); scroll-margin-top: 6rem; color: var(--text-muted); font: .75rem/1.3 var(--font-evidence); }
 
 .journal-reading-layout { display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: var(--space-xl); align-items: start; }
 .journal-spread-column { min-width: 0; }

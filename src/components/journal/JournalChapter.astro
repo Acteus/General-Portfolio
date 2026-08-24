@@ -14,10 +14,11 @@ interface Props {
 
 const { project, chapterNumber } = Astro.props;
 const { data } = project;
+const legacyHashes = [...new Set(data.legacyHashes)];
 const archiveAudit = project.id === 'project-archive' ? (await import('../../data/project-archive-evidence.json')).default : null;
 ---
 
-{data.legacyHashes.map((hash) => <a class="journal-legacy-alias" id={hash.slice(1)} href={`#chapter-${project.id}`} data-journal-target={project.id} data-journal-spread="0">Open {data.title}</a>)}
+{legacyHashes.map((hash) => <a class="journal-legacy-alias" id={hash.slice(1)} href={`#chapter-${project.id}`} data-journal-target={project.id} data-journal-spread="0">Open {data.title}</a>)}
 <details class="journal-chapter" id={`chapter-${project.id}`} data-journal-chapter={project.id} open={project.id === 'project-archive'}>
     <summary class="journal-chapter__cover">
     <span class="chapter-number">Chapter {String(chapterNumber).padStart(2, '0')}</span>

@@ -46,6 +46,7 @@ test('turning leaves are hidden from the accessibility tree', async ({ page }) =
   await leaf.waitFor();
   await expect(leaf).toHaveAttribute('aria-hidden', 'true');
   await expect(leaf).toHaveAttribute('inert', '');
+  await expect(leaf.locator('[id], [aria-labelledby], [aria-describedby], [aria-controls], [aria-owns], [aria-activedescendant], [for]')).toHaveCount(0);
 });
 
 test('journal index exposes current chapter and boundary controls', async ({ page }) => {

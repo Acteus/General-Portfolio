@@ -14,6 +14,7 @@ This checklist records the static release gates for the Astro portfolio. It is i
 - [x] `npm run build` passes and emits `dist/index.html`.
 - [x] Chromium, Firefox, and WebKit accessibility, no-JavaScript, preference, responsive, parity, and journal functional suites pass.
 - [x] Plain desktop journal URLs resolve one chapter/spread, mobile keeps independent native disclosures, and Back/Forward restores parameterless defaults.
+- [x] Project Archive citation receipts and Operations Trail labels are bound to exact audited claim/path pairs; superseding turns preserve in-flight leaf progress and clean transient clone references.
 - [x] Firefox and WebKit functional browser projects pass. Visual snapshots are intentionally Chromium-only and skipped for Firefox/WebKit.
 - [ ] Manual reduced-transparency emulation remains deferred because Playwright has no native setting; the production CSS media block is covered by a static contract test.
 - [ ] Lighthouse thresholds (performance 90, accessibility 100, best practices 95, SEO 95): blocked until a production-equivalent preview is available.

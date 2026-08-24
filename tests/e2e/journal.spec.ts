@@ -20,6 +20,17 @@ test('rapid chapter selection commits only the last destination', async ({ page 
   await expect(page.locator('.journal-leaf')).toHaveCount(0);
 });
 
+test('superseding an in-flight turn carries the existing leaf progress', async ({ page }) => {
+  await page.goto('/?mode=journal&chapter=jobboard-devops');
+  await page.locator('.journal-index a[data-journal-target="project-archive"]').click();
+  await page.locator('.journal-leaf').waitFor();
+  await page.waitForTimeout(120);
+  await page.locator('.journal-index a[data-journal-target="github-discord-bot"]').click();
+  await expect(page.locator('.journal-leaf[data-journal-carried-transform="true"]')).toHaveCount(1);
+  await expect(page.locator('[data-journal-chapter="github-discord-bot"]')).toBeVisible();
+  await expect(page.locator('.journal-leaf')).toHaveCount(0);
+});
+
 test('browser history restores chapter state', async ({ page }) => {
   await page.goto('/?mode=journal&chapter=jobboard-devops');
   await page.locator('.journal-index a[data-journal-target="project-archive"]').click();
@@ -59,15 +70,27 @@ test('Project Archive source captions stay bound to the audited evidence manifes
   const rendered = await page.locator('[data-journal-chapter="project-archive"] [aria-label="Source paths"] code').allTextContents();
   expect(new Set(rendered)).toEqual(new Set([
     'apps/api/src/project_archive/services/chat.py',
-    'apps/api/tests/chat/test_chat_service.py',
     'apps/web/src/public/PublicApp.tsx',
     'apps/api/src/project_archive/services/indexing.py',
     'apps/api/src/project_archive/adapters/cosmos/outbox.py',
     'apps/api/src/project_archive/services/catalog.py',
-    'apps/api/tests/catalog/test_catalog_service.py',
     'apps/web/src/owner/OwnerApp.tsx',
     'docs/stability-operations.md',
   ]));
+  await expect(page.locator('.evidence-artifact__source[data-source-claim="commit-pinned-citations"]')).toContainText('apps/web/src/public/PublicApp.tsx');
+  const operations = page.locator('[data-artifact="operations"] li');
+  await expect(operations).toHaveCount(5);
+  await expect(operations.locator('.operations-trail__label')).toHaveText(['Queue', 'Delivery', 'Deletion', 'Recovery', 'Release']);
+  await expect(operations.nth(0).locator('code')).toHaveAttribute('data-source-claim', 'durable-indexing');
+  await expect(operations.nth(0).locator('code')).toHaveText('apps/api/src/project_archive/services/indexing.py');
+  await expect(operations.nth(1).locator('code')).toHaveAttribute('data-source-claim', 'durable-indexing');
+  await expect(operations.nth(1).locator('code')).toHaveText('apps/api/src/project_archive/adapters/cosmos/outbox.py');
+  await expect(operations.nth(2).locator('code')).toHaveAttribute('data-source-claim', 'safe-deletion');
+  await expect(operations.nth(2).locator('code')).toHaveText('apps/api/src/project_archive/services/catalog.py');
+  await expect(operations.nth(3).locator('code')).toHaveAttribute('data-source-claim', 'owner-safe-operations');
+  await expect(operations.nth(3).locator('code')).toHaveText('apps/web/src/owner/OwnerApp.tsx');
+  await expect(operations.nth(4).locator('code')).toHaveAttribute('data-source-claim', 'owner-safe-operations');
+  await expect(operations.nth(4).locator('code')).toHaveText('docs/stability-operations.md');
 });
 
 test('Back walks through committed destinations without phantom entries', async ({ page }) => {

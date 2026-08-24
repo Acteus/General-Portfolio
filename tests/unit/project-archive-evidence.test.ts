@@ -26,8 +26,11 @@ describe('Project Archive evidence', () => {
     const spread = readFileSync('src/components/journal/CaseStudySpread.astro', 'utf8');
     const audit = JSON.parse(readFileSync('src/data/project-archive-evidence.json', 'utf8'));
     expect(spread).toContain('sourceClaims');
-    expect(spread).toContain('pathsFor');
-    expect(spread).not.toContain('apps/api/src/project_archive/services/indexing.py');
+    expect(spread).toContain("bind('durable-indexing', 'apps/api/src/project_archive/services/indexing.py')");
+    expect(spread).toContain("bind('durable-indexing', 'apps/api/src/project_archive/adapters/cosmos/outbox.py')");
+    expect(spread).toContain("bind('safe-deletion', 'apps/api/src/project_archive/services/catalog.py')");
+    expect(spread).toContain("bind('owner-safe-operations', 'apps/web/src/owner/OwnerApp.tsx')");
+    expect(spread).toContain("bind('owner-safe-operations', 'docs/stability-operations.md')");
     expect(audit.claims.flatMap((claim: { paths: string[] }) => claim.paths)).toHaveLength(10);
   });
 });

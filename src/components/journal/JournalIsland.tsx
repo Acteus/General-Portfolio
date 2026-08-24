@@ -76,14 +76,25 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
 
     function applyCommitted(next: JournalState, isolate = true) {
       for (const root of roots) {
-        const active = !isolate || root === chapterRoot(next.chapterId);
-        root.hidden = !active;
-        setInert(root, !active);
-        if (active && root instanceof HTMLDetailsElement) root.open = true;
+        const active = root === chapterRoot(next.chapterId);
+        if (isolate) {
+          root.hidden = !active;
+          setInert(root, !active);
+          if (active && root instanceof HTMLDetailsElement) root.open = true;
+        } else {
+          root.hidden = false;
+          setInert(root, false);
+          if (active && root instanceof HTMLDetailsElement) root.open = true;
+        }
         root.querySelectorAll<HTMLElement>('[data-case-study-spread]').forEach((spread) => {
-          const activeSpread = !isolate || Number(spread.dataset.caseStudySpread) === next.spread;
-          spread.hidden = !activeSpread;
-          setInert(spread, !activeSpread);
+          if (isolate) {
+            const activeSpread = active && Number(spread.dataset.caseStudySpread) === next.spread;
+            spread.hidden = !activeSpread;
+            setInert(spread, !activeSpread);
+          } else {
+            spread.hidden = false;
+            setInert(spread, false);
+          }
         });
       }
       interactionRoot?.querySelectorAll<HTMLElement>('.journal-index [data-journal-target]').forEach((control) => {
@@ -152,6 +163,7 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
         applyCommitted(current, isDesktop());
         return;
       }
+      const carriedTransform = leafRef.current ? getComputedStyle(leafRef.current).transform : null;
       removeLeaf();
       const requestId = ++requestRef.current;
       const direction = transitionDirection(manifest, current, nextDestination);
@@ -173,6 +185,11 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       const source = chapterRoot(current.chapterId)?.querySelector<HTMLElement>('[data-case-study-spread]:not([hidden])') ?? chapterRoot(current.chapterId)?.querySelector<HTMLElement>('.journal-chapter__body');
       if (!desktop || reducedMotion || !lightMode || !source || !host) {
         commit({ ...requested, phase: 'idle', direction: 0 }, push, keyboard);
+        if (!desktop) {
+          const target = chapterRoot(nextDestination.chapterId);
+          if (target instanceof HTMLDetailsElement) target.open = true;
+          target?.scrollIntoView({ block: 'start', behavior: reducedMotion ? 'auto' : 'smooth' });
+        }
         return;
       }
 
@@ -186,16 +203,27 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
         const leaf = source.cloneNode(true) as HTMLElement;
         leaf.classList.add('journal-leaf');
         leaf.removeAttribute('id');
+        leaf.querySelectorAll<HTMLElement>('[id], [aria-labelledby], [aria-describedby], [aria-controls], [aria-owns], [aria-activedescendant], [for]').forEach((node) => {
+          node.removeAttribute('id');
+          node.removeAttribute('aria-labelledby');
+          node.removeAttribute('aria-describedby');
+          node.removeAttribute('aria-controls');
+          node.removeAttribute('aria-owns');
+          node.removeAttribute('aria-activedescendant');
+          node.removeAttribute('for');
+        });
         leaf.setAttribute('aria-hidden', 'true');
         leaf.setAttribute('inert', '');
         leaf.style.position = 'absolute';
         leaf.style.inset = '0';
         leaf.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
         leaf.style.zIndex = '2';
+        const initialTransform = carriedTransform && carriedTransform !== 'none' ? carriedTransform : 'rotateY(0deg)';
+        if (initialTransform !== 'rotateY(0deg)') leaf.dataset.journalCarriedTransform = 'true';
         host.append(leaf);
         leafRef.current = leaf;
         host.classList.add('is-turning');
-        animationRef.current = animate(leaf, { transform: ['rotateY(0deg)', `rotateY(${direction > 0 ? '-180deg' : '180deg'})`] }, {
+        animationRef.current = animate(leaf, { transform: [initialTransform, `rotateY(${direction > 0 ? '-180deg' : '180deg'})`] }, {
           duration: 0.48,
           ease: easing,
           onComplete: finish,
