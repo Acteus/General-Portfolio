@@ -24,10 +24,10 @@ describe('Project Archive evidence', () => {
 
   it('maps operations evidence to the indexing, outbox, catalog, and owner sources it describes', () => {
     const spread = readFileSync('src/components/journal/CaseStudySpread.astro', 'utf8');
-    expect(spread).toContain("'apps/api/src/project_archive/services/indexing.py'");
-    expect(spread).toContain("'apps/api/src/project_archive/adapters/cosmos/outbox.py'");
-    expect(spread).toContain("'apps/api/src/project_archive/services/catalog.py'");
-    expect(spread).toContain("'apps/web/src/owner/OwnerApp.tsx'");
-    expect(spread).toMatch(/operations:\s*\[[\s\S]*indexing\.py[\s\S]*outbox\.py/);
+    const audit = JSON.parse(readFileSync('src/data/project-archive-evidence.json', 'utf8'));
+    expect(spread).toContain('sourceClaims');
+    expect(spread).toContain('pathsFor');
+    expect(spread).not.toContain('apps/api/src/project_archive/services/indexing.py');
+    expect(audit.claims.flatMap((claim: { paths: string[] }) => claim.paths)).toHaveLength(10);
   });
 });

@@ -16,8 +16,8 @@ test('keyboard focus survives a theme switch and journal navigation', async ({ p
   await page.keyboard.press('Enter');
   await expect(page.getByRole('button', { name: /switch to recruiter/i })).toBeFocused();
 
-  const archiveButton = page.getByRole('button', { name: /project archive/i });
-  await page.getByRole('button', { name: /jobboard-devops/i }).focus();
+  const archiveButton = page.locator('.journal-index a[data-journal-target="project-archive"]');
+  await page.locator('.journal-index a[data-journal-target="jobboard-devops"]').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('[data-journal-chapter="jobboard-devops"] h2')).toBeFocused();
   await archiveButton.focus();
@@ -41,9 +41,17 @@ test('skip link is the first keyboard destination', async ({ page }) => {
 
 test('turning leaves are hidden from the accessibility tree', async ({ page }) => {
   await page.goto('/?mode=journal&chapter=jobboard-devops');
-  await page.getByRole('button', { name: /project archive/i }).click();
+  await page.locator('.journal-index a[data-journal-target="project-archive"]').click();
   const leaf = page.locator('.journal-leaf');
   await leaf.waitFor();
   await expect(leaf).toHaveAttribute('aria-hidden', 'true');
   await expect(leaf).toHaveAttribute('inert', '');
+});
+
+test('journal index exposes current chapter and boundary controls', async ({ page }) => {
+  await page.goto('/?mode=journal');
+  await expect(page.locator('.journal-index a[data-journal-target="project-archive"]')).toHaveAttribute('aria-current', 'true');
+  await expect(page.getByRole('button', { name: 'Previous spread' })).toBeDisabled();
+  await page.goto('/?mode=journal&chapter=project-archive&spread=5');
+  await expect(page.getByRole('button', { name: 'Next spread' })).toBeDisabled();
 });

@@ -6,11 +6,11 @@ export const site = {
   resume: '/output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf',
   location: 'Philippines',
   navigation: [
-    { id: 'home', recruiter: 'Home', journal: 'Home' },
-    { id: 'about', recruiter: 'About', journal: 'Story' },
-    { id: 'skills', recruiter: 'Skills', journal: 'Now' },
-    { id: 'projects', recruiter: 'Projects', journal: 'Notes' },
-    { id: 'contact', recruiter: 'Contact', journal: 'Say hello' },
+    { recruiterId: 'home', journalId: 'home-journal', recruiter: 'Home', journal: 'Home' },
+    { recruiterId: 'about', journalId: 'journal-story', recruiter: 'About', journal: 'Story' },
+    { recruiterId: 'skills', journalId: 'journal-now', recruiter: 'Skills', journal: 'Now' },
+    { recruiterId: 'projects', journalId: 'journal-projects', recruiter: 'Projects', journal: 'Notes' },
+    { recruiterId: 'contact', journalId: 'journal-contact', recruiter: 'Contact', journal: 'Say hello' },
   ],
 } as const;
 

@@ -11,17 +11,19 @@ interface Props {
   position: number;
   total: number;
   sourceCommit: string;
+  sourceClaims: { id: string; paths: string[] }[];
   artifact: 'record' | 'architecture' | 'citations' | 'operations' | 'doorway';
 }
 
-const { id, question, narrative, position, total, sourceCommit, artifact } = Astro.props;
+const { id, question, narrative, position, total, sourceCommit, sourceClaims, artifact } = Astro.props;
+const pathsFor = (ids: string[]) => [...new Set(sourceClaims.filter((claim) => ids.includes(claim.id)).flatMap((claim) => claim.paths))];
 const sourcePaths = {
-  record: ['apps/api/src/project_archive/services/chat.py'],
-  architecture: ['apps/api/src/project_archive/services/indexing.py', 'apps/api/src/project_archive/adapters/cosmos/outbox.py'],
-  citations: ['apps/api/src/project_archive/services/chat.py', 'apps/web/src/public/PublicApp.tsx'],
-  operations: ['apps/api/src/project_archive/services/indexing.py', 'apps/api/src/project_archive/adapters/cosmos/outbox.py', 'apps/api/src/project_archive/services/catalog.py', 'apps/web/src/owner/OwnerApp.tsx', 'docs/stability-operations.md'],
-  doorway: ['docs/stability-operations.md', 'docs/superpowers/specs/2026-07-15-project-archive-chat-design.md'],
-} as const;
+  record: pathsFor(['source-grounded-answers']),
+  architecture: pathsFor(['durable-indexing']),
+  citations: pathsFor(['source-grounded-answers', 'commit-pinned-citations']),
+  operations: pathsFor(['durable-indexing', 'safe-deletion', 'owner-safe-operations']),
+  doorway: pathsFor(['owner-safe-operations']),
+};
 ---
 
 <section class="case-study-spread journal-spread" id={`spread-${id}`} data-case-study-spread={position - 1} aria-labelledby={`${id}-heading`}>

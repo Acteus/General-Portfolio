@@ -27,8 +27,8 @@ const projects = defineCollection({
   schema: z.object({
     order: z.number().int().nonnegative(),
     title: z.string().min(1),
-    role: z.string().min(1),
-    date: z.string().min(1),
+    role: z.string().min(1).optional(),
+    date: z.string().min(1).optional(),
     status: z.enum(['public', 'private', 'in-progress', 'deployed', 'link-pending']),
     statusLabel: z.string().min(1),
     chapterType: z.enum(['field-note', 'case-study', 'flagship']),

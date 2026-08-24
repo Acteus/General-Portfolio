@@ -8,10 +8,12 @@ This checklist records the static release gates for the Astro portfolio. It is i
 - [x] `@astrojs/sitemap` is configured and `public/robots.txt` is shipped.
 - [x] `npm run audit:content` passes after legacy cleanup.
 - [x] Project Archive evidence record shape audit passes locally; sibling path verification is strict when `PROJECT_ARCHIVE_REPO` points to an available repository and otherwise reports a clear skip.
+- [x] Legacy journal hashes canonicalize to chapter/spread URLs with no-JavaScript alias anchors; mode-aware navigation and recruiter-to-journal links remain truthful.
 - [x] `npm run check` passes.
 - [x] `npm run test:unit` passes.
 - [x] `npm run build` passes and emits `dist/index.html`.
 - [x] Chromium, Firefox, and WebKit accessibility, no-JavaScript, preference, responsive, parity, and journal functional suites pass.
+- [x] Plain desktop journal URLs resolve one chapter/spread, mobile keeps independent native disclosures, and Back/Forward restores parameterless defaults.
 - [x] Firefox and WebKit functional browser projects pass. Visual snapshots are intentionally Chromium-only and skipped for Firefox/WebKit.
 - [ ] Manual reduced-transparency emulation remains deferred because Playwright has no native setting; the production CSS media block is covered by a static contract test.
 - [ ] Lighthouse thresholds (performance 90, accessibility 100, best practices 95, SEO 95): blocked until a production-equivalent preview is available.

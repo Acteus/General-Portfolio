@@ -17,4 +17,11 @@ test.describe('JavaScript-disabled reading', () => {
     await expect(page.locator('details[data-journal-chapter="project-archive"]')).toBeVisible();
     await expect(page.locator('a[href="https://gdullas.kwadrateam.dev"]')).toHaveCount(0);
   });
+
+  test('keeps journal index and legacy aliases as real anchors without JavaScript', async ({ page }) => {
+    await page.goto('/?mode=journal#note-jobboard');
+    await expect(page.locator('.journal-index a[href^="#chapter-"]')).toHaveCount(5);
+    await expect(page.locator('#note-jobboard')).toHaveAttribute('href', '#chapter-jobboard-devops');
+    await expect(page.getByRole('link', { name: 'Open JobBoard-DevOps' })).toBeVisible();
+  });
 });
