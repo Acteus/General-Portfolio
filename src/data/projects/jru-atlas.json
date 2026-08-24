@@ -18,5 +18,5 @@
   "architecture": ["DigitalOcean", "Laravel", "2 Workers", "FastAPI NLP"],
   "operations": [],
   "lessons": ["Responsible documentation can make private work understandable without making it exposed."],
-  "legacyHashes": ["#note-private-work"]
+  "legacyHashes": []
 }

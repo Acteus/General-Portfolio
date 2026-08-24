@@ -22,6 +22,8 @@ test.describe('JavaScript-disabled reading', () => {
     await page.goto('/?mode=journal#note-jobboard');
     await expect(page.locator('.journal-index a[href^="#chapter-"]')).toHaveCount(5);
     await expect(page.locator('#note-jobboard')).toHaveAttribute('href', '#chapter-jobboard-devops');
+    await expect(page.locator('#note-private-work')).toHaveCount(1);
+    await expect(page.locator('#note-private-work')).toContainText('JRU Atlas and LaborWise');
     await expect(page.getByRole('link', { name: 'Open JobBoard-DevOps' })).toBeVisible();
   });
 });

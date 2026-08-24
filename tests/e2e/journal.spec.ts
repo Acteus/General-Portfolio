@@ -11,6 +11,13 @@ test('canonicalizes a legacy hash to its journal chapter and spread', async ({ p
   await expect(page.locator('[data-journal-chapter="jobboard-devops"]')).toBeVisible();
 });
 
+test('keeps the private-work compatibility target unique while representing both private notes', async ({ page }) => {
+  await page.goto('/#note-private-work');
+  await expect(page).toHaveURL(/\?mode=journal&chapter=jru-atlas&spread=1$/);
+  await expect(page.locator('#note-private-work')).toHaveCount(1);
+  await expect(page.locator('#note-private-work')).toContainText('JRU Atlas and LaborWise');
+});
+
 test('rapid chapter selection commits only the last destination', async ({ page }) => {
   await page.goto('/?mode=journal&chapter=jobboard-devops');
   await page.locator('.journal-index a[data-journal-target="project-archive"]').click();
@@ -62,6 +69,28 @@ test('mobile journal keeps native sibling disclosures available', async ({ page 
   await expect(page.locator('[data-journal-chapter="project-archive"] [data-case-study-spread]:not([hidden])')).toHaveCount(5);
   await page.locator('.journal-index a[data-journal-target="jobboard-devops"]').click();
   await expect(page.locator('details[data-journal-chapter]:not([hidden])')).toHaveCount(5);
+  await page.locator('.journal-index a[data-journal-target="jobboard-devops"]').click();
+  await expect(page.locator('[data-journal-chapter="jobboard-devops"] h2')).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Previous spread' })).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Next spread' })).toBeHidden();
+});
+
+test('bare recruiter history preserves its implicit dark mode', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('portfolio-theme', 'dark'));
+  await page.goto('/');
+  await expect.poll(() => page.evaluate(() => window.history.state?.mode)).toBe('recruiter');
+  await page.getByRole('button', { name: /switch to journal/i }).click();
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect.poll(() => page.evaluate(() => window.history.state?.mode)).toBe('recruiter');
+  await expect(page.getByRole('button', { name: /switch to journal/i })).toBeVisible();
+});
+
+test('bare light history preserves its implicit journal mode', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('portfolio-theme', 'light'));
+  await page.goto('/');
+  await expect.poll(() => page.evaluate(() => window.history.state?.mode)).toBe('journal');
+  await expect(page.getByRole('button', { name: /switch to recruiter/i })).toBeVisible();
 });
 
 test('Project Archive source captions stay bound to the audited evidence manifest', async ({ page }) => {

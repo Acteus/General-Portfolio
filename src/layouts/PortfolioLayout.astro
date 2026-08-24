@@ -97,7 +97,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           setTheme(next);
         });
         window.addEventListener('popstate', () => {
-          const mode = new URL(window.location.href).searchParams.get('mode');
+          const mode = new URL(window.location.href).searchParams.get('mode') ?? window.history.state?.mode;
           const next = mode === 'recruiter' ? 'dark' : mode === 'journal' ? 'light' : document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
           setTheme(next);
         });

@@ -2,6 +2,7 @@ import { animate, type AnimationPlaybackControlsWithThen } from 'motion';
 import { useEffect, useReducer, useRef } from 'react';
 import type { ChapterManifest, JournalState } from './state';
 import { journalReducer } from './state';
+import { readTurnProgress, turnKeyframes } from './motion';
 
 interface JournalIslandProps {
   manifest: ChapterManifest[];
@@ -72,6 +73,13 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
     function updateStatus(next: JournalState) {
       const chapter = manifest.find((entry) => entry.id === next.chapterId);
       if (chapter) status.textContent = `${chapter.label}, spread ${next.spread + 1} of ${chapter.spreadCount}`;
+    }
+
+    function focusMobileChapter(chapterId: string) {
+      const target = chapterRoot(chapterId);
+      if (target instanceof HTMLDetailsElement) target.open = true;
+      target?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      target?.querySelector<HTMLElement>('h2, h3')?.focus({ preventScroll: true });
     }
 
     function applyCommitted(next: JournalState, isolate = true) {
@@ -161,9 +169,10 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
         requestRef.current += 1;
         removeLeaf();
         applyCommitted(current, isDesktop());
+        if (!isDesktop()) focusMobileChapter(current.chapterId);
         return;
       }
-      const carriedTransform = leafRef.current ? getComputedStyle(leafRef.current).transform : null;
+      const carriedProgress = leafRef.current ? readTurnProgress(getComputedStyle(leafRef.current).transform, getComputedStyle(leafRef.current).transformOrigin) : null;
       removeLeaf();
       const requestId = ++requestRef.current;
       const direction = transitionDirection(manifest, current, nextDestination);
@@ -203,6 +212,12 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
         const leaf = source.cloneNode(true) as HTMLElement;
         leaf.classList.add('journal-leaf');
         leaf.removeAttribute('id');
+        leaf.removeAttribute('aria-labelledby');
+        leaf.removeAttribute('aria-describedby');
+        leaf.removeAttribute('aria-controls');
+        leaf.removeAttribute('aria-owns');
+        leaf.removeAttribute('aria-activedescendant');
+        leaf.removeAttribute('for');
         leaf.querySelectorAll<HTMLElement>('[id], [aria-labelledby], [aria-describedby], [aria-controls], [aria-owns], [aria-activedescendant], [for]').forEach((node) => {
           node.removeAttribute('id');
           node.removeAttribute('aria-labelledby');
@@ -216,14 +231,14 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
         leaf.setAttribute('inert', '');
         leaf.style.position = 'absolute';
         leaf.style.inset = '0';
-        leaf.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
+        leaf.style.transformOrigin = carriedProgress?.transformOrigin ?? (direction > 0 ? 'left center' : 'right center');
         leaf.style.zIndex = '2';
-        const initialTransform = carriedTransform && carriedTransform !== 'none' ? carriedTransform : 'rotateY(0deg)';
-        if (initialTransform !== 'rotateY(0deg)') leaf.dataset.journalCarriedTransform = 'true';
+        const keyframes = turnKeyframes(carriedProgress, direction);
+        if (carriedProgress) leaf.dataset.journalCarriedTransform = 'true';
         host.append(leaf);
         leafRef.current = leaf;
         host.classList.add('is-turning');
-        animationRef.current = animate(leaf, { transform: [initialTransform, `rotateY(${direction > 0 ? '-180deg' : '180deg'})`] }, {
+        animationRef.current = animate(leaf, { transform: keyframes }, {
           duration: 0.48,
           ease: easing,
           onComplete: finish,
@@ -241,9 +256,8 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
     committedRef.current = resolvedInitial;
     const desktop = window.matchMedia('(min-width: 48rem)');
     applyCommitted(resolvedInitial, isDesktop());
-    if (new URL(window.location.href).searchParams.get('mode') !== 'recruiter') {
-      window.history.replaceState({ ...(window.history.state ?? {}), mode: 'journal', chapter: resolvedInitial.chapterId, spread: resolvedInitial.spread + 1 }, '', window.location.href);
-    }
+    const initialMode = new URL(window.location.href).searchParams.get('mode') ?? (document.documentElement.dataset.theme === 'dark' ? 'recruiter' : 'journal');
+    window.history.replaceState({ ...(window.history.state ?? {}), mode: initialMode, chapter: resolvedInitial.chapterId, spread: resolvedInitial.spread + 1 }, '', window.location.href);
     if (initial.chapterId !== initialChapterId || initial.spread !== initialSpread) {
       dispatch({ type: 'request', ...resolvedInitial, requestId: 0, direction: 1 });
       dispatch({ type: 'commit', requestId: 0 });
@@ -262,7 +276,9 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
     const previousHandler = () => transitionTo(stateRef.current.chapterId, stateRef.current.spread - 1, true, false);
     const nextHandler = () => transitionTo(stateRef.current.chapterId, stateRef.current.spread + 1, true, false);
     const popHandler = () => {
-      if (new URL(window.location.href).searchParams.get('mode') === 'recruiter') {
+      const urlMode = new URL(window.location.href).searchParams.get('mode');
+      const resolvedMode = urlMode ?? (document.documentElement.dataset.theme === 'dark' ? 'recruiter' : 'journal');
+      if (resolvedMode === 'recruiter') {
         cancelPending();
         return;
       }

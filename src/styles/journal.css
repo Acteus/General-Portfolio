@@ -118,6 +118,7 @@
   .journal-reading-layout { display: block; }
   .journal-turn-layer { display: none; }
   .journal-index { margin-bottom: var(--space-lg); }
+  .journal-island__controls { display: none; }
   .journal-index ol { grid-template-columns: 1fr; }
   .journal-chapter__body { grid-template-columns: 1fr; }
   .journal-chapter__meta, .journal-chapter__footer { grid-column: auto; flex-direction: column; align-items: flex-start; }
