@@ -1,0 +1,110 @@
+---
+import { site } from '../data/site';
+import { deepLinkMap } from '../scripts/theme';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/recruiter.css';
+import '../styles/journal.css';
+import '../styles/preferences.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const title = Astro.props.title ?? `${site.name} — ${site.role}`;
+const description = Astro.props.description ?? 'Cloud and platform engineering portfolio of Garren Dullas.';
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+---
+
+<!doctype html>
+<html lang="en" data-theme="light" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#15191A" />
+    <title>{title}</title>
+    <script is:inline define:vars={{ deepLinkMap }}>
+      (() => {
+        const url = new URL(window.location.href);
+        const legacyChapter = deepLinkMap[url.hash.toLowerCase()];
+        if (legacyChapter) {
+          url.searchParams.set('mode', 'journal');
+          url.searchParams.set('chapter', legacyChapter);
+          url.searchParams.set('spread', '1');
+          url.hash = '';
+          window.history.replaceState({ mode: 'journal', chapter: legacyChapter, spread: 1 }, '', url);
+        }
+        const requested = url.searchParams.get('mode');
+        const stored = window.localStorage.getItem('portfolio-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = requested === 'journal' ? 'light' : requested === 'recruiter' ? 'dark' : stored === 'light' || stored === 'dark' ? stored : prefersDark ? 'dark' : 'light';
+        const initialMode = requested ?? (theme === 'dark' ? 'recruiter' : 'journal');
+        window.history.replaceState({ ...(window.history.state ?? {}), mode: window.history.state?.mode ?? initialMode }, '', url);
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="#home" data-recruiter-href="#home" data-journal-href="#home-journal">{site.name}</a>
+        <nav class="site-nav" aria-label="Main navigation">
+          {site.navigation.map((item) => <a href={`#${item.recruiterId}`} data-recruiter-href={`#${item.recruiterId}`} data-journal-href={`#${item.journalId}`} data-recruiter-label={item.recruiter} data-journal-label={item.journal}>{item.recruiter}</a>)}
+          <a href={site.resume} target="_blank" rel="noopener noreferrer">Resume</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to journal" title="Switch mode">☼</button>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content"><slot /></main>
+    <footer class="site-footer"><p>© 2026 {site.name}</p><p><a href={site.github}>GitHub</a> · <a href={site.email}>Email</a></p></footer>
+    <script is:inline>
+      (() => {
+        const button = document.querySelector('[data-theme-toggle]');
+        if (!button) return;
+        const syncNavigation = (theme) => {
+          const journal = theme === 'light';
+          document.querySelectorAll('[data-recruiter-href][data-journal-href]').forEach((link) => {
+            const anchor = link;
+            anchor.href = journal ? anchor.dataset.journalHref : anchor.dataset.recruiterHref;
+            if (anchor.dataset.journalLabel && anchor.dataset.recruiterLabel) anchor.textContent = journal ? anchor.dataset.journalLabel : anchor.dataset.recruiterLabel;
+          });
+        };
+        const setTheme = (theme) => {
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          window.localStorage.setItem('portfolio-theme', theme);
+          const journal = theme === 'light';
+          button.setAttribute('aria-label', journal ? 'Switch to recruiter' : 'Switch to journal');
+          button.setAttribute('title', journal ? 'Switch to recruiter' : 'Switch to journal');
+          syncNavigation(theme);
+        };
+        button.addEventListener('click', () => {
+          const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+          const url = new URL(window.location.href);
+          url.searchParams.set('mode', next === 'dark' ? 'recruiter' : 'journal');
+          window.history.pushState({ ...(window.history.state ?? {}), mode: next === 'dark' ? 'recruiter' : 'journal' }, '', url);
+          setTheme(next);
+        });
+        window.addEventListener('popstate', () => {
+          const mode = new URL(window.location.href).searchParams.get('mode') ?? window.history.state?.mode;
+          const next = mode === 'recruiter' ? 'dark' : mode === 'journal' ? 'light' : document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+          setTheme(next);
+        });
+        setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+      })();
+    </script>
+  </body>
+</html>

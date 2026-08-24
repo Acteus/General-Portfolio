@@ -1,0 +1,20 @@
+{
+  "order": 11,
+  "title": "Lifeline Emergency App",
+  "status": "link-pending",
+  "statusLabel": "Link pending",
+  "chapterType": "field-note",
+  "themeAvailability": "recruiter-only",
+  "recruiterSummary": "Emergency app combining location sharing with real-time voice translation.",
+  "story": ["Emergency app combining location sharing with real-time voice translation."],
+  "technicalNarrative": ["The emergency app uses Flutter, Node.js, Firebase, and AWS; its repository link is pending."],
+  "technologies": ["Flutter", "Node.js", "Firebase", "AWS"],
+  "verifiedClaims": ["Location sharing", "Real-time voice translation"],
+  "evidence": [],
+  "spreads": [],
+  "links": [],
+  "architecture": [],
+  "operations": [],
+  "lessons": [],
+  "legacyHashes": []
+}

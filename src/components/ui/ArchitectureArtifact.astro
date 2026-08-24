@@ -1,0 +1,15 @@
+---
+interface Props {
+  label?: string;
+  steps: string[];
+}
+
+const { label = 'Architecture path', steps } = Astro.props;
+---
+
+<figure class="architecture-artifact">
+  <figcaption class="architecture-artifact__label">{label}</figcaption>
+  <ol>
+    {steps.map((step) => <li>{step}</li>)}
+  </ol>
+</figure>

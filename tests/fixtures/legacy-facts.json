@@ -1,0 +1,14 @@
+{
+  "titles": ["JobBoard-DevOps", "JRU Atlas", "LaborWise", "GitHub → Discord Bot", "Sumwork", "TransPort-PH: Traffic Policy Analyzer", "Estate Price Predictor", "SEIRD Epidemic Simulator", "MindMate AI", "ISO Compliance Validator", "Lifeline Emergency App", "IoT Sensor Monitor"],
+  "links": ["https://github.com/Acteus/JobBoard-DevOps-Project", "https://github.com/Acteus/github-discord-bot", "https://github.com/Acteus/TransPort-PH", "https://github.com/Acteus/Estate-Prices-NN", "https://github.com/Acteus/Simple-Epidemic", "https://github.com/Acteus/Mindmate", "https://github.com/Acteus/IoT-Sensor-Dashboard"],
+  "statuses": ["Private repository", "Link pending", "Public repository", "deployment details being documented", "sanitized case study planned"],
+  "contact": ["mailto:garrendullas@gmail.com", "https://github.com/Acteus", "output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf"],
+  "journalProse": [
+    "The AWS-to-Azure study reinforced that migration is also about separating application concerns from delivery and infrastructure decisions.",
+    "What stayed with me: moving a system means understanding the boundaries that make it deployable.",
+    "The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.",
+    "What stayed with me: responsible documentation can make private work understandable without making it exposed.",
+    "Running a small service on Oracle Cloud made HTTPS, service supervision, recovery, and deployment part of the project itself.",
+    "What stayed with me: a small service still deserves an operational plan."
+  ]
+}

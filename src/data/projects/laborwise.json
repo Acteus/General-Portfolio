@@ -1,0 +1,22 @@
+{
+  "order": 3,
+  "title": "LaborWise",
+  "role": "Cloud / Backend Developer",
+  "date": "2026–Present",
+  "status": "private",
+  "statusLabel": "Private repository",
+  "chapterType": "field-note",
+  "themeAvailability": "both",
+  "recruiterSummary": "A Philippine employment-rights service running on Azure, with a web API and scheduled legal-source updates.",
+  "story": ["The useful story is not private source code. It is the sanitized architecture, operational choices, and lessons that can be shared safely.", "What stayed with me: responsible documentation can make private work understandable without making it exposed."],
+  "technicalNarrative": ["A Philippine employment-rights service is running on Azure with a web API and scheduled legal-source updates."],
+  "technologies": ["Container Apps", "ACR", "Managed Identity", "Log Analytics"],
+  "verifiedClaims": ["Private service", "Web API", "Scheduled legal-source updates"],
+  "evidence": [{ "kind": "status", "label": "Visibility", "value": "Private repository · architecture sanitized" }, { "kind": "status", "label": "Documentation", "value": "Private project · sanitized case study planned" }],
+  "spreads": [],
+  "links": [],
+  "architecture": ["Container Apps", "ACR", "Managed Identity", "Log Analytics"],
+  "operations": [],
+  "lessons": ["Responsible documentation can make private work understandable without making it exposed."],
+  "legacyHashes": []
+}

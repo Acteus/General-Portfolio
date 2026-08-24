@@ -1,0 +1,61 @@
+---
+import EvidenceArtifact from '../artifacts/EvidenceArtifact.astro';
+import ArchitectureArtifact from '../artifacts/ArchitectureArtifact.astro';
+import OperationsTrail from '../artifacts/OperationsTrail.astro';
+import LiveProjectDoorway from '../artifacts/LiveProjectDoorway.astro';
+
+interface Props {
+  id: string;
+  question: string;
+  narrative: string[];
+  position: number;
+  total: number;
+  sourceCommit: string;
+  sourceClaims: { id: string; paths: string[] }[];
+  artifact: 'record' | 'architecture' | 'citations' | 'operations' | 'doorway';
+}
+
+const { id, question, narrative, position, total, sourceCommit, sourceClaims, artifact } = Astro.props;
+const bind = (claimId: string, path: string) => {
+  const claim = sourceClaims.find((candidate) => candidate.id === claimId);
+  if (!claim?.paths.includes(path)) throw new Error(`Project Archive binding is absent from claim ${claimId}: ${path}`);
+  return { claimId, path };
+};
+const bindings = {
+  record: [bind('source-grounded-answers', 'apps/api/src/project_archive/services/chat.py')],
+  architecture: [bind('durable-indexing', 'apps/api/src/project_archive/services/indexing.py'), bind('durable-indexing', 'apps/api/src/project_archive/adapters/cosmos/outbox.py')],
+  citations: [bind('source-grounded-answers', 'apps/api/src/project_archive/services/chat.py'), bind('commit-pinned-citations', 'apps/web/src/public/PublicApp.tsx')],
+  operations: [
+    { label: 'Queue', value: 'Durable indexing handoff', source: bind('durable-indexing', 'apps/api/src/project_archive/services/indexing.py') },
+    { label: 'Delivery', value: 'Leased, replayable outbox dispatch', source: bind('durable-indexing', 'apps/api/src/project_archive/adapters/cosmos/outbox.py') },
+    { label: 'Deletion', value: 'Safe project purge boundary', source: bind('safe-deletion', 'apps/api/src/project_archive/services/catalog.py') },
+    { label: 'Recovery', value: 'Retryable owner-safe failure', source: bind('owner-safe-operations', 'apps/web/src/owner/OwnerApp.tsx') },
+    { label: 'Release', value: 'Deployment remains a separate gate', source: bind('owner-safe-operations', 'docs/stability-operations.md') },
+  ],
+  doorway: [bind('owner-safe-operations', 'docs/stability-operations.md')],
+};
+const sourcePaths = {
+  record: bindings.record.map((binding) => binding.path),
+  architecture: bindings.architecture.map((binding) => binding.path),
+  citations: bindings.citations.map((binding) => binding.path),
+  operations: bindings.operations.map((item) => item.source.path),
+  doorway: bindings.doorway.map((binding) => binding.path),
+};
+---
+
+<section class="case-study-spread journal-spread" id={`spread-${id}`} data-case-study-spread={position - 1} aria-labelledby={`${id}-heading`}>
+  <div class="case-study-spread__header">
+    <p class="eyebrow">Spread {position} of {total}</p>
+    <span class="case-study-spread__commit">source commit {sourceCommit.slice(0, 12)}</span>
+  </div>
+  <h3 id={`${id}-heading`}>{question}</h3>
+  <div class="case-study-spread__narrative">{narrative.map((paragraph) => <p>{paragraph}</p>)}</div>
+  <div class="case-study-spread__artifact">
+    {artifact === 'record' ? <EvidenceArtifact label="Project record" value="A project question is kept beside its source path, so the explanation has a place to be checked." sourcePath={bindings.record[0].path} sourceClaimId={bindings.record[0].claimId} sourceCommit={sourceCommit} /> : null}
+    {artifact === 'architecture' ? <><ArchitectureArtifact label="Repository to evidence" steps={['Repository commit', 'Durable index', 'Cited answer']} sourcePaths={[...sourcePaths.architecture]} /><figure class="source-diagram"><img src="/assets/project-archive/source-to-index.svg" width="1200" height="420" loading="lazy" alt="Repository commit flows through durable indexing into a source receipt." /><figcaption>Source-to-index path, drawn from the audited indexing and outbox boundaries.</figcaption></figure></> : null}
+    {artifact === 'citations' ? <div class="evidence-grid"><EvidenceArtifact label="Question boundary" value="Answers are generated from the selected project's ready evidence packet; unsupported questions are refused." sourcePath={bindings.citations[0].path} sourceClaimId={bindings.citations[0].claimId} sourceCommit={sourceCommit} /><EvidenceArtifact label="Citation receipt" value="Each accepted citation carries a source path, line range, and commit-pinned reference." sourcePath={bindings.citations[1].path} sourceClaimId={bindings.citations[1].claimId} sourceCommit={sourceCommit} /></div> : null}
+    {artifact === 'operations' ? <OperationsTrail items={bindings.operations.map((item) => ({ label: item.label, value: item.value, sourcePath: item.source.path, sourceClaimId: item.source.claimId }))} /> : null}
+    {artifact === 'doorway' ? <LiveProjectDoorway href="https://gdullas.kwadrateam.dev" deploymentVerified={false} interfaceReviewed={false} /> : null}
+  </div>
+  <div class="case-study-spread__sources" aria-label="Source paths">{(artifact === 'operations' ? bindings.operations.map((item) => item.source) : bindings[artifact]).map((binding) => <code data-source-claim={binding.claimId}>{binding.path}</code>)}</div>
+</section>

@@ -1,0 +1,19 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  sourcePath?: string;
+  sourceClaimId?: string;
+  sourceCommit?: string;
+  status?: 'verified' | 'pending';
+}
+
+const { label, value, sourcePath, sourceClaimId, sourceCommit, status = 'verified' } = Astro.props;
+---
+
+<article class="evidence-artifact" data-evidence-kind={status}>
+  <p class="evidence-artifact__label">{label}</p>
+  <p class="evidence-artifact__value">{value}</p>
+  {sourcePath ? <code class="evidence-artifact__source" data-source-claim={sourceClaimId}>{sourcePath}</code> : null}
+  {sourceCommit ? <code class="evidence-artifact__source">commit {sourceCommit}</code> : null}
+</article>

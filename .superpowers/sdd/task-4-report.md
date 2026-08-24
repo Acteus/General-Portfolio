@@ -1,55 +1,59 @@
-# Task 4 Report: Preference, Theme, and Responsive Fallbacks
+# Task 4 Report: Interruptible journal island and Project Archive flagship
 
-## Scope
+## Scope completed
 
-Implemented only the Task 4 preference, theme, and responsive fallback contract for the single-leaf journal flip.
+- Added the typed `JournalState` reducer and one `client:load` React/Motion island.
+- Added interruptible chapter/spread navigation, stale-request cancellation, inert temporary leaves, keyboard focus handling, live status announcements, media/theme/reduced-motion cleanup, and browser history restoration.
+- Added five semantic Project Archive spreads with source-path captions and audited source commit `7b61ab2d4a9b62210684d08de35ed1e313d0e95c`.
+- Added evidence, architecture, operations, and live-doorway artifacts plus the audited source-to-index SVG.
+- Added the sibling-repository audit script and focused unit/E2E coverage.
+- Corrected the Astro inline theme bootstrap so JavaScript enhancement actually removes `no-js`; preserved a semantic no-query fallback with all journal chapters readable/open.
 
-## Changes
+## Evidence gate
 
-- Added theme-switch cancellation in `js/main.js`: when switching to dark mode, the active journal controller is cancelled before the theme attribute and themed content are updated.
-- Added reduced-motion fallback in `css/style.css` to hide the journal turn layer.
-- Added reduced-transparency fallback for opaque paper leaf faces and an unfiltered journal gutter.
-- Added increased-contrast fallback for stronger leaf-face borders/shadows and an opaque journal gutter.
-- Preserved the existing narrow-screen fallback that hides the turn layer below `56.24rem`.
-- Added static assertions covering cancellation ordering and all explicit journal fallbacks in `tests/apple-material-refinement.test.mjs`.
+The referenced Project Archive redesign task is still active and has not been reviewed. No product screenshots were captured or added. The three requested WebP files are intentionally absent. The flagship uses source-backed path, architecture, citation, operations, and status artifacts only. `LiveProjectDoorway.astro` requires both deployment and interface-review checks and currently renders exactly: `Project Archive is in active development; the public doorway is not being linked yet.`
+
+The evidence audit records the current sibling repository HEAD and verifies every approved path at that commit:
+
+```text
+7b61ab2d4a9b62210684d08de35ed1e313d0e95c
+Project Archive evidence audit passed.
+```
 
 ## Verification
 
-Red phase:
-
 ```text
-node --test tests/apple-material-refinement.test.mjs
-17 passed, 2 failed (the two new fallback assertions)
+ASTRO_TELEMETRY_DISABLED=1 npm run check
+0 errors, 0 warnings, 0 hints
+
+ASTRO_TELEMETRY_DISABLED=1 npm run build
+static build succeeded; 1 page generated
+
+ASTRO_TELEMETRY_DISABLED=1 npm run test
+17 Vitest unit tests passed; 42 legacy node tests passed
+
+node scripts/audit-project-archive-evidence.mjs
+passed
+
+npm run test:e2e -- parity responsive journal --project=chromium
+17 passed
+
+npm run test:e2e -- journal --project=chromium
+7 passed (including committed Back restoration through two destinations, keyboard focus, theme cancellation/history preservation, and direct-spread clone regressions)
 ```
 
-Green phase:
-
-```text
-node --test tests/journal-flip.test.mjs tests/apple-material-refinement.test.mjs
-23 passed, 0 failed
-```
-
-Also ran `git diff --check` successfully.
+The local preview server required the approved local-listener escalation because sandbox binding returned `EPERM`; no external deployment or repository mutation occurred.
 
 ## Commit
 
-`fix: honor journal motion and contrast preferences`
+`c099e22` — `feat: add Project Archive journal flagship`
 
-## Review Fixes
+Follow-up review fix: `f1083ac` — `fix: close Task 4 journal review findings`
 
-- Confirmed the reduced-transparency journal leaf and gutter declarations are in the explicit global `@media (prefers-reduced-transparency: reduce)` block; the narrow-screen block contains only its responsive turn-layer fallback, so desktop users are covered.
-- Strengthened `tests/apple-material-refinement.test.mjs` with balanced media-block extraction and scoped assertions, preventing declarations from matching across unrelated media queries.
+## Concerns / follow-up
 
-## Review-Fix Verification
-
-Commit: `43e589c` (`test: scope journal preference fallback assertions`)
-
-```text
-node --test tests/journal-flip.test.mjs tests/apple-material-refinement.test.mjs
-23 passed, 0 failed
-
-git diff --check
-passed
-```
-
-Concerns: none identified; the CSS behavior was already correct in the reviewed implementation, and this fix makes the scope contract enforceable by the static test.
+- Capture evidence remains blocked until the referenced redesign task reports reviewed implementation and green production build.
+- History has no pending-turn placeholder entries; `pushState` is called only by `commit` after the destination is applied. Back now walks through two committed destinations, while a canceled turn leaves history unchanged.
+- Requested turning state is assigned to the controller ref immediately; preference changes cancel that request, stop Motion, and remove the leaf before restoring the committed root. Destination headings use `tabindex="-1"` and receive focus only for keyboard navigation.
+- Direct spread turns clone the currently visible committed spread, and operations captions now distinguish indexing/outbox delivery from catalog deletion and owner recovery.
+- The pre-existing modified `docs/design-references/overhead-desk-project-notebook.png` was not touched.

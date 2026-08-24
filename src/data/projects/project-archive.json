@@ -1,0 +1,32 @@
+{
+  "order": 0,
+  "title": "Project Archive",
+  "role": "Portfolio case study",
+  "date": "2026",
+  "status": "in-progress",
+  "statusLabel": "Active development; live link pending verification",
+  "chapterType": "flagship",
+  "themeAvailability": "both",
+  "recruiterSummary": "A source-backed archive that answers project-scoped questions from a ready repository index, returns commit-pinned citations, and keeps the live doorway held until deployment and interface verification are complete.",
+  "story": ["When source material becomes a system people can question."],
+  "technicalNarrative": ["The archive's chat service refuses unavailable or insufficiently indexed projects, validates citations against the retrieved evidence packet, and emits source paths with line ranges and a commit SHA."],
+  "technologies": ["FastAPI", "React", "Azure Cosmos DB", "Azure Storage Queue"],
+  "verifiedClaims": ["Answers are generated only from a selected project's ready evidence packet.", "Accepted citations include a source path, line range, and commit SHA.", "Indexing uses a durable outbox and explicit retry states.", "Owner-facing errors expose safe messages and request references."],
+  "evidence": [
+    { "kind": "path", "label": "Source audit", "value": "7b61ab2d4a9b62210684d08de35ed1e313d0e95c", "sourcePath": "src/data/project-archive-evidence.json" },
+    { "kind": "citation", "label": "Citations", "value": "Path, line range, and commit-pinned source links are validated before a citation event is emitted.", "sourcePath": "apps/api/src/project_archive/services/chat.py" },
+    { "kind": "operation", "label": "Durable indexing", "value": "Index work is reserved with an outbox intent and can be replayed or retried explicitly.", "sourcePath": "apps/api/src/project_archive/adapters/cosmos/outbox.py" },
+    { "kind": "operation", "label": "Owner safety", "value": "Owner errors preserve a safe message and request reference without exposing provider details.", "sourcePath": "apps/web/src/owner/OwnerApp.tsx" },
+    { "kind": "status", "label": "Current status", "value": "Project Archive is in active development; the public doorway is not being linked yet." }
+  ],
+  "spreads": [
+    { "id": "why-build-an-archive", "question": "Why build an archive?", "narrative": ["A project archive makes the source material, decisions, and operational lessons behind a portfolio answerable instead of leaving them as uncheckable outcomes."], "artifactIds": ["project-record"] },
+    { "id": "turning-repositories-into-evidence", "question": "Turning repositories into evidence", "narrative": ["A selected repository commit becomes a durable version and an evidence index; the indexing path records work before it is handed to the queue."], "artifactIds": ["source-paths"] },
+    { "id": "questions-with-receipts", "question": "Questions with receipts", "narrative": ["The chat service answers only from a ready evidence packet, refuses unsupported questions, and validates every citation against the retrieved source map."], "artifactIds": ["citation-record"] },
+    { "id": "operating-the-archive", "question": "Operating the archive", "narrative": ["The operational record covers durable queue delivery, explicit retry states, safe project deletion, and owner-facing errors that keep provider details out of the interface."], "artifactIds": ["operations-record"] },
+    { "id": "step-inside", "question": "Step inside", "narrative": ["The live-product invitation remains a truthful status panel while the referenced redesign is active and the deployment and interface have not been reviewed for this portfolio."], "artifactIds": ["live-doorway"] }
+  ],
+  "links": [],
+  "lessons": ["Project Archive is in active development; the public doorway is not being linked yet."],
+  "legacyHashes": []
+}

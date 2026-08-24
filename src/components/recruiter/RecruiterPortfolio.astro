@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { about, certifications, contact, education, site, skills } from '../../data/site';
+import SectionHeading from '../ui/SectionHeading.astro';
+import StatusLabel from '../ui/StatusLabel.astro';
+import RecruiterProject from './RecruiterProject.astro';
+
+type Project = CollectionEntry<'projects'>;
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="mode-section recruiter-mode mode--recruiter" data-mode="recruiter" aria-labelledby="recruiter-heading">
+  <header class="hero recruiter-hero" id="home">
+    <p class="eyebrow">Cloud &amp; Platform Engineering</p>
+    <h1 id="recruiter-heading">{site.name}</h1>
+    <p class="hero__lede">I build and operate cloud-hosted backend systems: packaging services, automating deployments, and making the operational details visible across Azure, DigitalOcean, and Oracle Cloud.</p>
+    <div class="recruiter-hero__context"><StatusLabel status="public" label="Open to cloud and platform work" /><span class="recruiter-project__role">Azure · DigitalOcean · Oracle Cloud</span></div>
+    <ul class="recruiter-proof" aria-label="Verified engineering focus"><li>Cloud-hosted backend systems</li><li>Container delivery and deployment automation</li><li>Operational visibility and recovery</li></ul>
+    <div class="hero__actions">
+      <a class="button button--primary" href="#projects">View Projects</a>
+      <a class="button" href={site.email}>Get in Touch</a>
+      <a class="button" href={site.resume} target="_blank" rel="noopener noreferrer">Download Resume</a>
+      <a class="button button--quiet" href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </header>
+
+  <section class="content-section" id="about" aria-labelledby="recruiter-about-heading">
+    <SectionHeading eyebrow="Who I am" title="About" id="recruiter-about-heading" />
+    <div class="about-layout">
+      <div class="prose">{about.recruiter.map((paragraph) => <p>{paragraph}</p>)}</div>
+      <dl class="facts">
+        <div><dt>Education</dt><dd>{education.title}</dd><dd>{education.institution}</dd><dd>{education.detail}</dd></div>
+        <div><dt>Certifications</dt><dd>{certifications.join(' · ')}</dd></div>
+        <div><dt>Location</dt><dd>Pasig City, {site.location}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="content-section" id="skills" aria-labelledby="recruiter-skills-heading">
+    <SectionHeading eyebrow="Focused toolkit" title="Skills" id="recruiter-skills-heading" />
+    <div class="cards-grid skills-grid">
+      {skills.recruiter.map((skill) => <article class="info-card"><p class="eyebrow">{skill.tier}</p><h3>{skill.title}</h3><p>{skill.description}</p><ul class="tag-list">{skill.technologies.map((technology) => <li>{technology}</li>)}</ul></article>)}
+    </div>
+  </section>
+
+  <section class="content-section" id="projects" aria-labelledby="recruiter-projects-heading">
+    <SectionHeading eyebrow="Systems I build and operate" title="Selected work" id="recruiter-projects-heading" />
+    <div class="cards-grid projects-grid">
+      {projects.map((project) => <RecruiterProject project={project} />)}
+    </div>
+  </section>
+
+  <section class="content-section contact-section" id="contact" aria-labelledby="recruiter-contact-heading">
+    <SectionHeading eyebrow="Get in touch" title="Contact" id="recruiter-contact-heading" />
+    <div class="contact-layout"><p>{contact.recruiter}</p><div class="hero__actions"><a class="button button--primary" href={site.email}>garrendullas@gmail.com</a><a class="button" href={site.github} target="_blank" rel="noopener noreferrer">@Acteus on GitHub</a><a class="button" href={site.resume} target="_blank" rel="noopener noreferrer">Resume</a></div></div>
+  </section>
+</section>

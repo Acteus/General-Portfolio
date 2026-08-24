@@ -1,0 +1,20 @@
+{
+  "order": 8,
+  "title": "SEIRD Epidemic Simulator",
+  "status": "public",
+  "statusLabel": "Public repository",
+  "chapterType": "field-note",
+  "themeAvailability": "recruiter-only",
+  "recruiterSummary": "Interactive simulator showing how an epidemic can spread under different conditions.",
+  "story": ["Interactive simulator showing how an epidemic can spread under different conditions."],
+  "technicalNarrative": ["The interactive simulator uses Python and Streamlit."],
+  "technologies": ["Python", "Streamlit"],
+  "verifiedClaims": ["Interactive epidemic simulation", "Different spread conditions"],
+  "evidence": [],
+  "spreads": [],
+  "links": [{ "label": "View public repository", "href": "https://github.com/Acteus/Simple-Epidemic", "kind": "repository" }],
+  "architecture": [],
+  "operations": [],
+  "lessons": [],
+  "legacyHashes": []
+}

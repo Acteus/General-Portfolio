@@ -1,0 +1,10 @@
+{
+  "sourceCommit": "7b61ab2d4a9b62210684d08de35ed1e313d0e95c",
+  "claims": [
+    { "id": "source-grounded-answers", "paths": ["apps/api/src/project_archive/services/chat.py", "apps/api/tests/chat/test_chat_service.py"] },
+    { "id": "commit-pinned-citations", "paths": ["apps/api/src/project_archive/services/chat.py", "apps/web/src/public/PublicApp.tsx"] },
+    { "id": "durable-indexing", "paths": ["apps/api/src/project_archive/services/indexing.py", "apps/api/src/project_archive/adapters/cosmos/outbox.py"] },
+    { "id": "safe-deletion", "paths": ["apps/api/src/project_archive/services/catalog.py", "apps/api/tests/catalog/test_catalog_service.py"] },
+    { "id": "owner-safe-operations", "paths": ["apps/web/src/owner/OwnerApp.tsx", "docs/stability-operations.md"] }
+  ]
+}

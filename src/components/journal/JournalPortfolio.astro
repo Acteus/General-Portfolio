@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { about, contact, site, skills } from '../../data/site';
+import SectionHeading from '../ui/SectionHeading.astro';
+import JournalChapter from './JournalChapter.astro';
+import JournalIsland from './JournalIsland';
+import type { ChapterManifest } from './state';
+
+type Project = CollectionEntry<'projects'>;
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+const journalProjects = projects.filter((project) => project.data.themeAvailability === 'both');
+const manifest: ChapterManifest[] = journalProjects.map((project) => ({ id: project.id, label: project.data.title, spreadCount: project.data.spreads.length || 1 }));
+const initialChapterId = journalProjects.find((project) => project.id === 'project-archive')?.id ?? journalProjects[0]?.id ?? '';
+---
+
+<section class="mode-section journal-mode mode--journal" data-mode="journal" aria-labelledby="journal-heading">
+  <div class="journal-desk">
+    <div class="journal-desk__objects" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="journal-book">
+      <header class="hero journal-hero" id="home-journal">
+        <p class="eyebrow">Personal workspace · learning in public</p>
+        <h1 id="journal-heading">Field Journal</h1>
+        <p class="hero__lede">A quiet corner for the systems I’m building, the lessons I’m keeping, and the questions I’m still exploring—usually with coffee nearby.</p>
+        <div class="hero__actions"><a class="button button--primary" href="#journal-projects">Read my notes</a><a class="button" href="#journal-now">What I’m working on</a></div>
+      </header>
+      <section class="content-section" id="journal-story" aria-labelledby="journal-story-heading"><SectionHeading eyebrow="The person behind the terminal" title="My story" id="journal-story-heading" /><div class="prose">{about.journal.map((paragraph) => <p>{paragraph}</p>)}</div></section>
+      <section class="content-section" id="journal-now" aria-labelledby="journal-now-heading"><SectionHeading eyebrow="What has my attention" title="Now" id="journal-now-heading" /><div class="cards-grid">{skills.journal.map((item) => <article class="info-card"><p class="eyebrow">{item.tier}</p><h3>{item.title}</h3><p>{item.body}</p><ul class="tag-list">{item.technologies.map((technology) => <li>{technology}</li>)}</ul></article>)}</div></section>
+      <section class="content-section" id="journal-projects" aria-labelledby="journal-projects-heading"><SectionHeading eyebrow="Lessons worth keeping" title="Notes" id="journal-projects-heading" /><div class="journal-reading-layout"><nav class="journal-index" aria-label="Journal index"><p class="journal-index__label">In this notebook</p><ol>{journalProjects.map((project, index) => <li><a class="journal-index__button" href={`#chapter-${project.id}`} data-journal-target={project.id} data-journal-spread="0">{String(index + 1).padStart(2, '0')} · {project.data.title}</a></li>)}</ol></nav><div class="journal-spread-column"><div class="journal-list">{journalProjects.map((project, index) => <>{project.id === 'jru-atlas' ? <a class="journal-legacy-alias" id="note-private-work" href="#chapter-jru-atlas" data-journal-target="jru-atlas" data-journal-spread="0">Open JRU Atlas and LaborWise private work notes</a> : null}<JournalChapter project={project} chapterNumber={index + 1} /></>)}</div><JournalIsland client:load manifest={manifest} initialChapterId={initialChapterId} initialSpread={0} /></div></div></section>
+      <section class="content-section contact-section" id="journal-contact" aria-labelledby="journal-contact-heading"><SectionHeading eyebrow="Pull up a chair" title="Say hello" id="journal-contact-heading" /><div class="contact-layout"><p>{contact.journal}</p><div class="hero__actions"><a class="button button--primary" href={site.email}>Email Garren</a><a class="button" href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a></div></div></section>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+---
+interface Props {
+  href?: string;
+  deploymentVerified?: boolean;
+  interfaceReviewed?: boolean;
+}
+
+const { href, deploymentVerified = false, interfaceReviewed = false } = Astro.props;
+const isLive = Boolean(href && deploymentVerified && interfaceReviewed);
+---
+
+<aside class="live-project-doorway" data-doorway-state={isLive ? 'live' : 'pending'}>
+  {isLive ? (
+    <a class="button button--primary" href={href} target="_blank" rel="noopener noreferrer">Open Project Archive</a>
+  ) : (
+    <p>Project Archive is in active development; the public doorway is not being linked yet.</p>
+  )}
+</aside>
