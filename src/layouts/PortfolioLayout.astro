@@ -48,6 +48,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         const stored = window.localStorage.getItem('portfolio-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const theme = requested === 'journal' ? 'light' : requested === 'recruiter' ? 'dark' : stored === 'light' || stored === 'dark' ? stored : prefersDark ? 'dark' : 'light';
+        const initialMode = requested ?? (theme === 'dark' ? 'recruiter' : 'journal');
+        window.history.replaceState({ ...(window.history.state ?? {}), mode: window.history.state?.mode ?? initialMode }, '', url);
         document.documentElement.classList.remove('no-js');
         document.documentElement.dataset.theme = theme;
         document.documentElement.style.colorScheme = theme;

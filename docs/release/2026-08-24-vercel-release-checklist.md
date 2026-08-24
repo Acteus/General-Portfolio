@@ -17,6 +17,7 @@ This checklist records the static release gates for the Astro portfolio. It is i
 - [x] Project Archive citation receipts and Operations Trail labels are bound to exact audited claim/path pairs; superseding turns preserve in-flight leaf progress and clean transient clone references.
 - [x] Mobile same-current index activation scrolls/focuses its chapter, spread controls are hidden while native mobile spreads remain available, and bare-root recruiter/journal history restores its implicit mode.
 - [x] The single `#note-private-work` compatibility target represents both JRU Atlas and LaborWise; opposite-direction turns retain explicit angle/pivot continuity.
+- [x] Bootstrap history records the resolved bare-root mode before hydration; mobile pointer activation scrolls without moving focus, while keyboard activation focuses the selected heading.
 - [x] Firefox and WebKit functional browser projects pass. Visual snapshots are intentionally Chromium-only and skipped for Firefox/WebKit.
 - [ ] Manual reduced-transparency emulation remains deferred because Playwright has no native setting; the production CSS media block is covered by a static contract test.
 - [ ] Lighthouse thresholds (performance 90, accessibility 100, best practices 95, SEO 95): blocked until a production-equivalent preview is available.

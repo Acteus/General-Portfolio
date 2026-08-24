@@ -16,7 +16,8 @@ This is not a production-release approval. External Vercel, Lighthouse, manual z
 - Changed the journal index to progressive-enhancement anchors, added dynamic current/boundary semantics and 44px targets, derived turn direction from manifest order, and added animation setup/rejection cleanup fallbacks.
 - Preserved the current leaf transform when a turn is superseded, removed cloned-leaf IDs/IDREFs, and kept mobile chapter selection native-disclosure friendly while scrolling/focusing the selected chapter.
 - Kept same-current mobile index activation focusable and scrollable, hid spread controls where all native mobile spreads remain available, and preserved implicit bare-root recruiter/journal mode history across Back navigation.
-- Converted computed matrix transforms into explicit angle keyframes while retaining the current pivot; the deterministic motion contract prevents opposite-direction redirection snaps.
+- Converted computed matrix transforms into explicit angle keyframes while retaining the current pivot; reverse turns use an equivalent signed endpoint to prevent opposite-direction 300°+ redirection snaps.
+- Synchronously seeded the bootstrap history entry with the resolved implicit mode before hydration, then made the journal island merge chapter/spread state without replacing that mode. The no-JavaScript private-work alias sits immediately before the adjacent JRU Atlas and LaborWise chapters, and pointer activation scrolls without stealing focus from the pointer target.
 - Added exact internal journal links for both-mode recruiter projects, omitted unavailable role/date metadata, and bound Project Archive source captions to the audited evidence manifest.
 - Rendered one globally unique `#note-private-work` compatibility anchor labelled for both JRU Atlas and LaborWise, with JavaScript and no-JavaScript coverage.
 - Bound each Project Archive citation and Operations Trail item to its explicit audited claim/path pair (including PublicApp, OwnerApp, indexing/outbox, catalog, and stability-operations sources), with equality assertions in the browser suite.
@@ -35,8 +36,8 @@ This is not a production-release approval. External Vercel, Lighthouse, manual z
 - `ASTRO_TELEMETRY_DISABLED=1 npm run check`: passed, 0 errors/warnings/hints.
 - `ASTRO_TELEMETRY_DISABLED=1 npm run test:unit`: passed, 7 files / 19 tests.
 - `ASTRO_TELEMETRY_DISABLED=1 npm run build`: passed; static output emitted `dist/index.html` and `dist/sitemap-index.xml`.
-- Final Chromium suite: 45 passed (40 functional checks, four reviewed visual baselines, and one Project Archive no-capture assertion).
-- Full browser matrix: 125 tests passed across Chromium, Firefox, and WebKit; the five visual-file tests are intentionally skipped in Firefox/WebKit because reviewed baselines are Chromium-only (135 total, 10 skipped). The Project Archive screenshot gate remains deferred and uses a truthful no-capture assertion. All 16 journal cases passed in each browser project.
+- Final Chromium suite: 46 passed (41 functional checks, four reviewed visual baselines, and one Project Archive no-capture assertion).
+- Full browser matrix: 128 tests passed across Chromium, Firefox, and WebKit; the five visual-file tests are intentionally skipped in Firefox/WebKit because reviewed baselines are Chromium-only (138 total, 10 skipped). The Project Archive screenshot gate remains deferred and uses a truthful no-capture assertion. All 16 journal cases passed in each browser project.
 - Chromium visual baselines were generated and inspected at recruiter desktop, journal desk, journal mobile, and recruiter tablet sizes; Project Archive has no snapshot until its external UI review is complete.
 
 ## Deferred or blocked gates

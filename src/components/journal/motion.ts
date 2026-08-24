@@ -18,6 +18,10 @@ export function readTurnProgress(transform: string | null, transformOrigin: stri
 
 export function turnKeyframes(progress: TurnProgress | null, direction: -1 | 1) {
   const start = progress?.angle ?? 0;
-  const end = direction > 0 ? -180 : 180;
+  const requestedEnd = direction > 0 ? -180 : 180;
+  // A reverse request can arrive while the leaf is past zero in the old
+  // direction. Use the equivalent signed endpoint to avoid a long 300°+
+  // interpolation through the opposite side of the book.
+  const end = start < 0 && requestedEnd > 0 ? -180 : start > 0 && requestedEnd < 0 ? 180 : requestedEnd;
   return [`rotateY(${start}deg)`, `rotateY(${end}deg)`];
 }

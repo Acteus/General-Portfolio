@@ -70,6 +70,9 @@ test('mobile journal keeps native sibling disclosures available', async ({ page 
   await page.locator('.journal-index a[data-journal-target="jobboard-devops"]').click();
   await expect(page.locator('details[data-journal-chapter]:not([hidden])')).toHaveCount(5);
   await page.locator('.journal-index a[data-journal-target="jobboard-devops"]').click();
+  await expect(page.locator('[data-journal-chapter="jobboard-devops"] h2')).not.toBeFocused();
+  await page.locator('.journal-index a[data-journal-target="jobboard-devops"]').focus();
+  await page.locator('.journal-index a[data-journal-target="jobboard-devops"]').press('Enter');
   await expect(page.locator('[data-journal-chapter="jobboard-devops"] h2')).toBeFocused();
   await expect(page.getByRole('button', { name: 'Previous spread' })).toBeHidden();
   await expect(page.getByRole('button', { name: 'Next spread' })).toBeHidden();
@@ -77,7 +80,7 @@ test('mobile journal keeps native sibling disclosures available', async ({ page 
 
 test('bare recruiter history preserves its implicit dark mode', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('portfolio-theme', 'dark'));
-  await page.goto('/');
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect.poll(() => page.evaluate(() => window.history.state?.mode)).toBe('recruiter');
   await page.getByRole('button', { name: /switch to journal/i }).click();
   await page.goBack();

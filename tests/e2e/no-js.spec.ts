@@ -26,4 +26,13 @@ test.describe('JavaScript-disabled reading', () => {
     await expect(page.locator('#note-private-work')).toContainText('JRU Atlas and LaborWise');
     await expect(page.getByRole('link', { name: 'Open JobBoard-DevOps' })).toBeVisible();
   });
+
+  test('lands the private-work fragment beside both adjacent private summaries without JavaScript', async ({ page }) => {
+    await page.goto('/?mode=journal#note-private-work');
+    await expect(page.locator('#note-private-work')).toBeVisible();
+    await expect(page.locator('details[data-journal-chapter="jru-atlas"]')).toBeVisible();
+    await expect(page.locator('details[data-journal-chapter="laborwise"]')).toBeVisible();
+    await expect(page.locator('details[data-journal-chapter="jru-atlas"] h2')).toBeVisible();
+    await expect(page.locator('details[data-journal-chapter="laborwise"] h2')).toBeVisible();
+  });
 });

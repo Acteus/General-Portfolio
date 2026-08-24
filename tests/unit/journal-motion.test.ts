@@ -8,4 +8,10 @@ describe('journal turn continuity', () => {
     expect(progress?.transformOrigin).toBe('left center');
     expect(turnKeyframes(progress, -1)).toEqual(['rotateY(45deg)', 'rotateY(180deg)']);
   });
+
+  it('uses the equivalent signed endpoint when reversing a negative in-flight turn', () => {
+    const keyframes = turnKeyframes({ angle: -142, transformOrigin: 'left center' }, -1);
+    expect(keyframes).toEqual(['rotateY(-142deg)', 'rotateY(-180deg)']);
+    expect(Number.parseFloat(keyframes.at(-1)!.match(/-?\d+/)![0])).toBe(-180);
+  });
 });

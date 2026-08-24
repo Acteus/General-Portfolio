@@ -75,11 +75,11 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
       if (chapter) status.textContent = `${chapter.label}, spread ${next.spread + 1} of ${chapter.spreadCount}`;
     }
 
-    function focusMobileChapter(chapterId: string) {
+    function focusMobileChapter(chapterId: string, focusHeading = false) {
       const target = chapterRoot(chapterId);
       if (target instanceof HTMLDetailsElement) target.open = true;
       target?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-      target?.querySelector<HTMLElement>('h2, h3')?.focus({ preventScroll: true });
+      if (focusHeading) target?.querySelector<HTMLElement>('h2, h3')?.focus({ preventScroll: true });
     }
 
     function applyCommitted(next: JournalState, isolate = true) {
@@ -169,7 +169,7 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
         requestRef.current += 1;
         removeLeaf();
         applyCommitted(current, isDesktop());
-        if (!isDesktop()) focusMobileChapter(current.chapterId);
+        if (!isDesktop()) focusMobileChapter(current.chapterId, keyboard);
         return;
       }
       const carriedProgress = leafRef.current ? readTurnProgress(getComputedStyle(leafRef.current).transform, getComputedStyle(leafRef.current).transformOrigin) : null;
@@ -257,7 +257,8 @@ export default function JournalIsland({ manifest, initialChapterId, initialSprea
     const desktop = window.matchMedia('(min-width: 48rem)');
     applyCommitted(resolvedInitial, isDesktop());
     const initialMode = new URL(window.location.href).searchParams.get('mode') ?? (document.documentElement.dataset.theme === 'dark' ? 'recruiter' : 'journal');
-    window.history.replaceState({ ...(window.history.state ?? {}), mode: initialMode, chapter: resolvedInitial.chapterId, spread: resolvedInitial.spread + 1 }, '', window.location.href);
+    const historyMode = window.history.state?.mode ?? initialMode;
+    window.history.replaceState({ ...(window.history.state ?? {}), mode: historyMode, chapter: resolvedInitial.chapterId, spread: resolvedInitial.spread + 1 }, '', window.location.href);
     if (initial.chapterId !== initialChapterId || initial.spread !== initialSpread) {
       dispatch({ type: 'request', ...resolvedInitial, requestId: 0, direction: 1 });
       dispatch({ type: 'commit', requestId: 0 });
