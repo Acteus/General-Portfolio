@@ -1252,10 +1252,26 @@ body::before {
 
 .project-notebook__workspace {
     position: relative;
+    isolation: isolate;
     min-height: calc(var(--journal-spread-height) + 7.5rem);
 }
 
+.project-notebook__desk {
+    position: absolute;
+    z-index: 0;
+    inset: -2.5rem -3rem -3.5rem;
+    width: calc(100% + 6rem);
+    height: calc(100% + 6rem);
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.62;
+    pointer-events: none;
+    user-select: none;
+}
+
 .project-notebook__index {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.8rem;
@@ -1278,7 +1294,7 @@ body::before {
     border: 1px solid var(--paper-edge);
     border-radius: 0.75rem;
     background: var(--paper);
-    box-shadow: 0 0.6rem 1.4rem var(--paper-shadow);
+    box-shadow: 0 0.7rem 1.5rem var(--paper-shadow), 0 0.15rem 0 rgba(255, 255, 255, 0.46) inset;
     color: var(--clr-text);
     cursor: pointer;
     font-family: var(--font-sans);
@@ -1306,7 +1322,8 @@ body::before {
 
 .project-entry[open] > .project-entry__cover {
     border-color: var(--desk-sage);
-    transform: translateY(-0.25rem) rotate(0);
+    transform: translateY(-0.35rem) rotate(0.15deg);
+    box-shadow: 0 1.05rem 1.8rem var(--paper-shadow), 0 0 0 2px rgba(111, 128, 98, 0.22);
 }
 
 .project-entry__spread {
@@ -1326,6 +1343,7 @@ body::before {
         0 0.22rem 0 rgba(113, 77, 49, 0.14),
         0 0.48rem 0 rgba(255, 249, 237, 0.58);
     overflow: visible;
+    transform: translateZ(0);
 }
 
 .project-entry__spread::before {
@@ -1368,7 +1386,7 @@ body::before {
     left: 0;
     width: 100%;
     pointer-events: none;
-    perspective: 110rem;
+    perspective: 76rem;
     transform-style: preserve-3d;
 }
 
@@ -1397,7 +1415,7 @@ body::before {
     overflow: hidden;
     border: 1px solid var(--paper-edge);
     background: var(--paper);
-    box-shadow: 0.65rem 0.55rem 1.35rem var(--journal-turn-shadow);
+    box-shadow: 0.72rem 0.62rem 1.5rem var(--journal-turn-shadow);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
 }
@@ -1732,6 +1750,7 @@ body::before {
 
 @media (max-width: 56.24rem) {
     .project-notebook__workspace { min-height: 0; }
+    .project-notebook__desk { display: none; }
     .project-notebook__index { display: block; }
     .project-entry { margin-bottom: 1.25rem; }
     .project-entry > .project-entry__cover { position: relative; z-index: 2; }

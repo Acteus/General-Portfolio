@@ -345,73 +345,64 @@
                     </header>
 
                     <div class="project-notebook__workspace">
+                    <img class="project-notebook__desk" src="assets/project-archive-desk.webp" width="1586" height="992" alt="" aria-hidden="true" loading="lazy" decoding="async">
                     <ol class="project-notebook__index">
                         <li>
-                            <details class="project-entry" id="note-jobboard" name="portfolio-project" open>
+                            <details class="project-entry" id="note-project-archive" name="portfolio-project" open>
                                 <summary class="project-entry__cover">
                                     <span class="project-entry__number">Field Note 01</span>
-                                    <strong>Moving a system, not just its files</strong>
-                                    <span>JobBoard-DevOps</span>
+                                    <strong>Making repositories explain themselves</strong>
+                                    <span>Project Archive</span>
                                 </summary>
                                 <div class="project-entry__spread">
                                     <details class="project-page project-page--story" open>
                                         <summary><strong>The story</strong></summary>
                                         <div class="project-page__content">
-                                            <p>The AWS-to-Azure study reinforced that migration is also about separating application concerns from delivery and infrastructure decisions.</p>
-                                            <p class="project-page__takeaway"><strong>What stayed with me:</strong> moving a system means understanding the boundaries that make it deployable.</p>
+                                            <p>Project Archive turns a repository into a useful, evidence-backed project workspace. It indexes the codebase, keeps source citations inspectable, and lets a reviewer ask grounded questions without replacing the work with vague summaries.</p>
+                                            <p class="project-page__takeaway"><strong>What stayed with me:</strong> a portfolio is stronger when the proof stays close to the project it describes.</p>
                                         </div>
                                     </details>
                                     <details class="project-page project-page--technical" open>
                                         <summary><strong>Under the hood</strong></summary>
                                         <div class="project-page__content project-page__content--technical">
-                                            <p class="project-role">Cloud / DevOps Developer · 2025</p>
+                                            <p class="project-role">Full-stack / Cloud Developer · 2026</p>
 
-                                            <figure class="project-architecture project-architecture--jobboard"
-                                                aria-label="Architecture overview: GitHub Actions delivers the frontend to Azure Static Web Apps and the containerized API to Azure Container Apps, which uses MySQL.">
+                                            <figure class="project-architecture project-architecture--project-archive"
+                                                aria-label="Architecture overview: a Vercel frontend sends archive requests to an Azure Container Apps API, which coordinates a background worker to index repository evidence.">
                                                 <figcaption class="project-technical-label">Architecture overview</figcaption>
-                                                <div class="project-architecture__lanes">
-                                                    <section class="project-architecture__lane" aria-label="Frontend delivery">
-                                                        <span class="project-architecture__lane-label">Frontend</span>
-                                                        <ol class="project-architecture__flow">
-                                                            <li class="project-architecture__node"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub Actions</span></li>
-                                                            <li class="project-architecture__node"><i class="fas fa-window-maximize" aria-hidden="true"></i><span>Azure Static Web Apps</span></li>
-                                                        </ol>
-                                                    </section>
-                                                    <section class="project-architecture__lane" aria-label="API runtime">
-                                                        <span class="project-architecture__lane-label">Backend</span>
-                                                        <ol class="project-architecture__flow">
-                                                            <li class="project-architecture__node"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub Actions</span></li>
-                                                            <li class="project-architecture__node project-architecture__boundary"><i class="fas fa-cube" aria-hidden="true"></i><span>Azure Container Apps</span></li>
-                                                            <li class="project-architecture__node"><i class="fas fa-database" aria-hidden="true"></i><span>MySQL</span></li>
-                                                        </ol>
-                                                    </section>
-                                                </div>
+                                                <ol class="project-architecture__flow">
+                                                    <li class="project-architecture__node"><i class="fas fa-window-maximize" aria-hidden="true"></i><span>Vercel<br>frontend</span></li>
+                                                    <li class="project-architecture__node project-architecture__boundary"><i class="fas fa-cubes" aria-hidden="true"></i><span>Azure<br>API</span></li>
+                                                    <li class="project-architecture__node"><i class="fas fa-gears" aria-hidden="true"></i><span>Indexing<br>worker</span></li>
+                                                    <li class="project-architecture__node"><i class="fab fa-github" aria-hidden="true"></i><span>Repository<br>evidence</span></li>
+                                                </ol>
                                             </figure>
 
-                                            <section aria-labelledby="jobboard-details-label">
-                                                <h3 class="project-technical-label" id="jobboard-details-label">Project details</h3>
+                                            <section aria-labelledby="project-archive-details-label">
+                                                <h3 class="project-technical-label" id="project-archive-details-label">Project details</h3>
                                                 <dl class="project-details">
-                                                    <dt>Project type</dt><dd>Full-stack job platform</dd>
-                                                    <dt>Role</dt><dd>Cloud / DevOps Developer</dd>
-                                                    <dt>Timeline</dt><dd>2025</dd>
-                                                    <dt>Deployment</dt><dd>Azure Static Web Apps + Container Apps</dd>
-                                                    <dt>Visibility</dt><dd>Public repository</dd>
+                                                    <dt>Project type</dt><dd>Repository evidence platform</dd>
+                                                    <dt>Role</dt><dd>Full-stack / Cloud Developer</dd>
+                                                    <dt>Timeline</dt><dd>2026</dd>
+                                                    <dt>Deployment</dt><dd>Vercel + Azure Container Apps</dd>
+                                                    <dt>Availability</dt><dd>Live public archive</dd>
                                                 </dl>
                                             </section>
 
-                                            <section aria-labelledby="jobboard-tech-label">
-                                                <h3 class="project-technical-label" id="jobboard-tech-label">Technologies</h3>
+                                            <section aria-labelledby="project-archive-tech-label">
+                                                <h3 class="project-technical-label" id="project-archive-tech-label">Technologies</h3>
                                                 <div class="tech-tags">
+                                                    <span class="tech-tag">React</span>
+                                                    <span class="tech-tag">Vite</span>
+                                                    <span class="tech-tag">Vercel</span>
                                                     <span class="tech-tag">Azure</span>
-                                                    <span class="tech-tag">Docker</span>
-                                                    <span class="tech-tag">GitHub Actions</span>
-                                                    <span class="tech-tag">ARM Templates</span>
+                                                    <span class="tech-tag">Container Apps</span>
                                                 </div>
                                             </section>
 
                                             <footer class="project-source">
-                                                <span class="project-technical-label">Source code</span>
-                                                <a href="https://github.com/Acteus/JobBoard-DevOps-Project" target="_blank" rel="noopener noreferrer" class="project-notebook__link">View public repository</a>
+                                                <span class="project-technical-label">Live application</span>
+                                                <a href="https://gdullas.kwadrateam.dev/" target="_blank" rel="noopener noreferrer" class="project-notebook__link">Open Project Archive <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
                                             </footer>
                                         </div>
                                     </details>

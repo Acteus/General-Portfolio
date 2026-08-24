@@ -412,22 +412,22 @@ test('commits immediately and leaves no partial state when setup or animation th
   }
 });
 
-test('uses a smooth opaque transform-only turn over the locked spread', () => {
+test('uses a short depth-aware transform-only turn over the locked spread', () => {
   const journal = makeFakeJournal();
   clickCover(journal, 1);
   journal.flushFrame();
 
   const leaf = journal.layer.children[0];
-  assert.equal(TURN_DURATION, 780);
+  assert.equal(TURN_DURATION, 440);
   assert.equal(journal.layer.style.height, '320px');
-  assert.equal(leaf.animation.options.duration, 780);
-  assert.equal(leaf.animation.options.easing, 'cubic-bezier(0.42, 0, 0.16, 1)');
+  assert.equal(leaf.animation.options.duration, 440);
+  assert.equal(leaf.animation.options.easing, 'cubic-bezier(0.2, 0.75, 0.25, 1)');
   assert.equal(leaf.animation.options.fill, 'forwards');
   assert.equal(leaf.animation.keyframes[0].transform, 'rotateY(0deg) translateZ(0)');
   assert.equal(leaf.animation.keyframes.at(-1).transform, 'rotateY(-180deg) translateZ(0)');
   assert.equal(leaf.animation.keyframes.some(frame => /-90deg/.test(frame.transform)), true);
-  assert.equal(leaf.animation.keyframes.some(frame => /skewY\(-1deg\)/.test(frame.transform)), true);
-  assert.equal(leaf.animation.keyframes.some(frame => /scaleX\(0\.98\)/.test(frame.transform)), true);
+  assert.equal(leaf.animation.keyframes.some(frame => /translateZ\(14px\)/.test(frame.transform)), true);
+  assert.equal(leaf.animation.keyframes.some(frame => /scaleX\(0\.984\)/.test(frame.transform)), true);
   assert.equal(leaf.animation.keyframes.every(frame => !Object.hasOwn(frame, 'opacity')), true);
   assert.equal(leaf.animation.keyframes.every(frame => Object.keys(frame).every(key => ['transform', 'offset'].includes(key))), true);
 });

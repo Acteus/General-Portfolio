@@ -3,7 +3,7 @@
 
     const DESKTOP_QUERY = '(min-width: 56.25rem)';
     const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-    const TURN_DURATION = 780;
+    const TURN_DURATION = 440;
 
     function getFlipDirection(fromIndex, toIndex) {
         if (toIndex === fromIndex) return 'none';
@@ -137,11 +137,11 @@
             const sign = direction === 'forward' ? -1 : 1;
             return [
                 { transform: 'rotateY(0deg) translateZ(0)', offset: 0 },
-                { transform: `rotateY(${sign * 14}deg) translateZ(2px) skewY(${sign * 0.25}deg) scaleX(0.998)`, offset: 0.12 },
-                { transform: `rotateY(${sign * 48}deg) translateZ(6px) skewY(${sign * 0.65}deg) scaleX(0.99)`, offset: 0.32 },
-                { transform: `rotateY(${sign * 90}deg) translateZ(10px) skewY(${sign}deg) scaleX(0.98)`, offset: 0.5 },
-                { transform: `rotateY(${sign * 132}deg) translateZ(6px) skewY(${sign * 0.65}deg) scaleX(0.99)`, offset: 0.68 },
-                { transform: `rotateY(${sign * 166}deg) translateZ(2px) skewY(${sign * 0.25}deg) scaleX(0.998)`, offset: 0.88 },
+                { transform: `rotateY(${sign * 17}deg) translateZ(8px) scaleX(0.999)`, offset: 0.16 },
+                { transform: `rotateY(${sign * 66}deg) translateZ(13px) scaleX(0.99)`, offset: 0.38 },
+                { transform: `rotateY(${sign * 90}deg) translateZ(14px) scaleX(0.984)`, offset: 0.5 },
+                { transform: `rotateY(${sign * 114}deg) translateZ(13px) scaleX(0.99)`, offset: 0.62 },
+                { transform: `rotateY(${sign * 163}deg) translateZ(8px) scaleX(0.999)`, offset: 0.84 },
                 { transform: `rotateY(${sign * 180}deg) translateZ(0)`, offset: 1 },
             ];
         }
@@ -174,7 +174,7 @@
 
                 animation = leaf.animate(turnKeyframes(direction), {
                     duration,
-                    easing: 'cubic-bezier(0.42, 0, 0.16, 1)',
+                    easing: 'cubic-bezier(0.2, 0.75, 0.25, 1)',
                     fill: 'forwards',
                 });
             } catch (error) {
