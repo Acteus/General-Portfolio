@@ -6,7 +6,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import KeepTogether, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
-OUTPUT = "public/output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf"
+OUTPUT = "output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf"
 ACCENT = colors.HexColor("#1769aa")
 INK = colors.HexColor("#202124")
 MUTED = colors.HexColor("#5f6368")

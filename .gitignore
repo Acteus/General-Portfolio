@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+package-lock.json
 yarn.lock
 
 # IDE
@@ -31,11 +32,6 @@ yarn-error.log*
 dist/
 build/
 .cache/
-.astro/
-.vercel/
-playwright-report/
-test-results/
-coverage/
 
 # Temporary files
 *.tmp
