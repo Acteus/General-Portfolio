@@ -6,12 +6,16 @@
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 /* ── AOS Init ── */
-AOS.init({
+window.AOS?.init({
     duration: reducedMotion.matches ? 0 : 700,
     easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     once: true,
     offset: 60,
 });
+
+if (!window.AOS) {
+    document.querySelectorAll('[data-aos]').forEach(element => element.classList.add('aos-animate'));
+}
 
 /* ─────────────────────────────────────────
    THEME TOGGLE (Light / Dark)
@@ -31,7 +35,7 @@ function syncThemeContent(theme) {
 // Restore saved theme
 const savedTheme = localStorage.getItem('portfolio-theme') ||
     (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+const initialTheme = location.hash.startsWith('#note-') || savedTheme === 'light' ? 'light' : 'dark';
 html.setAttribute('data-theme', initialTheme);
 syncThemeContent(initialTheme);
 updateThemeIcon(initialTheme);
@@ -58,11 +62,14 @@ themeToggle.addEventListener('click', () => {
     syncThemeContent(next);
     localStorage.setItem('portfolio-theme', next);
     updateThemeIcon(next);
+    projectJournalController?.refreshLayout();
 });
 
 function updateThemeIcon(theme) {
+    document.getElementById('theme-view-label').textContent = theme === 'dark' ? 'Recruiter view' : 'Journal view';
     themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light journal view' : 'Switch to dark recruiter view');
+    themeToggle.title = themeToggle.getAttribute('aria-label');
 }
 
 /* ─────────────────────────────────────────

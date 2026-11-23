@@ -28,8 +28,10 @@ Projects are labeled by their actual status, including public repository, privat
 ```text
 .
 ├── index.html       # Portfolio content and structure
-├── css/style.css    # Design system and responsive layout
-├── js/main.js       # Interactions and progressive enhancement
+├── css/style.css    # Shared site styles and legacy journal materials
+├── css/journal.css  # Stable journal layout, evidence type, and reading fallback
+├── js/main.js       # Theme, navigation, filtering, and contact
+├── js/journal-flip.js # Project/spread selection, page turns, and deep links
 ├── output/pdf/      # Generated resume variants
 └── README.md        # Project documentation
 ```
@@ -48,7 +50,7 @@ Then open [http://localhost:8000](http://localhost:8000).
 
 Project descriptions, links, status labels, skills, and contact information live in `index.html`. Keep project claims aligned with evidence: distinguish deployed systems from private work, prototypes, and planned case studies.
 
-The cloud/platform resume is linked from the navigation and hero section as `output/pdf/Garren-Dullas-Cloud-Platform-Resume.pdf`. The original `Resume.pdf` is retained as an older version while the portfolio is being polished.
+All navigation and hero resume links serve `output/pdf/Garren-Dullas-Intern-Resume.pdf`. The supplied November resume is preserved as `output/pdf/Garren-Dullas-Intern-Resume-Original.pdf`. Edit `resume/intern-resume.html` and run `node scripts/build_intern_resume.cjs` with Playwright Chromium to regenerate the refined one-page PDF. The older cloud/platform PDF remains archived.
 
 ## Deployment
 
@@ -58,3 +60,13 @@ This is a static site. GitHub Pages can serve the repository root from the selec
 
 - Email: garrendullas@gmail.com
 - GitHub: [@Acteus](https://github.com/Acteus)
+
+## Journal behavior and verification
+
+The five notes lead with LaborWise, JobBoard DevOps, and completed JRU Atlas, followed by Project Archive and the Discord bot. The old `#note-private-work` link resolves to Atlas. On wide screens (75rem and above), each project has two spreads: story/architecture, followed by details/evidence or deployment/reliability. The book retains its dimensions as projects and spreads change. Narrow screens, enlarged text, and no-JavaScript sessions use a flowing reading layout; reduced motion skips the turning leaf.
+
+Run source/controller checks with `node --test tests/*.mjs`. With Playwright and Chromium installed, run `node tests/journal-browser.cjs` for desktop geometry, pagination, keyboard focus, rapid navigation, deep links, responsive reflow, enlarged text, reduced motion, dark mode, offline resources, and no-JavaScript behavior. Browser screenshots are written to the system temporary directory.
+
+## Case studies and evidence
+
+`case-studies/laborwise.html` provides the public live-app link, a real landing-page capture, and an explicitly labeled architecture/release summary. `case-studies/atlas.html` summarizes the documented AWS EC2/ECR/SSM release and rollback boundary. Neither page claims to publish private execution logs or independently verify the backend. Do not replace source-backed evidence with generated screenshots or invented metrics.

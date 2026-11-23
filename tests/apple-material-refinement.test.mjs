@@ -5,6 +5,7 @@ import test from 'node:test';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const js = readFileSync(new URL('../js/main.js', import.meta.url), 'utf8');
+const journalCss = readFileSync(new URL('../css/journal.css', import.meta.url), 'utf8');
 const journalJs = readFileSync(new URL('../js/journal-flip.js', import.meta.url), 'utf8');
 
 function mediaBlock(source, query) {
@@ -67,10 +68,10 @@ test('defines a warm café light theme without changing the theme contract', () 
 test('ships dark content as fallback and light workspace copy as an alternate view', () => {
   assert.match(html, /data-content-theme="dark"/);
   assert.match(html, /data-content-theme="light" hidden/);
-  assert.match(html, /Personal workspace · learning in public/);
-  assert.match(html, /A quiet corner for the systems I’m building/);
+  assert.match(html, /Cloud &amp; platform engineering/);
+  assert.match(html, /I build and operate containerized backend systems/);
   assert.match(html, /<h2 class="section-title">Now<\/h2>/);
-  assert.match(html, /Moving a system, not just its files/);
+  assert.match(html, /Making repositories explain themselves/);
   assert.match(html, /Pull up a chair/);
 });
 
@@ -85,13 +86,13 @@ test('synchronizes themed content without duplicating shared controls', () => {
 
 test('authors a native light-mode project notebook with both perspectives', () => {
   assert.match(html, /data-content-theme="light" hidden[\s\S]*?class="project-notebook"/);
-  assert.equal((html.match(/class="project-entry"/g) || []).length, 3);
+  assert.equal((html.match(/class="project-entry"/g) || []).length, 5);
   assert.match(html, /<details class="project-entry"[^>]*name="portfolio-project"[^>]*open/);
-  assert.equal((html.match(/<strong>The story<\/strong>/g) || []).length, 3);
-  assert.equal((html.match(/<strong>Under the hood<\/strong>/g) || []).length, 3);
-  assert.match(html, /Moving a system, not just its files/);
-  assert.match(html, /Showing private work responsibly/);
-  assert.match(html, /Keeping a small service alive/);
+  assert.equal((html.match(/<strong>The story<\/strong>/g) || []).length, 5);
+  assert.equal((html.match(/<strong>Under the hood<\/strong>/g) || []).length, 5);
+  assert.match(html, /Making repositories explain themselves/);
+  assert.match(html, /Accreditation evidence, migrated to AWS/);
+  assert.match(html, /Keeping a small cloud service alive/);
 });
 
 test('keeps the desk reference visual-only and preserves dark projects', () => {
@@ -141,7 +142,7 @@ test('lays out the light notebook as an accessible responsive desk spread', () =
   assert.match(css, /\.project-entry__spread\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(css, /\[data-theme="light"\]\s*#projects::before/);
   assert.match(css, /\[data-theme="light"\]\s*#projects::after/);
-  const narrowSpread = mediaBlock(css, 'max-width: 56.24rem');
+  const narrowSpread = mediaBlock(css, 'max-width: 74.99rem');
   assert.match(narrowSpread, /\.project-entry\s*>\s*\.project-entry__cover\s*\{[\s\S]*?position:\s*relative[\s\S]*?z-index:\s*2/);
   assert.match(narrowSpread, /\.project-entry__spread\s*\{[\s\S]*?position:\s*static/);
   const narrowNotebook = mediaBlock(css, 'max-width: 40rem');
@@ -170,14 +171,10 @@ test('authors one persistent decorative journal turn layer', () => {
   assert.match(html, /project-notebook__workspace[\s\S]*?project-notebook__index[\s\S]*?project-journal__turn-layer/);
 });
 
-test('styles the open spread as a bound stationary journal', () => {
-  assert.match(css, /--journal-binding:\s*#6d5039/i);
-  assert.match(css, /--journal-gutter:\s*rgba\(74, 48, 31, 0\.22\)/i);
-  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?position:\s*relative[\s\S]*?min-height:\s*calc\(var\(--journal-spread-height\) \+ 7\.5rem\)/);
-  assert.match(css, /\.project-entry__spread::before\s*\{[\s\S]*?journal-gutter/);
-  assert.match(css, /\.project-entry__spread::after\s*\{[\s\S]*?journal-page-depth/);
-  assert.match(css, /\.project-page--story\s*\{[\s\S]*?linear-gradient/);
-  assert.match(css, /\.project-page--technical\s*\{[\s\S]*?linear-gradient/);
+test('keeps the reference book decorative behind authored content', () => {
+  assert.match(css, /journal-open-book\.webp/);
+  assert.doesNotMatch(html, /<img[^>]+journal-open-book/);
+  assert.equal((html.match(/data-spread-title=/g) || []).length, 10);
 });
 
 test('cancels journal motion before hiding light content', () => {
@@ -199,7 +196,7 @@ test('defines explicit journal accessibility preference fallbacks', () => {
   assert.match(increasedContrast, /\.project-architecture__node[\s\S]*?border-color:\s*var\(--clr-text\)/);
   assert.match(increasedContrast, /\.project-technical-label[\s\S]*?color:\s*var\(--clr-text\)/);
   assert.match(increasedContrast, /\.project-journal__leaf-face\s*\{/);
-  assert.match(mediaBlock(css, 'max-width: 56.24rem'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
+  assert.match(mediaBlock(css, 'max-width: 74.99rem'), /\.project-journal__turn-layer\s*\{\s*display:\s*none/);
 });
 
 test('does not leak fictional visual-reference facts into shipped source', () => {
@@ -220,53 +217,43 @@ test('does not leak fictional visual-reference facts into shipped source', () =>
 });
 
 test('authors a consistent semantic technical page for every journal note', () => {
-  assert.equal((html.match(/<figure class="project-architecture/g) || []).length, 3);
-  assert.equal((html.match(/<dl class="project-details">/g) || []).length, 3);
-  assert.equal((html.match(/class="project-source(?:\s|\")/g) || []).length, 3);
-  assert.equal((html.match(/class="project-technical-label"/g) || []).length >= 9, true);
+  assert.equal((html.match(/<figure class="project-architecture/g) || []).length, 5);
+  assert.equal((html.match(/<dl class="project-details">/g) || []).length, 4);
+  assert.equal((html.match(/class="project-source(?:\s|\")/g) || []).length, 5);
+  assert.equal((html.match(/class="project-technical-label"/g) || []).length >= 5, true);
 
-  assert.match(html, /GitHub Actions[\s\S]*?Azure Static Web Apps[\s\S]*?Azure Container Apps[\s\S]*?MySQL/);
-  assert.match(html, /JRU Atlas[\s\S]*?Laravel[\s\S]*?2 background workers[\s\S]*?FastAPI NLP/);
-  assert.match(html, /LaborWise[\s\S]*?ACR[\s\S]*?Container Apps[\s\S]*?Log Analytics/);
+  assert.match(html, /Vercel[\s\S]*?Azure[\s\S]*?Indexing[\s\S]*?Repository/);
+  assert.match(html, /JRU Atlas[\s\S]*?Laravel[\s\S]*?FastAPI[\s\S]*?AWS/);
+  assert.match(html, /LaborWise[\s\S]*?FastAPI[\s\S]*?Container Apps[\s\S]*?FAISS/);
   assert.match(html, /GitHub event[\s\S]*?Caddy HTTPS[\s\S]*?Podman bot[\s\S]*?Discord/);
 
-  assert.match(html, /Private case study · architecture sanitized/);
-  assert.equal((html.match(/View public repository/g) || []).length, 2);
+  assert.match(html, /Private repository/);
+  assert.match(html, /https:\/\/github\.com\/Acteus\/github-discord-bot/);
+  assert.match(html, /Open Project Archive/);
   assert.doesNotMatch(html, /<table[\s>]/);
 });
 
-test('locks every desktop journal spread to one shared height and releases it on narrow screens', () => {
-  assert.match(css, /--journal-spread-height:\s*42rem/);
-  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?min-height:\s*calc\(var\(--journal-spread-height\) \+ 7\.5rem\)/);
-  assert.match(css, /\.project-entry__spread\s*\{[\s\S]*?height:\s*var\(--journal-spread-height\)/);
-  assert.match(css, /\.project-page\s*\{[\s\S]*?height:\s*100%[\s\S]*?grid-template-rows:\s*auto minmax\(0, 1fr\)/);
-  assert.match(css, /\.project-page--story \.project-page__content\s*\{[\s\S]*?grid-template-rows:\s*minmax\(0, 15rem\) auto/);
-  assert.match(css, /\.project-page__content--technical\s*\{[\s\S]*?grid-template-rows:\s*auto auto auto auto minmax\(0, 1fr\)/);
-  assert.match(css, /\.project-source\s*\{[\s\S]*?align-self:\s*end/);
-
-  const narrow = mediaBlock(css, 'max-width: 56.24rem');
-  assert.match(narrow, /\.project-entry__spread\s*\{[\s\S]*?height:\s*auto/);
-  assert.match(narrow, /\.project-page\s*\{[\s\S]*?height:\s*auto/);
+test('preserves all project facts across two authored spreads per entry', () => {
+  for (const id of ['note-laborwise', 'note-jobboard', 'note-jru-atlas', 'note-project-archive', 'note-discord-bot']) {
+    const entry = html.slice(html.indexOf(`id="${id}"`)).split('</li>\n')[0];
+    assert.match(entry, /data-spread-title="Story &amp; architecture"/);
+  }
+  assert.equal((html.match(/data-spread-title="Details &amp; evidence"/g) || []).length, 4);
+  assert.equal((html.match(/data-journal-position role="status"/g) || []).length, 5);
+  assert.doesNotMatch(css, /:has\(#note-private-work\[open\]\)/);
 });
 
-test('uses a wide landscape journal with horizontal note selectors', () => {
-  assert.match(css, /\.project-notebook__workspace\s*\{[\s\S]*?min-height:\s*calc\(var\(--journal-spread-height\) \+ 7\.5rem\)/);
-  assert.match(css, /\.project-notebook__index\s*\{[\s\S]*?display:\s*grid[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/);
-  assert.match(css, /\.project-entry__cover\s*\{[\s\S]*?width:\s*100%[\s\S]*?min-height:\s*6\.5rem/);
-  assert.match(css, /\.project-entry__spread\s*\{[\s\S]*?top:\s*7\.5rem[\s\S]*?left:\s*0[\s\S]*?width:\s*100%/);
-  assert.match(css, /\.project-journal__turn-layer\s*\{[\s\S]*?top:\s*7\.5rem[\s\S]*?left:\s*0[\s\S]*?width:\s*100%/);
-
-  const narrow = mediaBlock(css, 'max-width: 56.24rem');
-  assert.match(narrow, /\.project-notebook__index\s*\{\s*display:\s*block/);
+test('keeps pagination optional and provides named previous and next controls', () => {
+  assert.equal((html.match(/class="journal-pager"[^>]+hidden/g) || []).length, 5);
+  assert.equal((html.match(/data-journal-prev aria-label="Previous spread/g) || []).length, 5);
+  assert.equal((html.match(/data-journal-next aria-label="Next spread/g) || []).length, 5);
+  assert.match(journalCss, /:not\(\.journal-paginated\)/);
 });
 
-test('uses a consistent soft-edged type hierarchy throughout the journal', () => {
-  assert.match(cssRuleBlock(css, '.project-entry__cover'), /font-family:\s*var\(--font-sans\)/);
-  assert.match(cssRuleBlock(css, '.project-entry__cover strong'), /font-family:\s*var\(--font-sans\)/);
-  assert.match(cssRuleBlock(css, '.project-page > summary'), /font-family:\s*var\(--font-sans\)/);
+test('uses editorial serif headings and sans-serif reading text', () => {
+  assert.match(cssRuleBlock(css, '.project-entry__cover strong'), /font-family:\s*var\(--font-serif\)/);
+  assert.match(cssRuleBlock(journalCss, '.project-notebook .project-page > summary'), /font-family:\s*var\(--font-serif\)/);
   assert.match(cssRuleBlock(css, '.project-page__content'), /font-family:\s*var\(--font-sans\)/);
-  assert.match(cssRuleBlock(css, '.project-entry__number'), /font-family:\s*var\(--font-mono\)/);
-  assert.match(cssRuleBlock(css, '.project-technical-label'), /font-family:\s*var\(--font-mono\)/);
 });
 
 test('renders real journal content on the moving paper instead of placeholder bars', () => {

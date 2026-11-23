@@ -29,6 +29,7 @@ yarn-error.log*
 .env.production.local
 
 # Build outputs
+.astro/
 dist/
 build/
 .cache/
